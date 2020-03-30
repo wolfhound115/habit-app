@@ -4,12 +4,15 @@ from django.shortcuts import render
 
 
 def home_page(request):
-	return render(request, "hello_world.html")
+	my_title = "Hello World this is Habit!"
+	return render(request, "hello_world.html", {"title": my_title})
 
 
 def about_page(request):
-	return HttpResponse("<h1>About Habit</h1>")
+	my_title = "About Habit: Building Habits bit by bit"
+	return render(request, "hello_world.html", {"title": my_title})
 
 
 def contact_page(request):
-	return HttpResponse("<h1>Contact Us!</h1>")
+	my_title = "Contact Us!"
+	return render(request, "hello_world.html", {"title": my_title})
