@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'habit.urls'
+ROOT_URLCONF = 'HabitProject.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'habit.wsgi.application'
+WSGI_APPLICATION = 'HabitProject.wsgi.application'
 
 
 # Database
