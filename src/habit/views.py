@@ -7,7 +7,16 @@ from django.shortcuts import render
 ### request is an HttpRequest object, views are responsible for returning an HttpResponse object
 def home_page(request):
 	my_title = "Hello World this is Habit!"
-	context = {"title": my_title}
+
+
+	if request.user.is_authenticated:
+		authenticated_user_content = "Hello " + request.user.username + ", welcome back!"
+	else:
+		authenticated_user_content = "Hello! Please log in for full access!"
+
+	context = {"title": my_title, "authenticated_user_content": authenticated_user_content}
+
+
 	return render(request, "home.html", context)
 
 
