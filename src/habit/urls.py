@@ -16,8 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from .views import home_page, about_page, contact_page
 
+#whatever view you want to use you have to import here
+from .views import (
+    home_page,
+    about_page,
+    contact_page
+)
+
+
+#we are mapping URLs to View functions
 urlpatterns = [
     path('', home_page),
     path('about/', about_page),
