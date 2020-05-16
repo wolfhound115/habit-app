@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 
-#request is an HttpRequest object, views are responsible for returning an HttpResponse object
+### request is an HttpRequest object, views are responsible for returning an HttpResponse object
 def home_page(request):
 	my_title = "Hello World this is Habit!"
 	return render(request, "hello_world.html", {"title": my_title})
@@ -12,7 +12,7 @@ def home_page(request):
 
 def about_page(request):
 	my_title = "About Habit: Building Habits bit by bit"
-	return render(request, "hello_world.html", {"title": my_title})
+	return render(request, "about.html", {"title": my_title})
 
 
 def contact_page(request):
