@@ -3,6 +3,8 @@ from django.shortcuts import render
 
 
 
+
+#request is an HttpRequest object, views are responsible for returning an HttpResponse object
 def home_page(request):
 	my_title = "Hello World this is Habit!"
 	return render(request, "hello_world.html", {"title": my_title})
