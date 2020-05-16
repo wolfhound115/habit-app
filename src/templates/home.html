@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+Habit Home Page
+{% endblock %}
+
+{% block content %}
+
+<p>Habit Home Page Content</p>
+
+{% if user.is_authenticated %}
+
+<p>Hello {{ user }}!</p>
+<p>[Example Content for logged in user]</p>
+
+{% else %}
+
+<p>Hello, please login!</p>
+<p>[Example content for user not authenticated]</p>
+
+{% endif %}
+
+
+
+{% endblock %}
