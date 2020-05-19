@@ -30,7 +30,7 @@ from .views import (
 #we are mapping URLs to View functions
 urlpatterns = [
     path('', home_page),
-    path('habit/<int:post_id>/', habit_post_detail_page),
+    path('habit/<str:url_slug>/', habit_post_detail_page),
     path('about/', about_page),
     path('contact/', contact_page),
     path('admin/', admin.site.urls),
