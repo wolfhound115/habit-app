@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from habits.views import (
+    habit_post_detail_page
+)
 
 #whatever view you want to use you have to import here
 from .views import (
@@ -28,6 +30,7 @@ from .views import (
 #we are mapping URLs to View functions
 urlpatterns = [
     path('', home_page),
+    path('habit/', habit_post_detail_page),
     path('about/', about_page),
     path('contact/', contact_page),
     path('admin/', admin.site.urls),
