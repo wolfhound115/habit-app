@@ -24,7 +24,7 @@ def habit_post_create_view(request):
 	# ? use a form
 	template_name = 'habit_post_create.html'
 	context = {'form': None}
-	return render(request. template_name, context)
+	return render(request, template_name, context)
 
 #RETRIEVE
 

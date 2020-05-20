@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from habits.views import (
     habit_post_create_view,
-    habit_post_detail_page,
+    habit_post_detail_view,
     habit_post_list_view
 )
 
@@ -33,7 +33,8 @@ from .views import (
 urlpatterns = [
     path('', home_page),
     path('global/', habit_post_list_view),
-    path('habit/posts/<str:url_slug>/', habit_post_detail_page),
+    path('habit/new-post/', habit_post_create_view),
+    path('habit/posts/<str:url_slug>/', habit_post_detail_view),
     path('about/', about_page),
     path('contact/', contact_page),
     path('admin/', admin.site.urls),
