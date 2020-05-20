@@ -9,13 +9,6 @@ from .models import HabitPost
 # GET -> Retrieve/List
 # POST -> Create/Update/Delete
 
-def habit_post_detail_page(request, url_slug):
-	obj = get_object_or_404(HabitPost, slug=url_slug)
-	template_name = 'habit_post_detail.html'
-	context = {"object": obj}
-	return render(request, template_name, context)
-
-
 
 #CREATE
 

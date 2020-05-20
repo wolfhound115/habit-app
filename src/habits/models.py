@@ -11,6 +11,9 @@ from django.utils import timezone
 
 User = settings.AUTH_USER_MODEL
 
+
+# Don't need both publish_date and timestamp right
+
 class HabitPost(models.Model):
 	user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
 	slug = models.SlugField(unique=True)
