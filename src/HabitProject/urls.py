@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from habits.views import (
-    habit_post_detail_page
+    habit_post_detail_page,
+    habit_post_list_view
 )
 
 #whatever view you want to use you have to import here
@@ -30,6 +31,7 @@ from .views import (
 #we are mapping URLs to View functions
 urlpatterns = [
     path('', home_page),
+    path('global/', habit_post_list_view),
     path('habit/<str:url_slug>/', habit_post_detail_page),
     path('about/', about_page),
     path('contact/', contact_page),
