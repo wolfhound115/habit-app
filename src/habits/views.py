@@ -31,8 +31,13 @@ def habit_post_list_view(request):
 	return render(request, template_name, context)
 
 
-def habit_post_detail_view(request, url_slug):
-	obj = get_object_or_404(HabitPost, slug=url_slug)
+def habit_post_detail_view(request, url_user, url_slug):
+
+
+	qs = HabitPost.objects.filter(slug=url_slug)
+	print("********")
+	print("hello hello" + HabitPost.objects.filter(user=url_user))
+	obj = get_object_or_404(qs, slug=url_slug)
 	template_name = 'habit_post_detail.html'
 	context = {"object": obj}
 	return render(request, template_name, context)
