@@ -20,15 +20,15 @@ User = settings.AUTH_USER_MODEL
 
 
 # Don't need both publish_date and timestamp right
-#class HabitModel(models.Model):
-#	user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
+class HabitModel(models.Model):
+	user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
 
 
 
 
-
+		
 #Similar to a facebook album could allow comments on the overall track aswell as individual posts
-class HabitTrack(models.Model):
+class HabitTrack(HabitModel):
 
 	track_name = models.CharField(max_length=100)
 	description = models.CharField(max_length=2200)
@@ -38,7 +38,7 @@ class HabitTrack(models.Model):
 
 
 
-class HabitPost(models.Model):
+class HabitPost(HabitModel):
 
 	slug = models.SlugField(unique=True)
 	title = models.CharField(max_length=100)
@@ -60,7 +60,7 @@ class HabitPost(models.Model):
 
 
 
-class HabitEvent(models.Model):
+class HabitEvent(HabitModel):
 	track = models.ForeignKey(HabitTrack, on_delete=models.CASCADE, null=False)
 
 	date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=False) #make null=false later
@@ -69,12 +69,18 @@ class HabitEvent(models.Model):
 
 def generate_habit_events(track, dates):
 
-	HabitEvent.objects.bulk_create([HabitEvent(track=track, date=d) for d in dates])
+	#HabitEvent.objects.bulk_create([HabitEvent(track=track, date=d) for d in dates])
+
+	for d in dates:
+		HabitEvent.objects.create(track=track, date=d)
+	
 	#TODO
-	#track start date
-	#track frequency
 	#streak counter
 	#
+
+# may need to disconnect/reconnect if this is causing recursive save calls
+# weak – Django stores signal handlers as weak references by default. 
+# Thus, if your receiver is a local function, it may be garbage collected. To prevent this, pass weak=False when you call the signal’s connect() method.
 
 @receiver(post_save, sender=HabitTrack, dispatch_uid="generate_empty_habit_events")
 def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
@@ -82,10 +88,27 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 	if created:
 		dates = instance.recurrences.occurrences(
 
-			
+			# might also want to add dtend for efficiency later
+
 			dtstart=instance.start_date
 		)
 		print("*****")
 		print(dates)
 
 		generate_habit_events(instance, dates)
+"""
+@receiver(post_save, sender=HabitPost, dispatch_uid="connect_habit_event_foreign_key_to_this_post")
+def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
+
+	if created:
+		dates = instance.recurrences.occurrences(
+
+			# might also want to add dtend for efficiency later
+
+			dtstart=instance.start_date
+		)
+		print("*****")
+		print(dates)
+
+		generate_habit_events(instance, dates)
+"""
