@@ -22,7 +22,7 @@ def home_page(request):
 
 def about_page(request):
 	my_title = "About Habit: Building Habits bit by bit"
-	return render(request, "about.html", {"title": my_title})
+	return render(request, "instagram.html", {"title": my_title})
 
 
 def contact_page(request):

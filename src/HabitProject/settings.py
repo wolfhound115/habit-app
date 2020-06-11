@@ -15,8 +15,10 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #Tells us the path to the root of the django project (where manage.py is)
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+
+
+#Django will collect all static files to here for me using python manage.py collectstatic so now I only need to "serve" this directory (not sure what this)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = 'profiles.User'
 # Quick-start development settings - unsuitable for production
@@ -125,3 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+                    os.path.join(BASE_DIR, 'staticfiles'),
+)
