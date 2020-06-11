@@ -37,6 +37,9 @@ class HabitTrack(HabitModel):
 	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
 
+# TODO Limit queryset for habit posts in the habit post creation form to only valid tracks for today's date for this user
+# Do this when implementing CRUD for posts
+# https://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
 
 class HabitPost(HabitModel):
 
@@ -63,7 +66,7 @@ class HabitPost(HabitModel):
 class HabitEvent(HabitModel):
 	track = models.ForeignKey(HabitTrack, on_delete=models.CASCADE, null=False)
 
-	date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=False) #make null=false later
+	date_expected = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=False) #make null=false later
 	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True)
 
 
@@ -72,11 +75,12 @@ def generate_habit_events(track, dates):
 	#HabitEvent.objects.bulk_create([HabitEvent(track=track, date=d) for d in dates])
 
 	for d in dates:
-		HabitEvent.objects.create(track=track, date=d)
+		HabitEvent.objects.create(track=track, date_expected=d)
 	
 	#TODO
 	#streak counter
-	#
+	#	get queryset of all events for this track before today inclusive, sort, and iterate through list counting how many before instance.post not none
+	#	we know from snapchat that people like streaks!
 
 # may need to disconnect/reconnect if this is causing recursive save calls
 # weak – Django stores signal handlers as weak references by default. 
@@ -84,31 +88,28 @@ def generate_habit_events(track, dates):
 
 @receiver(post_save, sender=HabitTrack, dispatch_uid="generate_empty_habit_events")
 def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
-
+	print("*******")
+	print("post save habit tracks reciever")
 	if created:
-		dates = instance.recurrences.occurrences(
+		datetimes = instance.recurrences.occurrences(
 
 			# might also want to add dtend for efficiency later
 
 			dtstart=instance.start_date
 		)
-		print("*****")
-		print(dates)
+
+		dates = [dt.date() for dt in datetimes] #this removes the time from the datetime
 
 		generate_habit_events(instance, dates)
-"""
+
+
+# TODO Do something if today isn't a valid day to post, or limit the option to post from before this step
 @receiver(post_save, sender=HabitPost, dispatch_uid="connect_habit_event_foreign_key_to_this_post")
-def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
+def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 
 	if created:
-		dates = instance.recurrences.occurrences(
+		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
+		event.post = instance
+		event.save() #this will save only the event column instead of the entire row
+		print(event)
 
-			# might also want to add dtend for efficiency later
-
-			dtstart=instance.start_date
-		)
-		print("*****")
-		print(dates)
-
-		generate_habit_events(instance, dates)
-"""

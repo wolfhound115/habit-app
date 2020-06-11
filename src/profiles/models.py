@@ -6,7 +6,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    pass
+	print("****")
+	print("Hi i'm in the user model")
+	pass
 
 class Profile(models.Model):
 	pass
