@@ -9,6 +9,7 @@ from recurrence.fields import RecurrenceField
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 # Create your models here.
 
 
@@ -46,15 +47,15 @@ class HabitPost(HabitModel):
 	slug = models.SlugField(unique=True)
 	title = models.CharField(max_length=100)
 	description = models.CharField(max_length=2200)
-	image = models.ImageField(upload_to='image/', blank=True, null=True)
-	publish_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+	image = models.ImageField(upload_to='image/', blank=False, null=True)
+	#publish_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 
 	track = models.ForeignKey(HabitTrack, null=True, on_delete=models.SET_NULL)
 	#habittrack should be based on foreign key just like user
 		#not sure what happens if two users have the same habit name??
 	class Meta:
-		ordering = ['-publish_date', '-timestamp'] #the order of these is the order that posts will be sorted by
+		ordering = ['-timestamp'] #the order of these is the order that posts will be sorted by
 
 
 

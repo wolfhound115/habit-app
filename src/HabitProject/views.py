@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from habits.models import HabitPost
 
-
+#User = settings.AUTH_USER_MODEL not sure if i need this yet
 
 ### request is an HttpRequest object, views are responsible for returning an HttpResponse object
 def home_page(request):
@@ -22,7 +23,9 @@ def home_page(request):
 
 def about_page(request):
 	my_title = "About Habit: Building Habits bit by bit"
-	return render(request, "instagram.html", {"title": my_title})
+	post = HabitPost.objects.filter(user=request.user).first()#filter(image!=None) #will probably need a post view that is passed in somehow isntead
+	context = {"title": my_title, "post": post}
+	return render(request, "instagram.html", context)
 
 
 def contact_page(request):
