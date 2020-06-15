@@ -37,6 +37,8 @@ class HabitTrack(HabitModel):
 	recurrences = RecurrenceField(null=True)
 	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
+	def __str__(self):
+		return self.track_name
 
 # TODO Limit queryset for habit posts in the habit post creation form to only valid tracks for today's date for this user
 # Do this when implementing CRUD for posts
