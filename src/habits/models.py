@@ -25,7 +25,8 @@ class HabitModel(models.Model):
 	user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
 
 
-
+class JustRecurrence(models.Model):
+	recurrences = RecurrenceField(null=True)
 
 		
 #Similar to a facebook album could allow comments on the overall track aswell as individual posts

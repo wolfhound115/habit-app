@@ -1,12 +1,19 @@
 from django import forms
 
-from .models import HabitPost
+from .models import HabitPost, HabitTrack
 
-class HabitPostForm(forms.Form):
-	title = forms.CharField()
-	slug = forms.SlugField()
-	description = forms.CharField(widget=forms.Textarea)
+from django.contrib.admin.widgets import AdminDateWidget
 
+
+
+class HabitTrackModelForm(forms.ModelForm):
+
+	class Meta:
+		model = HabitTrack
+		fields = ['track_name', 'description', 'cover_image', 'start_date', 'recurrences']
+		widgets = {
+            'start_date': AdminDateWidget(),
+        }
 
 class HabitPostModelForm(forms.ModelForm):
 	class Meta:

@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 # Create your views here.
 
 from .models import HabitPost
-from .forms import HabitPostModelForm
+from .forms import HabitPostModelForm, HabitTrackModelForm
 from profiles.models import Profile
 
 
@@ -20,11 +20,30 @@ def habit_post_create_view(request):
 	form = HabitPostModelForm(request.POST or None)
 	if form.is_valid():
 		print(form.cleaned_data)
-		form.save()
+		#can do obj = form.save(commit=False) to modify data like 
+		#obj.title = form.cleaned_data.get("title") + "0"
+		#obj.save()
+		form.save() 
 		form = HabitPostModelForm()
 
 
 	template_name = 'posts/form.html'
+	context = {'form': form}
+	return render(request, template_name, context)
+
+def habit_track_create_view(request):
+	# create object
+	# ? use a form
+	form = HabitTrackModelForm(request.POST or None)
+	if form.is_valid():
+		print(form.cleaned_data)
+		#can do obj = form.save(commit=False) to modify data like 
+		#obj.title = form.cleaned_data.get("title") + "0"
+		#obj.save()
+		form.save() 
+		form = HabitTrackModelForm()
+
+	template_name = 'tracks/form.html'
 	context = {'form': form}
 	return render(request, template_name, context)
 

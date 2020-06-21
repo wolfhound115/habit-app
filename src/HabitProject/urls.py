@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 from habits.views import (
     habit_post_create_view,
+    habit_track_create_view,
 )
+import django
 
 #whatever view you want to use you have to import here
 from .views import (
@@ -28,10 +30,12 @@ from .views import (
 
 
 #we are mapping URLs to View functions
+
+
 urlpatterns = [
     path('', home_page),
-
     path('habit/new-post/', habit_post_create_view),
+    path('habit/new-track/', habit_track_create_view),
     path('habit/', include('habits.urls')),
 
     path('about/', about_page),
@@ -58,3 +62,12 @@ js_info_dict = {
 urlpatterns += [
     url(r'^jsi18n/$', JavaScriptCatalog.as_view(), js_info_dict),
 ]
+
+
+# jsi18n can be anything you like here
+urlpatterns += [
+    path('jsi18n/', django.views.i18n.JavaScriptCatalog.as_view(
+        packages=['recurrence']), name="javascript-catalog"),
+]
+# monkey patch workaround for bug in recurrence library
+django.views.i18n.javascript_catalog = None
