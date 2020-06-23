@@ -19,7 +19,7 @@
 	<h1>{{ title }}</h1>
 {% endif %}
 
-<form method='POST' action='.' class="post-form"> 
+<form method='POST' action='.' class="post-form" enctype="multipart/form-data"> 
 	{% csrf_token %}
     {{ form.media }}
     {{ form.as_p }}

@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 django = "==2.2"
 django-recurrence = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"

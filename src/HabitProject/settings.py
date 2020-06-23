@@ -18,7 +18,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #Tells us
 
 
 #Django will collect all static files to here for me using python manage.py collectstatic so now I only need to "serve" this directory (not sure what this)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#####
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = 'profiles.User'
 # Quick-start development settings - unsuitable for production
@@ -128,6 +129,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
+LOCAL_STATIC_CDN_PATH = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn_test')
+
+STATIC_ROOT = os.path.join(LOCAL_STATIC_CDN_PATH, 'static')# live cdn AWS S3 for real projects, we made the static_cdn_test folder to emulate this
+
+STATICFILES_DIRS = ( #this is where you'd put files locally to test before uploading to AWS or S3 etc. These can be in the django project itself
                     os.path.join(BASE_DIR, 'staticfiles'),
 )
+
+MEDIA_ROOT = os.path.join(LOCAL_STATIC_CDN_PATH, 'media')
+MEDIA_URL = '/media/'
+

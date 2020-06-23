@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 
-{% block head_title %}
-
-{{title}}
-
-{% endblock %}
-
 {% block content %}
-
+	
+	<div class='row'>
 	{% for object in object_list %}
-		<li>{{ object.title }} ({{ object.publish_date }})</li>
+
+		{% include 'posts/list-inline.html' with habit_post=object truncate=True detail=False %} <!-- Created a new variable to pass object in as --> 
 
 	{% endfor %}
+	</div>
+
 
 {% endblock %}

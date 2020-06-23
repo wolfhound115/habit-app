@@ -17,7 +17,7 @@ from profiles.models import Profile
 def habit_post_create_view(request):
 	# create object
 	# ? use a form
-	form = HabitPostModelForm(request.POST or None)
+	form = HabitPostModelForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		print(form.cleaned_data)
 		#can do obj = form.save(commit=False) to modify data like 
@@ -34,7 +34,7 @@ def habit_post_create_view(request):
 def habit_track_create_view(request):
 	# create object
 	# ? use a form
-	form = HabitTrackModelForm(request.POST or None)
+	form = HabitTrackModelForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		print(form.cleaned_data)
 		#can do obj = form.save(commit=False) to modify data like 

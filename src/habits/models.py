@@ -62,6 +62,17 @@ class HabitPost(HabitModel):
 
 
 
+	#this needs to be fixed
+	def get_absolute_url(self):
+		return f"/habit/posts/{self.slug}"
+
+	def get_edit_url(self):
+		return f"{self.get_absolute_url()}/edit"
+
+	def get_delete_url(self):
+		return f"{self.get_absolute_url()}/delete" #not sure if this works
+
+
 
 
 
@@ -113,6 +124,10 @@ def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 
 	if created:
 		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
+		if event == None:
+			print("##############################################################################################")
+			print("*********************** NO POST EXPECTED FOR TODAY SO THIS IS AN ERROR THAT NEEDS TO BE FIXED")
+			print("##############################################################################################")
 		event.post = instance
 		event.save() #this will save only the event column instead of the entire row
 		print(event)
