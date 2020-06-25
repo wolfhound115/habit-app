@@ -1,0 +1,20 @@
+{% load static %}
+<div class="gallery-item" tabindex="0">
+	<link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
+	{% if habit_post.image %}
+		<a href="{{ habit_post.get_absolute_url }}">
+
+				<img src="{{ habit_post.image.url }}" alt="" width="200" height="200"/>
+		</a>
+	{% endif %}
+
+	<div class="gallery-item-info">
+
+		<ul>
+			<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
+			<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
+		</ul>
+
+	</div>
+
+</div>

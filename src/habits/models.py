@@ -22,7 +22,7 @@ User = settings.AUTH_USER_MODEL
 
 # Don't need both publish_date and timestamp right
 class HabitModel(models.Model):
-	user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
+	user = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
 
 
 class JustRecurrence(models.Model):
@@ -85,12 +85,12 @@ class HabitEvent(HabitModel):
 	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True)
 
 
-def generate_habit_events(track, dates):
+def generate_habit_events(track, dates, instance):
 
 	#HabitEvent.objects.bulk_create([HabitEvent(track=track, date=d) for d in dates])
 
 	for d in dates:
-		HabitEvent.objects.create(track=track, date_expected=d)
+		HabitEvent.objects.create(track=track, date_expected=d, user=instance.user)
 	
 	#TODO
 	#streak counter
@@ -113,9 +113,14 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 			dtstart=instance.start_date
 		)
 
+
+		print("GENERATING EVENTS FOR")
+		print(instance.user)
+		print("AUTOMATICALLY")
+
 		dates = [dt.date() for dt in datetimes] #this removes the time from the datetime
 
-		generate_habit_events(instance, dates)
+		generate_habit_events(track=instance, dates=dates, instance=instance)
 
 
 # TODO Do something if today isn't a valid day to post, or limit the option to post from before this step
@@ -129,6 +134,7 @@ def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 			print("*********************** NO POST EXPECTED FOR TODAY SO THIS IS AN ERROR THAT NEEDS TO BE FIXED")
 			print("##############################################################################################")
 		event.post = instance
+
 		event.save() #this will save only the event column instead of the entire row
 		print(event)
 

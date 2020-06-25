@@ -53,8 +53,12 @@ def habit_post_list_view(request):
 	# list out objects
 	# could be search
 	# latermight want to filter to only people you are following?
-	qs = HabitPost.objects.all() # python list
-	template_name = 'posts/list.html'
+	#qs = HabitPost.objects.all() # python list
+
+	qs = HabitPost.objects.filter(user=request.user)
+	print(request.user)
+	print(qs)
+	template_name = 'posts/profile-grid.html'
 	context = {'object_list': qs}
 	return render(request, template_name, context)
 
