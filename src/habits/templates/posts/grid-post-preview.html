@@ -1,10 +1,13 @@
+
 {% load static %}
+
 <div class="gallery-item" tabindex="0">
 	<link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
 	{% if habit_post.image %}
 		<a href="{{ habit_post.get_absolute_url }}">
 
-				<img src="{{ habit_post.image.url }}" alt="" width="200" height="200"/>
+			{{ habit_post.get_absolute_url }}
+			<img src="{{ habit_post.image.url }}" alt="" width="200" height="200"/>
 		</a>
 	{% endif %}
 

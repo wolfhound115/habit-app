@@ -64,6 +64,7 @@ class HabitPost(HabitModel):
 
 	#this needs to be fixed
 	def get_absolute_url(self):
+		print("/habit/posts/{self.slug}")
 		return f"/habit/posts/{self.slug}"
 
 	def get_edit_url(self):
