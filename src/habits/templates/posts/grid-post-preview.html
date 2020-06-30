@@ -1,15 +1,32 @@
-
 {% load static %}
 
-<div class="gallery-item" tabindex="0">
-	<link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
-	{% if habit_post.image %}
-		<a href="{{ habit_post.get_absolute_url }}">
 
-			{{ habit_post.get_absolute_url }}
-			<img src="{{ habit_post.image.url }}" alt="" width="200" height="200"/>
-		</a>
+<link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
+
+
+		<a href="{{ habit_post.get_absolute_url }}">
+<div class="gallery-item" tabindex="0">
+
+
+
+
+
+
+	{% if habit_post.image %}
+
+			<img src="{{ habit_post.image.url }}" height="300" widgth="300" class="gallery-image" alt="Image of post"/>
+
 	{% endif %}
+
+
+	<!-- icon in the top corner of image -->
+	<div class="gallery-item-type">
+
+		<span class="visually-hidden">Gallery</span><i class="fas fa-clone" aria-hidden="true"></i>
+
+	</div>
+
+
 
 	<div class="gallery-item-info">
 
@@ -19,5 +36,5 @@
 		</ul>
 
 	</div>
-
 </div>
+		</a>
