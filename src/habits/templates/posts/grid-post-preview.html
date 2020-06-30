@@ -5,16 +5,12 @@
 
 
 		<a href="{{ habit_post.get_absolute_url }}">
-<div class="gallery-item" tabindex="0">
-
-
-
-
-
+<div class="gallery-item" tabindex="0" height="300">
 
 	{% if habit_post.image %}
 
-			<img src="{{ habit_post.image.url }}" height="300" widgth="300" class="gallery-image" alt="Image of post"/>
+			<img src="{{ habit_post.image.url }}" class="gallery-image" alt="Image of post"/>
+
 
 	{% endif %}
 
@@ -37,4 +33,5 @@
 
 	</div>
 </div>
-		</a>
+
+</a>
