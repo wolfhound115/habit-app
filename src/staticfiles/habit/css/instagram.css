@@ -60,7 +60,29 @@ img {
     clip: rect(1px, 1px, 1px, 1px);
 }
 
+/*nav section from https://www.bypeople.com/css-photography-app/ */
+nav {
+  display: inline-flex;
+}
+
+.nav li {
+  margin: 4rem 3rem 0 1rem;
+  cursor: pointer;
+  font-size: 13pt;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  color: #888;
+}
+
+.nav li:hover, .nav li:nth-child(1)  { 
+  color: #999;
+  border-bottom: 0.2rem solid #999;
+}
+
 /* Profile Section */
+
+
 
 .profile {
     padding: 5rem 0;
@@ -318,6 +340,42 @@ Remove or comment-out the code block below to see how the browser will fall-back
 */
 
 @supports (display: grid) {
+
+
+    /*nav section from https://www.bypeople.com/css-photography-app/ */
+    .nav {
+        text-align: center
+    }
+
+    .nav ul{
+        padding-inline-start: 40px;
+        display: inline-flex;
+        list-style: none;
+
+
+
+
+    }
+
+    .nav li {
+        margin: 4rem 3rem 2rem 0rem;
+        cursor: pointer;
+        font-size: 13pt;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        color: #888;
+    }
+
+    .nav li:hover, .nav li:nth-child(1)  { 
+      color: #999;
+      border-bottom: 0.2rem solid #999;
+    }
+
+
+
+
+
     .profile {
         display: grid;
         grid-template-columns: 1fr 2fr;

@@ -319,6 +319,38 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 @supports (display: grid) {
 
+    /*nav section from https://www.bypeople.com/css-photography-app/ */
+    nav {
+      display: inline-flex;
+    }
+
+    .nav li {
+      margin: 40px 30px 0 10px;
+      cursor: pointer;
+      font-size: 13pt;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      color: #888;
+    }
+
+    .nav li:hover, .nav li:nth-child(1)  { 
+      color: #999;
+      border-bottom: 2px solid #999;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    
+
     /* this root needs to be here also otherwise it breaks in chrome and default font size becomes 0...?*/
     :root {
         font-size: 10px;
