@@ -34,7 +34,7 @@ class HabitTrack(HabitModel):
 
 	track_name = models.CharField(max_length=100)
 	description = models.CharField(max_length=2200)
-	cover_image = models.ImageField(upload_to='image/', blank=True, null=True)
+	cover_image = models.ImageField(upload_to='image/', blank=False, null=True)
 	recurrences = RecurrenceField(null=True)
 	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 

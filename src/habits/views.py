@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 
-from .models import HabitPost
+from .models import HabitPost, HabitTrack
 from .forms import HabitPostModelForm, HabitTrackModelForm
 from profiles.models import Profile
 
@@ -58,9 +58,23 @@ def habit_post_list_view(request):
 	qs = HabitPost.objects.filter(user=request.user)
 	print(request.user)
 	print(qs)
-	template_name = 'posts/profile-grid.html'
+	template_name = 'posts/posts-grid.html'
 	context = {'object_list': qs}
 	return render(request, template_name, context)
+
+def habit_track_list_view(request):
+	# list out objects
+	# could be search
+	# latermight want to filter to only people you are following?
+	#qs = HabitPost.objects.all() # python list
+
+	qs = HabitTrack.objects.filter(user=request.user)
+	print(request.user)
+	print(qs)
+	template_name = 'tracks/tracks-grid.html'
+	context = {'object_list': qs}
+	return render(request, template_name, context)
+
 
 
 #def habit_post_detail_view(request, url_user, url_slug): #need to figure out better way of getting user specific data
