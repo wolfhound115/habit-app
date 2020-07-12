@@ -33,6 +33,7 @@ class JustRecurrence(models.Model):
 class HabitTrack(HabitModel):
 
 	track_name = models.CharField(max_length=100)
+	slug = models.SlugField(unique=True)
 	description = models.CharField(max_length=2200)
 	cover_image = models.ImageField(upload_to='image/', blank=False, null=True)
 	recurrences = RecurrenceField(null=True)
@@ -40,6 +41,22 @@ class HabitTrack(HabitModel):
 
 	def __str__(self):
 		return self.track_name
+
+	class Meta:
+		ordering = ['-start_date'] #the order of these is the order that posts will be sorted by
+
+
+
+	#this needs to be fixed
+	def get_absolute_url(self):
+		print("/habit/tracks/{self.slug}")
+		return f"/habit/tracks/{self.slug}"
+
+	def get_edit_url(self):
+		return f"{self.get_absolute_url()}/edit"
+
+	def get_delete_url(self):
+		return f"{self.get_absolute_url()}/delete" #not sure if this works
 
 # TODO Limit queryset for habit posts in the habit post creation form to only valid tracks for today's date for this user
 # Do this when implementing CRUD for posts

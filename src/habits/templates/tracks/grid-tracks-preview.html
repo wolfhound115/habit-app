@@ -4,34 +4,34 @@
 <link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
 
 
-		<a href="{{ habit_track.get_absolute_url }}">
-<div class="gallery-item" tabindex="0" height="300">
+<a href="{{ habit_track.get_absolute_url }}">
+	<div class="gallery-item" tabindex="0">
 
-	{% if habit_track.cover_image %}
+		{% if habit_track.cover_image %}
 
-			<img src="{{ habit_track.cover_image.url }}" class="gallery-image" alt="Image preview of track"/>
-
-
-	{% endif %}
+				<img src="{{ habit_track.cover_image.url }}" class="gallery-image" alt="Image preview of track"/>
 
 
-	<!-- icon in the top corner of image -->
-	<div class="gallery-item-type">
+		{% endif %}
 
-		<span class="visually-hidden">Gallery</span><i class="fas fa-clone" aria-hidden="true"></i>
 
+		<!-- icon in the top corner of image -->
+		<div class="gallery-item-type">
+
+			<span class="visually-hidden">Gallery</span><i class="fas fa-clone" aria-hidden="true"></i>
+
+		</div>
+
+
+
+		<div class="gallery-item-info">
+
+			<ul>
+				<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
+				<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
+			</ul>
+
+		</div>
 	</div>
-
-
-
-	<div class="gallery-item-info">
-
-		<ul>
-			<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
-			<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
-		</ul>
-
-	</div>
-</div>
 
 </a>
