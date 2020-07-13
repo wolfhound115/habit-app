@@ -24,6 +24,9 @@ User = settings.AUTH_USER_MODEL
 class HabitModel(models.Model):
 	user = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
 
+	def get_profile_url(self):
+		return f"/habit/{self.user}"
+
 
 class JustRecurrence(models.Model):
 	recurrences = RecurrenceField(null=True)
@@ -50,8 +53,9 @@ class HabitTrack(HabitModel):
 	#this needs to be fixed
 	def get_absolute_url(self):
 		print("absolute URL track: ")
-		print("/habit/tracks/{self.slug}")
-		return f"/habit/tracks/{self.slug}"
+		print("/habit/{self.user}/tracks/{self.slug}")
+		#return f"/habit/{self.user}/tracks/{self.slug}"
+		return f"{self.get_profile_url()}/tracks/{self.slug}"
 
 
 	#TODO
@@ -84,8 +88,8 @@ class HabitPost(HabitModel):
 
 	#this needs to be fixed
 	def get_absolute_url(self):
-		print("/habit/posts/{self.slug}")
-		return f"/habit/posts/{self.slug}"
+		print("/habit/{self.user}/posts/{self.slug}")
+		return f"{self.get_profile_url()}/posts/{self.slug}"
 
 	def get_edit_url(self):
 		return f"{self.get_absolute_url()}/edit"

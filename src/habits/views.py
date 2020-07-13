@@ -49,43 +49,43 @@ def habit_track_create_view(request):
 
 #RETRIEVE
 
-def habit_post_list_view(request):
+def habit_post_list_view(request, url_username):
 	# list out objects
 	# could be search
 	# latermight want to filter to only people you are following?
 	#qs = HabitPost.objects.all() # python list
 
-	qs = HabitPost.objects.filter(user=request.user)
+	qs = HabitPost.objects.filter(user__username=url_username)
 	print(request.user)
 	print(qs)
 	template_name = 'posts/posts-grid.html'
 
-	profile_url = "/habit"
+	profile_url = "/habit/" + url_username
+	print(profile_url)
 	context = {'object_list': qs, 'profile_url': profile_url}
 	return render(request, template_name, context)
 
-def habit_track_list_view(request):
+def habit_track_list_view(request, url_username):
 	# list out objects
 	# could be search
 	# latermight want to filter to only people you are following?
 	#qs = HabitPost.objects.all() # python list
 
-	qs = HabitTrack.objects.filter(user=request.user)
+	qs = HabitTrack.objects.filter(user__username=url_username)
 	print(request.user)
 	print(qs)
 	template_name = 'tracks/tracks-grid.html'
-	profile_url = "/habit"
+	profile_url = "/habit/" + url_username
 
 	context = {'object_list': qs, 'profile_url': profile_url}
 	return render(request, template_name, context)
 
-def habit_track_detail_feed_view(request, url_slug):
-	track = HabitTrack.objects.filter(user=request.user, slug=url_slug).first()
+def habit_track_detail_feed_view(request, url_slug, url_username):
+	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first()
 	
 	qs = HabitPost.objects.filter(user=request.user, track=track)
 	template_name = 'posts/posts-feed.html'
-	profile_url = "/habit"
-
+	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
 	print(track_url)
 	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url}
@@ -93,11 +93,11 @@ def habit_track_detail_feed_view(request, url_slug):
 
 
 
-def habit_track_detail_grid_view(request, url_slug):
-	track = HabitTrack.objects.filter(user=request.user, slug=url_slug).first()
+def habit_track_detail_grid_view(request, url_slug, url_username):
+	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first()
 	qs = HabitPost.objects.filter(user=request.user, track=track)
 	template_name = 'posts/posts-grid.html'
-	profile_url = "/habit"
+	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
 	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url}
 	return render(request, template_name, context)
@@ -105,20 +105,20 @@ def habit_track_detail_grid_view(request, url_slug):
 
 
 #def habit_post_detail_view(request, url_user, url_slug): #need to figure out better way of getting user specific data
-def habit_post_detail_view(request, url_slug):
+def habit_post_detail_view(request, url_slug, url_username):
 
-	qs = HabitPost.objects.filter(slug=url_slug)
+	qs = HabitPost.objects.filter(user__username=url_username, slug=url_slug)
 
 	#print("hello hello" + HabitPost.objects.filter(user=url_user))
-	obj = get_object_or_404(qs, slug=url_slug)
+	obj = get_object_or_404(qs, user__username=url_username, slug=url_slug)
 	template_name = 'posts/detail.html'
 	context = {"object": obj}
 	return render(request, template_name, context)
 
 # UPDATE
 
-def habit_post_update_view(request, url_slug):
-	obj = get_object_or_404(HabitPost, slug=url_slug)
+def habit_post_update_view(request, url_slug, url_username):
+	obj = get_object_or_404(HabitPost, user__username=url_username, slug=url_slug)
 	template_name = 'posts/update.html'
 	context = {"object": obj, 'form': None}
 	return render(request, template_name, context)
@@ -126,8 +126,8 @@ def habit_post_update_view(request, url_slug):
 
 # DELETE
 
-def habit_post_delete_view(request, url_slug):
-	obj = get_object_or_404(HabitPost, slug=url_slug)
+def habit_post_delete_view(request, url_slug, url_username):
+	obj = get_object_or_404(HabitPost, user__username=url_username, slug=url_slug)
 	template_name = 'posts/delete.html'
 	context = {"object": obj, 'form': None}
 	return render(request, template_name, context)
