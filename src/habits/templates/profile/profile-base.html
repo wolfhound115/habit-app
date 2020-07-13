@@ -57,12 +57,21 @@
 		<div class="row">
 			<div class="nav">
 		        <ul>
-		          <li>Posts</li>
-		          <a href="{{ habit_track.get_absolute_url }}">
-		          <li>Tracks</li>
+		          <a href="{{ profile_url }}">
+		          	<li>Posts</li>
+		          </a>
+		          <a href="{{ profile_url }}/tracks">
+		          	<li>Tracks</li>
 		      	  </a>
-		          <li>Groups</li>
-		          <li>About</li>
+		      	  {% if track_url %}
+		      	  <a href="{{ track_url }}/grid">
+		          	<li>Grid</li>
+		      	  </a>
+		      	  <a href="{{ track_url }}/feed">
+		          	<li>Feed</li>
+		      	  </a>
+		          {% endif %}
+		          
 		        </ul>
 		    </div>
 		</div>

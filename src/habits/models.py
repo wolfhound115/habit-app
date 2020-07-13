@@ -49,9 +49,12 @@ class HabitTrack(HabitModel):
 
 	#this needs to be fixed
 	def get_absolute_url(self):
+		print("absolute URL track: ")
 		print("/habit/tracks/{self.slug}")
 		return f"/habit/tracks/{self.slug}"
 
+
+	#TODO
 	def get_edit_url(self):
 		return f"{self.get_absolute_url()}/edit"
 

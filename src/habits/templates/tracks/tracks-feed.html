@@ -7,7 +7,7 @@
 
 	<div class="container">
 
-		<div class="gallery-grid">
+		<div class="gallery-feed">
 
 			{% block content %}
 	
@@ -16,6 +16,8 @@
 
 						{% include 'tracks/grid-tracks-preview.html' with habit_track=object truncate=True detail=False %} <!-- Created a new variable to pass object in as --> 
 
+			likes
+			comments
 					{% endfor %}
 
 

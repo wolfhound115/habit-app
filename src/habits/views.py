@@ -59,7 +59,9 @@ def habit_post_list_view(request):
 	print(request.user)
 	print(qs)
 	template_name = 'posts/posts-grid.html'
-	context = {'object_list': qs}
+
+	profile_url = "/habit"
+	context = {'object_list': qs, 'profile_url': profile_url}
 	return render(request, template_name, context)
 
 def habit_track_list_view(request):
@@ -72,7 +74,32 @@ def habit_track_list_view(request):
 	print(request.user)
 	print(qs)
 	template_name = 'tracks/tracks-grid.html'
-	context = {'object_list': qs}
+	profile_url = "/habit"
+
+	context = {'object_list': qs, 'profile_url': profile_url}
+	return render(request, template_name, context)
+
+def habit_track_detail_feed_view(request, url_slug):
+	track = HabitTrack.objects.filter(user=request.user, slug=url_slug).first()
+	
+	qs = HabitPost.objects.filter(user=request.user, track=track)
+	template_name = 'posts/posts-feed.html'
+	profile_url = "/habit"
+
+	track_url = track.get_absolute_url()
+	print(track_url)
+	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url}
+	return render(request, template_name, context)
+
+
+
+def habit_track_detail_grid_view(request, url_slug):
+	track = HabitTrack.objects.filter(user=request.user, slug=url_slug).first()
+	qs = HabitPost.objects.filter(user=request.user, track=track)
+	template_name = 'posts/posts-grid.html'
+	profile_url = "/habit"
+	track_url = track.get_absolute_url()
+	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url}
 	return render(request, template_name, context)
 
 
