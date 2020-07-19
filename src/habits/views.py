@@ -28,7 +28,7 @@ def habit_post_create_view(request):
 		#obj.title = form.cleaned_data.get("title") + "0"
 		#obj.save()
 		form.save() 
-		form = HabitPostModelForm()
+		form = HabitPostModelForm(user=request.user)
 
 
 	template_name = 'posts/form.html'
@@ -96,6 +96,8 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
 	print(track_url)
+	print("dates:")
+	print(track.get_dates())
 	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url}
 	return render(request, template_name, context)
 

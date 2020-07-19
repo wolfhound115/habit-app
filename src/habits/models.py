@@ -47,6 +47,20 @@ class HabitTrack(HabitModel):
 	def __str__(self):
 		return self.track_name
 
+
+	def get_dates(self):
+		datetimes = self.recurrences.occurrences(
+
+			# might also want to add dtend for efficiency later
+
+			dtstart=self.start_date
+		)
+
+		dates = [dt.date() for dt in datetimes]
+
+		return dates
+
+
 	class Meta:
 		ordering = ['-start_date'] #the order of these is the order that posts will be sorted by
 
@@ -133,6 +147,8 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 	print("*******")
 	print("post save habit tracks reciever")
 	if created:
+
+		"""
 		datetimes = instance.recurrences.occurrences(
 
 			# might also want to add dtend for efficiency later
@@ -140,12 +156,15 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 			dtstart=instance.start_date
 		)
 
-
+		dates = [dt.date() for dt in datetimes] #this removes the time from the datetime
+		"""
 		print("GENERATING EVENTS FOR")
 		print(instance.user)
 		print("AUTOMATICALLY")
 
-		dates = [dt.date() for dt in datetimes] #this removes the time from the datetime
+
+
+		dates = instance.get_dates()
 
 		generate_habit_events(track=instance, dates=dates, instance=instance)
 
