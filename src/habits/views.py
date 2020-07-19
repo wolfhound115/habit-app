@@ -2,17 +2,21 @@ from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 
-from .models import HabitPost, HabitTrack
+from .models import HabitPost, HabitTrack, HabitModel
 from .forms import HabitPostModelForm, HabitTrackModelForm
 from profiles.models import Profile
+from django.conf import settings
+
+from django.contrib.auth import get_user_model
 
 
 # CRUD: CREATE READ UPDATE DELETE
 # GET -> Retrieve/List
 # POST -> Create/Update/Delete
 
-
 #CREATE
+User = settings.AUTH_USER_MODEL
+
 
 def habit_post_create_view(request):
 	# create object
@@ -56,13 +60,15 @@ def habit_post_list_view(request, url_username):
 	#qs = HabitPost.objects.all() # python list
 
 	qs = HabitPost.objects.filter(user__username=url_username)
-	print(request.user)
 	print(qs)
+	profile_user = get_user_model().objects.filter(username=url_username).first()
+	print(profile_user.first_name, profile_user.last_name)
+
 	template_name = 'posts/posts-grid.html'
 
 	profile_url = "/habit/" + url_username
 	print(profile_url)
-	context = {'object_list': qs, 'profile_url': profile_url}
+	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user}
 	return render(request, template_name, context)
 
 def habit_track_list_view(request, url_username):
@@ -72,12 +78,14 @@ def habit_track_list_view(request, url_username):
 	#qs = HabitPost.objects.all() # python list
 
 	qs = HabitTrack.objects.filter(user__username=url_username)
-	print(request.user)
 	print(qs)
-	template_name = 'tracks/tracks-grid.html'
-	profile_url = "/habit/" + url_username
+	profile_user = get_user_model().objects.filter(username=url_username).first()
+	print(profile_user.first_name, profile_user.last_name)
 
-	context = {'object_list': qs, 'profile_url': profile_url}
+	template_name = 'tracks/tracks-grid.html'
+
+	profile_url = "/habit/" + url_username
+	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user}
 	return render(request, template_name, context)
 
 def habit_track_detail_feed_view(request, url_slug, url_username):

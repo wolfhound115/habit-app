@@ -27,7 +27,7 @@
 
 			<div class="profile-user-settings">
 
-				<h1 class="profile-user-name">janedoe_</h1>
+				<h1 class="profile-user-name">{{ profile_user.username }}</h1>
 
 				<button class="btn profile-edit-btn">Edit Profile</button>
 
@@ -47,7 +47,7 @@
 
 			<div class="profile-bio">
 
-				<p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+				<p><span class="profile-real-name">{{ profile_user.first_name }} {{ profile_user.last_name }}</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
 
 			</div>
 
