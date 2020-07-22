@@ -21,14 +21,15 @@ User = settings.AUTH_USER_MODEL
 def habit_post_create_view(request):
 	# create object
 	# ? use a form
-	form = HabitPostModelForm(request.POST or None, request.FILES or None)
+	user = request.user
+	form = HabitPostModelForm(user, request.POST or None, request.FILES or None) #, user=request.user)
 	if form.is_valid():
 		print(form.cleaned_data)
 		#can do obj = form.save(commit=False) to modify data like 
 		#obj.title = form.cleaned_data.get("title") + "0"
 		#obj.save()
 		form.save() 
-		form = HabitPostModelForm(user=request.user)
+		form = HabitPostModelForm()
 
 
 	template_name = 'posts/form.html'
@@ -92,13 +93,15 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first()
 	
 	qs = HabitPost.objects.filter(user=request.user, track=track)
+
+	profile_user = get_user_model().objects.filter(username=url_username).first()
 	template_name = 'posts/posts-feed.html'
 	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
 	print(track_url)
 	print("dates:")
 	print(track.get_dates())
-	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url}
+	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user}
 	return render(request, template_name, context)
 
 
@@ -106,10 +109,12 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 def habit_track_detail_grid_view(request, url_slug, url_username):
 	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first()
 	qs = HabitPost.objects.filter(user=request.user, track=track)
+
+	profile_user = get_user_model().objects.filter(username=url_username).first()
 	template_name = 'posts/posts-grid.html'
 	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
-	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url}
+	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user}
 	return render(request, template_name, context)
 
 

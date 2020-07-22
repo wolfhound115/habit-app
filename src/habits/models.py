@@ -125,6 +125,9 @@ class HabitEvent(HabitModel):
 	date_expected = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=False) #make null=false later
 	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True)
 
+	def __str__(self):
+		return self.track.__str__() + " " + self.date_expected.strftime("%m/%d/%Y")
+
 
 def generate_habit_events(track, dates, instance):
 
