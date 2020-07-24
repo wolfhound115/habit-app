@@ -7,7 +7,9 @@
 	<h1>{{ title }}</h1>
 {% endif %}
 
-<form method='POST' action='.'> {% csrf_token %}
+<form method='POST' action='.' class="post-form" enctype="multipart/form-data"> 
+		{% csrf_token %}
+
 		{{ form.as_p }}
 		<button type='submit'>Create Post</button>
 </form>

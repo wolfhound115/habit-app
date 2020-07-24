@@ -134,6 +134,8 @@ def generate_habit_events(track, dates, instance):
 	#HabitEvent.objects.bulk_create([HabitEvent(track=track, date=d) for d in dates])
 
 	for d in dates:
+		print("generating habit event for user: ")
+		print(instance.user)
 		HabitEvent.objects.create(track=track, date_expected=d, user=instance.user)
 	
 	#TODO
@@ -171,6 +173,11 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 
 		generate_habit_events(track=instance, dates=dates, instance=instance)
 
+
+
+
+
+#POST SAVE DIDNT WORK AFTER I MADE POST CREATE VIEW 
 
 # TODO Do something if today isn't a valid day to post, or limit the option to post from before this step
 @receiver(post_save, sender=HabitPost, dispatch_uid="connect_habit_event_foreign_key_to_this_post")
