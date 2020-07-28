@@ -28,8 +28,10 @@ def habit_post_create_view(request):
 		#can do obj = form.save(commit=False) to modify data like 
 		#obj.title = form.cleaned_data.get("title") + "0"
 		#obj.save()
-		form.save() 
-		form = HabitPostModelForm()
+		obj = form.save(commit=False) #this way we can modify things before we save
+		obj.user = request.user #now the blogposts are associated with the logged in user!
+		obj.save()
+		form = HabitPostModelForm(user)
 
 
 	template_name = 'posts/form.html'
@@ -45,7 +47,9 @@ def habit_track_create_view(request):
 		#can do obj = form.save(commit=False) to modify data like 
 		#obj.title = form.cleaned_data.get("title") + "0"
 		#obj.save()
-		form.save() 
+		obj = form.save(commit=False) #this way we can modify things before we save
+		obj.user = request.user #now the blogposts are associated with the logged in user!
+		obj.save()
 		form = HabitTrackModelForm()
 
 	template_name = 'tracks/form.html'

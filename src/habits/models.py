@@ -184,6 +184,12 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 
 	if created:
+		print("postsave habit posts the user is: ")
+		print(instance.user)
+		print(instance.slug)
+		print(User)
+		print("instance is: ")
+		print(instance)
 		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
 		if event == None:
 			print("##############################################################################################")
