@@ -43,7 +43,6 @@ def slug_save(obj):
 # Don't need both publish_date and timestamp right
 class HabitModel(models.Model):
 	user = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
-
 	def get_profile_url(self):
 		return f"/habit/{self.user}"
 
@@ -54,7 +53,6 @@ class JustRecurrence(models.Model):
 		
 #Similar to a facebook album could allow comments on the overall track aswell as individual posts
 class HabitTrack(HabitModel):
-
 	track_name = models.CharField(max_length=100)
 	slug = models.SlugField(unique=True)
 	description = models.CharField(max_length=2200)
@@ -73,24 +71,16 @@ class HabitTrack(HabitModel):
 	def __str__(self):
 		return self.track_name
 
-
 	def get_dates(self):
 		datetimes = self.recurrences.occurrences(
-
 			# might also want to add dtend for efficiency later
-
 			dtstart=self.start_date
 		)
-
 		dates = [dt.date() for dt in datetimes]
-
 		return dates
-
 
 	class Meta:
 		ordering = ['-start_date'] #the order of these is the order that posts will be sorted by
-
-
 
 	#this needs to be fixed
 	def get_absolute_url(self):
@@ -98,7 +88,6 @@ class HabitTrack(HabitModel):
 		print("/habit/{self.user}/tracks/{self.slug}")
 		#return f"/habit/{self.user}/tracks/{self.slug}"
 		return f"{self.get_profile_url()}/tracks/{self.slug}"
-
 
 	#TODO
 	def get_edit_url(self):
@@ -119,11 +108,9 @@ class HabitPost(HabitModel):
 	image = models.ImageField(upload_to='image/', blank=False, null=True)
 	#publish_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
-
 	track = models.ForeignKey(HabitTrack, null=True, on_delete=models.SET_NULL)
 	#habittrack should be based on foreign key just like user
 		#not sure what happens if two users have the same habit name??
-
 
 	def save(self, *args, **kwargs):
 		""" Add Slug creating/checking to save method. """
@@ -153,7 +140,6 @@ class HabitPost(HabitModel):
 
 class HabitEvent(HabitModel):
 	track = models.ForeignKey(HabitTrack, on_delete=models.CASCADE, null=False)
-
 	date_expected = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=False) #make null=false later
 	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -192,21 +178,14 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 
 			dtstart=instance.start_date
 		)
-
 		dates = [dt.date() for dt in datetimes] #this removes the time from the datetime
 		"""
 		print("GENERATING EVENTS FOR")
 		print(instance.user)
 		print("AUTOMATICALLY")
 
-
-
 		dates = instance.get_dates()
-
 		generate_habit_events(track=instance, dates=dates, instance=instance)
-
-
-
 
 
 #POST SAVE DIDNT WORK AFTER I MADE POST CREATE VIEW 

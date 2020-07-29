@@ -2,10 +2,12 @@ from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 
-from .models import HabitPost, HabitTrack, HabitModel
+from .models import HabitPost, HabitTrack, HabitModel, HabitEvent
 from .forms import HabitPostModelForm, HabitTrackModelForm
 from profiles.models import Profile
 from django.conf import settings
+
+from datetime import date
 
 from django.contrib.auth import get_user_model
 
@@ -58,6 +60,10 @@ def habit_track_create_view(request):
 
 #RETRIEVE
 
+def count_checkins_expected(request, user):
+	events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=date.today(), post__isnull=True)
+	return len(events_needing_post_today)
+
 def habit_post_list_view(request, url_username):
 	# list out objects
 	# could be search
@@ -71,9 +77,13 @@ def habit_post_list_view(request, url_username):
 
 	template_name = 'posts/posts-grid.html'
 
+	if request.user == profile_user:
+		checkins_expected = count_checkins_expected(request, profile_user)
+	else:
+		checkins_expected = None
 	profile_url = "/habit/" + url_username
 	print(profile_url)
-	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user}
+	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected}
 	return render(request, template_name, context)
 
 def habit_track_list_view(request, url_username):
@@ -89,8 +99,12 @@ def habit_track_list_view(request, url_username):
 
 	template_name = 'tracks/tracks-grid.html'
 
+	if request.user == profile_user:
+		checkins_expected = count_checkins_expected(request, profile_user)
+	else:
+		checkins_expected = None
 	profile_url = "/habit/" + url_username
-	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user}
+	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected}
 	return render(request, template_name, context)
 
 def habit_track_detail_feed_view(request, url_slug, url_username):
@@ -105,7 +119,11 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 	print(track_url)
 	print("dates:")
 	print(track.get_dates())
-	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user}
+	if request.user == profile_user:
+		checkins_expected = count_checkins_expected(request, profile_user)
+	else:
+		checkins_expected = None
+	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected}
 	return render(request, template_name, context)
 
 
@@ -118,7 +136,12 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	template_name = 'posts/posts-grid.html'
 	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
-	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user}
+
+	if request.user == profile_user:
+		checkins_expected = count_checkins_expected(request, profile_user)
+	else:
+		checkins_expected = None
+	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected}
 	return render(request, template_name, context)
 
 
