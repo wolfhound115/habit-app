@@ -9,7 +9,7 @@ from recurrence.fields import RecurrenceField
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.utils.crypto import get_random_string
 
 
 # Create your models here.
@@ -21,6 +21,24 @@ from django.dispatch import receiver
 
 User = settings.AUTH_USER_MODEL
 
+
+def slug_save(obj):
+	""" A function to generate a 5 character slug and see if it has been used and contains naughty words."""
+	if not obj.slug: # if there isn't a slug
+		obj.slug = get_random_string(11) # create one
+		slug_is_wrong = True  
+		while slug_is_wrong: # keep checking until we have a valid slug
+			slug_is_wrong = False
+			other_objs_with_slug = type(obj).objects.filter(slug=obj.slug)
+			if len(other_objs_with_slug) > 0:
+				# if any other objects have current slug
+				slug_is_wrong = True
+            	#naughty_words = list_of_swear_words_brand_names_etc
+            	#if obj.slug in naughty_words:
+            	#	slug_is_wrong = True
+			if slug_is_wrong:
+            	# create another slug and check it again
+				obj.slug = get_random_string(11)
 
 # Don't need both publish_date and timestamp right
 class HabitModel(models.Model):
@@ -43,6 +61,14 @@ class HabitTrack(HabitModel):
 	cover_image = models.ImageField(upload_to='image/', blank=False, null=True)
 	recurrences = RecurrenceField(null=True)
 	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+
+
+
+
+	def save(self, *args, **kwargs):
+		""" Add Slug creating/checking to save method. """
+		slug_save(self) # call slug_save, listed below
+		super(HabitTrack, self).save(*args, **kwargs)
 
 	def __str__(self):
 		return self.track_name
@@ -97,10 +123,16 @@ class HabitPost(HabitModel):
 	track = models.ForeignKey(HabitTrack, null=True, on_delete=models.SET_NULL)
 	#habittrack should be based on foreign key just like user
 		#not sure what happens if two users have the same habit name??
+
+
+	def save(self, *args, **kwargs):
+		""" Add Slug creating/checking to save method. """
+		slug_save(self) # call slug_save, listed below
+		super(HabitPost, self).save(*args, **kwargs)
+
+
 	class Meta:
 		ordering = ['-timestamp'] #the order of these is the order that posts will be sorted by
-
-
 
 	#this needs to be fixed
 	def get_absolute_url(self):

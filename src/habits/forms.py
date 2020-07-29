@@ -10,7 +10,6 @@ from django.contrib.admin.widgets import AdminDateWidget
 
 class HabitTrackModelForm(forms.ModelForm):
 
-	#Need to set user and slug stuff too...
 
 	class Meta:
 		model = HabitTrack
@@ -22,7 +21,7 @@ class HabitTrackModelForm(forms.ModelForm):
 class HabitPostModelForm(forms.ModelForm):
 	class Meta:
 		model = HabitPost
-		fields = ['title', 'slug', 'description', 'image', 'track']
+		fields = ['title', 'description', 'image', 'track']
 
 	def __init__(self, user, *args, **kwargs):
 
