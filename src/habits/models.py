@@ -11,6 +11,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 
+from datetime import date
+
+
 
 # Create your models here.
 
@@ -59,6 +62,7 @@ class HabitTrack(HabitModel):
 	cover_image = models.ImageField(upload_to='image/', blank=False, null=True)
 	recurrences = RecurrenceField(null=True)
 	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+
 
 
 
@@ -145,6 +149,11 @@ class HabitEvent(HabitModel):
 
 	def __str__(self):
 		return self.track.__str__() + " " + self.date_expected.strftime("%m/%d/%Y")
+
+	def count_check_ins_expected(user):
+		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=date.today(), post__isnull=True)
+		return len(events_needing_post_today)
+
 
 
 def generate_habit_events(track, dates, instance):

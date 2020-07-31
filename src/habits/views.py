@@ -11,6 +11,8 @@ from datetime import date
 
 from django.contrib.auth import get_user_model
 
+from django.urls import reverse
+
 
 # CRUD: CREATE READ UPDATE DELETE
 # GET -> Retrieve/List
@@ -60,9 +62,7 @@ def habit_track_create_view(request):
 
 #RETRIEVE
 
-def count_checkins_expected(request, user):
-	events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=date.today(), post__isnull=True)
-	return len(events_needing_post_today)
+
 
 def habit_post_list_view(request, url_username):
 	# list out objects
@@ -76,14 +76,17 @@ def habit_post_list_view(request, url_username):
 	print(profile_user.first_name, profile_user.last_name)
 
 	template_name = 'posts/posts-grid.html'
+	new_post_url = reverse('new-post')
+	print('new post url: ')
+	print(new_post_url)
 
 	if request.user == profile_user:
-		checkins_expected = count_checkins_expected(request, profile_user)
+		checkins_expected = HabitEvent.count_check_ins_expected(profile_user)
 	else:
 		checkins_expected = None
 	profile_url = "/habit/" + url_username
 	print(profile_url)
-	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected}
+	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
 	return render(request, template_name, context)
 
 def habit_track_list_view(request, url_username):
@@ -96,15 +99,15 @@ def habit_track_list_view(request, url_username):
 	print(qs)
 	profile_user = get_user_model().objects.filter(username=url_username).first()
 	print(profile_user.first_name, profile_user.last_name)
-
+	new_post_url = reverse('new-post')
 	template_name = 'tracks/tracks-grid.html'
 
 	if request.user == profile_user:
-		checkins_expected = count_checkins_expected(request, profile_user)
+		checkins_expected = HabitEvent.count_check_ins_expected(profile_user)
 	else:
 		checkins_expected = None
 	profile_url = "/habit/" + url_username
-	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected}
+	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
 	return render(request, template_name, context)
 
 def habit_track_detail_feed_view(request, url_slug, url_username):
@@ -116,14 +119,15 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 	template_name = 'posts/posts-feed.html'
 	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
+	new_post_url = reverse('new-post')
 	print(track_url)
 	print("dates:")
 	print(track.get_dates())
 	if request.user == profile_user:
-		checkins_expected = count_checkins_expected(request, profile_user)
+		checkins_expected = HabitEvent.count_check_ins_expected(profile_user)
 	else:
 		checkins_expected = None
-	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected}
+	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
 	return render(request, template_name, context)
 
 
@@ -136,12 +140,12 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	template_name = 'posts/posts-grid.html'
 	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
-
+	new_post_url = reverse('new-post')
 	if request.user == profile_user:
-		checkins_expected = count_checkins_expected(request, profile_user)
+		checkins_expected = HabitEvent.count_check_ins_expected(profile_user)
 	else:
 		checkins_expected = None
-	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected}
+	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
 	return render(request, template_name, context)
 
 

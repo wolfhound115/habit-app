@@ -42,12 +42,14 @@
 					<li><span class="profile-stat-count">188</span> followers</li>
 					<li><span class="profile-stat-count">206</span> following</li>
 				</ul>
-				{% if checkins_expected %}
+				{% if checkins_expected is not None %}
 				<ul>
 					{% if checkins_expected > 0 %}
-					<li><span class="profile-stat-count">{{ checkins_expected }}</span> check-ins left for you today</li>
+						<a href="{{ new_post_url }}">
+							<li><span class="profile-stat-count">{{ checkins_expected }}</span> check-ins left for you today</li>
+						</a>
 					{% else %}
-					<li><span class="profile-stat-count"></span>You're all caught up on your Habits!</li>
+						<li><span class="profile-stat-count"></span>You're all caught up on your Habits!</li>
 					{% endif %}
 				</ul>
 				{% endif %}

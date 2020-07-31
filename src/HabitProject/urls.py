@@ -37,8 +37,8 @@ from .views import (
 
 urlpatterns = [
     path('', home_page),
-    path('habit/new-post/', habit_post_create_view),
-    path('habit/new-track/', habit_track_create_view),
+    path('habit/new-post/', habit_post_create_view, name='new-post'),
+    path('habit/new-track/', habit_track_create_view, name='new-track'),
     path('habit/', include('habits.urls')),
 
     path('about/', about_page),
@@ -75,6 +75,10 @@ urlpatterns += [
 # monkey patch workaround for bug in recurrence library
 django.views.i18n.javascript_catalog = None
 
+
+
+
+#I'm not sure if this is the correct way to do this but I needed to in order for the images to show up
 if settings.DEBUG:
     # test mode
     from django.conf.urls.static import static
