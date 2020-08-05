@@ -81,7 +81,7 @@ def habit_post_list_view(request, url_username):
 	print(new_post_url)
 
 	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected(profile_user)
+		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
 	else:
 		checkins_expected = None
 	profile_url = "/habit/" + url_username
@@ -103,7 +103,7 @@ def habit_track_list_view(request, url_username):
 	template_name = 'tracks/tracks-grid.html'
 
 	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected(profile_user)
+		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
 	else:
 		checkins_expected = None
 	profile_url = "/habit/" + url_username
@@ -124,7 +124,7 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 	print("dates:")
 	print(track.get_dates())
 	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected(profile_user)
+		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
 	else:
 		checkins_expected = None
 	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
@@ -141,11 +141,26 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	profile_url = track.get_profile_url()
 	track_url = track.get_absolute_url()
 	new_post_url = reverse('new-post')
+
+	streak_this_track, longest_streak_this_track = track.get_streaks()
+	print("streaks:")
+	print(streak_this_track, longest_streak_this_track)
+
+
 	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected(profile_user)
+		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
+
 	else:
 		checkins_expected = None
-	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
+	context = {	'object_list': qs,
+	 			'profile_url': profile_url,
+	  			'track_url': track_url,
+	   			'profile_user': profile_user,
+	    		'checkins_expected': checkins_expected,
+	     		'new_post_url': new_post_url,
+	     		'streak_this_track': streak_this_track,
+	     		'longest_streak_this_track': longest_streak_this_track 
+	     		}
 	return render(request, template_name, context)
 
 

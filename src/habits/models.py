@@ -12,6 +12,7 @@ from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 
 from datetime import date
+from django.db.models import F
 
 
 
@@ -63,6 +64,41 @@ class HabitTrack(HabitModel):
 	recurrences = RecurrenceField(null=True)
 	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
+
+	def get_num_posts_expected(self):
+		return len(self.get_dates())
+
+	def get_all_events(self):
+		return HabitEvent.objects.filter(track=self)
+
+	def get_num_posts_made(self):
+		return len(self.get_all_events().filter(post__isnull=False))
+
+	def get_posts_missed(self):
+		all_events = self.get_all_events()
+		posts_missed = all_events.filter(date_expected__lt=F(date.today()), post_isnull=True)
+		return posts_missed
+
+	def num_posts_missed(self):
+		return len(self.get_posts_missed())
+
+	def get_streaks(self):
+		dates = self.get_dates()
+		all_events = self.get_all_events()
+		longest_streak = 0
+		streak = 0
+		skipped_previous = True
+		for d in dates:
+			if all_events.get(date_expected=d).post is not None:
+				streak += 1
+				skipped_previous = False
+			elif skipped_previous is False:
+				skipped_previous = True
+			else:
+				longest_streak = max(streak, longest_streak)
+				streak = 0
+		longest_streak = max(streak, longest_streak)
+		return streak, longest_streak
 
 
 
@@ -150,7 +186,7 @@ class HabitEvent(HabitModel):
 	def __str__(self):
 		return self.track.__str__() + " " + self.date_expected.strftime("%m/%d/%Y")
 
-	def count_check_ins_expected(user):
+	def count_check_ins_expected_today(user):
 		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=date.today(), post__isnull=True)
 		return len(events_needing_post_today)
 
