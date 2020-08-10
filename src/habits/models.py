@@ -86,6 +86,8 @@ class HabitTrack(HabitModel):
 	def get_num_posts_missed(self):
 		return len(self.get_post_events_missed())
 
+
+#this breaks if you delete a single event because len(dates) and len(all_events) will not be the same then!
 	def get_streaks(self):
 		dates = self.get_dates()
 		all_events = self.get_all_events()
@@ -106,12 +108,21 @@ class HabitTrack(HabitModel):
 
 	@staticmethod
 	def get_user_habit_stats(user):
-		tracks = HabitTrack.filter(user=user)
-		posts_made = 0
-		posts_missed = 0
-		longest_streak = 0
+		tracks = HabitTrack.objects.filter(user=user)
+		total_posts_made = 0
+		total_posts_missed = 0
+		overall_longest_streak = 0
 
-		
+		for t in tracks:
+			total_posts_made += t.get_num_posts_made()
+			total_posts_missed += t.get_num_posts_missed()
+			print("getting streaks for habit stats:")
+			print("the track being analyzed is: " + t.__str__())
+			print(t.get_streaks())
+			print("get_streaks worked!!!!")
+			#overall_longest_streak = max(overall_longest_streak, t.get_streaks()[1])
+		return total_posts_made, total_posts_missed, overall_longest_streak
+
 	def save(self, *args, **kwargs):
 		""" Add Slug creating/checking to save method. """
 		slug_save(self) # call slug_save, listed below

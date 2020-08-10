@@ -146,6 +146,8 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	num_posts_made = track.get_num_posts_made()
 	num_posts_missed = track.get_num_posts_missed()
 	num_posts_expected = track.get_num_posts_expected()
+
+	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
 	
 	print("streaks:")
 	print(streak_this_track, longest_streak_this_track)
@@ -166,7 +168,10 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	     		'longest_streak_this_track': longest_streak_this_track,
 	     		'num_posts_made': num_posts_made,
 	     		'num_posts_missed': num_posts_missed,
-	     		'num_posts_expected': num_posts_expected
+	     		'num_posts_expected': num_posts_expected,
+	     		'total_posts_made': total_posts_made,
+	     		'total_posts_missed': total_posts_missed,
+	     		'overall_longest_streak': overall_longest_streak
 	     		}
 	return render(request, template_name, context)
 
