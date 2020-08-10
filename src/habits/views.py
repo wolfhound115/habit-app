@@ -136,6 +136,8 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first()
 	qs = HabitPost.objects.filter(user=request.user, track=track)
 
+	track_name = track.track_name
+
 	profile_user = get_user_model().objects.filter(username=url_username).first()
 	template_name = 'posts/posts-grid.html'
 	profile_url = track.get_profile_url()
@@ -171,7 +173,8 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	     		'num_posts_expected': num_posts_expected,
 	     		'total_posts_made': total_posts_made,
 	     		'total_posts_missed': total_posts_missed,
-	     		'overall_longest_streak': overall_longest_streak
+	     		'overall_longest_streak': overall_longest_streak,
+	     		'track_name': track_name
 	     		}
 	return render(request, template_name, context)
 

@@ -74,10 +74,16 @@ class HabitTrack(HabitModel):
 		return len(self.get_all_events().filter(post__isnull=False))
 
 	def get_post_events_missed(self):
+		print(timezone.now().date())
+		print(timezone.now().date())
+		print(timezone.now())
+		print(timezone.now().date())
+		print(timezone.now().date())
 		all_events = self.get_all_events()
 		print("get_post_events_missed")
 		print(all_events)
-		post_events_missed = all_events.filter(track=self, date_expected__lt=date.today(), post__isnull=True)
+		post_events_missed = all_events.filter(track=self, date_expected__lt=timezone.now().date(), post__isnull=True)
+		print(post_events_missed)
 		for e in all_events:
 			print(e.date_expected)
 
@@ -207,7 +213,7 @@ class HabitEvent(HabitModel):
 		return self.track.__str__() + " " + self.date_expected.strftime("%m/%d/%Y")
 
 	def count_check_ins_expected_today(user):
-		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=date.today(), post__isnull=True)
+		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=timezone.now().date(), post__isnull=True)
 		return len(events_needing_post_today)
 
 
@@ -267,6 +273,7 @@ def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 		print("instance is: ")
 		print(instance)
 		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
+		print(event)
 		if event == None:
 			print("##############################################################################################")
 			print("*********************** NO POST EXPECTED FOR TODAY SO THIS IS AN ERROR THAT NEEDS TO BE FIXED")
@@ -274,5 +281,9 @@ def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 		event.post = instance
 
 		event.save() #this will save only the event column instead of the entire row
+		print(event.post)
+		print(event)
+		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
+		print(event.post)
 		print(event)
 
