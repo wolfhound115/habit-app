@@ -12,7 +12,6 @@ from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 
 from datetime import date
-from django.db.models import F
 
 
 
@@ -74,13 +73,18 @@ class HabitTrack(HabitModel):
 	def get_num_posts_made(self):
 		return len(self.get_all_events().filter(post__isnull=False))
 
-	def get_posts_missed(self):
+	def get_post_events_missed(self):
 		all_events = self.get_all_events()
-		posts_missed = all_events.filter(date_expected__lt=F(date.today()), post_isnull=True)
-		return posts_missed
+		print("get_post_events_missed")
+		print(all_events)
+		post_events_missed = all_events.filter(track=self, date_expected__lt=date.today(), post__isnull=True)
+		for e in all_events:
+			print(e.date_expected)
 
-	def num_posts_missed(self):
-		return len(self.get_posts_missed())
+		return post_events_missed
+
+	def get_num_posts_missed(self):
+		return len(self.get_post_events_missed())
 
 	def get_streaks(self):
 		dates = self.get_dates()
@@ -100,9 +104,14 @@ class HabitTrack(HabitModel):
 		longest_streak = max(streak, longest_streak)
 		return streak, longest_streak
 
+	@staticmethod
+	def get_user_habit_stats(user):
+		tracks = HabitTrack.filter(user=user)
+		posts_made = 0
+		posts_missed = 0
+		longest_streak = 0
 
-
-
+		
 	def save(self, *args, **kwargs):
 		""" Add Slug creating/checking to save method. """
 		slug_save(self) # call slug_save, listed below

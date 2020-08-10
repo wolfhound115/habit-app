@@ -45,17 +45,34 @@
 				{% if checkins_expected is not None %}
 				<ul>
 					{% if checkins_expected > 0 %}
+					<li>
 						<a href="{{ new_post_url }}">
-							<li><span class="profile-stat-count">{{ checkins_expected }}</span> check-ins left for you today</li>
+							<span class="profile-stat-count">{{ checkins_expected }}</span> check-ins left for you today
 						</a>
+					</li>
 					{% else %}
 						<li><span class="profile-stat-count"></span>You're all caught up on your Habits!</li>
 					{% endif %}
-					<li><span class="profile-stat-count">{{ streak_this_track }}</span>/</li>
-					<li><span class="profile-stat-count">{{ longest_streak_this_track }}</span>/</li>
+
 
 				</ul>
 				{% endif %}
+
+				<ul>
+					<li>
+					<div class="tooltip">
+						<span class="profile-stat-count">{{ streak_this_track }} / {{ longest_streak_this_track }} </span>
+						<span class="tooltiptext"> Current Streak / Longest Streak</span>
+					</div>
+					</li>
+					<li></li>
+					<li>
+					<div class="tooltip">	
+						<span class="profile-stat-count">{{ num_posts_made }} / {{ num_posts_missed }} / {{ num_posts_expected }} </span>
+						<span class="tooltiptext"> Posts Made/Missed/Expected</span>
+					</div>
+					</li>
+				</ul>
 
 			</div>
 

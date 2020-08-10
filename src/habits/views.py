@@ -143,6 +143,10 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	new_post_url = reverse('new-post')
 
 	streak_this_track, longest_streak_this_track = track.get_streaks()
+	num_posts_made = track.get_num_posts_made()
+	num_posts_missed = track.get_num_posts_missed()
+	num_posts_expected = track.get_num_posts_expected()
+	
 	print("streaks:")
 	print(streak_this_track, longest_streak_this_track)
 
@@ -159,7 +163,10 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	    		'checkins_expected': checkins_expected,
 	     		'new_post_url': new_post_url,
 	     		'streak_this_track': streak_this_track,
-	     		'longest_streak_this_track': longest_streak_this_track 
+	     		'longest_streak_this_track': longest_streak_this_track,
+	     		'num_posts_made': num_posts_made,
+	     		'num_posts_missed': num_posts_missed,
+	     		'num_posts_expected': num_posts_expected
 	     		}
 	return render(request, template_name, context)
 
