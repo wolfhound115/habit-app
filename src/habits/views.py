@@ -61,35 +61,79 @@ def habit_track_create_view(request):
 	return render(request, template_name, context)
 
 #RETRIEVE
+def generate_profile_context(request, url_username):
+
+	new_post_url = reverse('new-post')
+	profile_user = get_user_model().objects.filter(username=url_username).first()
+	profile_url = profile_user.get_profile_url()
+	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
+
+	if request.user == profile_user:
+		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
+
+	else:
+		checkins_expected = None
+
+	context = { 'profile_user': profile_user,
+				'profile_url': profile_url,
+		     	'total_posts_made': total_posts_made,
+	     		'total_posts_missed': total_posts_missed,
+	     		'overall_longest_streak': overall_longest_streak,
+	     		'new_post_url': new_post_url,
+	     		'checkins_expected': checkins_expected,
+
+	}
+	print(context)
+	return context
+
+def generate_track_context(request, url_slug, url_username):
+	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first() #TODO change to get()
+	qs = HabitPost.objects.filter(user__username=url_username, track=track)
+	track_name = track.track_name
+	track_url = track.get_absolute_url()
+	streak_this_track, longest_streak_this_track = track.get_streaks()
+	num_posts_made = track.get_num_posts_made()
+	num_posts_missed = track.get_num_posts_missed()
+	num_posts_expected = track.get_num_posts_expected()
+
+	context = { 'object_list': qs,
+				'streak_this_track': streak_this_track,
+	     		'longest_streak_this_track': longest_streak_this_track,
+	     		'num_posts_made': num_posts_made,
+	     		'num_posts_missed': num_posts_missed,
+	     		'num_posts_expected': num_posts_expected,
+	     		'track_url': track_url,
+	     		'track_name': track_name,
+
+	}
+	print(context)
+	return context
 
 
+def generate_all_posts_context(request, url_username):
+	qs = HabitPost.objects.filter(user__username=url_username)
+	context = { 'object_list': qs,
+	}
+	print("context", context)
+	return context
 
-def habit_post_list_view(request, url_username):
+def habit_all_posts_list_view(request, url_username):
 	# list out objects
 	# could be search
 	# latermight want to filter to only people you are following?
 	#qs = HabitPost.objects.all() # python list
 
-	qs = HabitPost.objects.filter(user__username=url_username)
-	print(qs)
-	profile_user = get_user_model().objects.filter(username=url_username).first()
-	print(profile_user.first_name, profile_user.last_name)
-
 	template_name = 'posts/posts-grid.html'
-	new_post_url = reverse('new-post')
-	print('new post url: ')
-	print(new_post_url)
+	profile_context = generate_profile_context(request, url_username)
+	posts_context = generate_all_posts_context(request, url_username)
+	context = {	'template_name': template_name,
+				**profile_context, 
+				**posts_context
+				} #merge two context dictionaries
 
-	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
-	else:
-		checkins_expected = None
-	profile_url = "/habit/" + url_username
-	print(profile_url)
-	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
 	return render(request, template_name, context)
 
-def habit_track_list_view(request, url_username):
+def habit_all_tracks_list_view(request, url_username):
 	# list out objects
 	# could be search
 	# latermight want to filter to only people you are following?
@@ -110,73 +154,33 @@ def habit_track_list_view(request, url_username):
 	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
 	return render(request, template_name, context)
 
-def habit_track_detail_feed_view(request, url_slug, url_username):
-	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first()
-	
-	qs = HabitPost.objects.filter(user=request.user, track=track)
-
-	profile_user = get_user_model().objects.filter(username=url_username).first()
-	template_name = 'posts/posts-feed.html'
-	profile_url = track.get_profile_url()
-	track_url = track.get_absolute_url()
-	new_post_url = reverse('new-post')
-	print(track_url)
-	print("dates:")
-	print(track.get_dates())
-	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
-	else:
-		checkins_expected = None
-	context = {'object_list': qs, 'profile_url': profile_url, 'track_url': track_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
-	return render(request, template_name, context)
-
 
 
 def habit_track_detail_grid_view(request, url_slug, url_username):
-	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first()
-	qs = HabitPost.objects.filter(user=request.user, track=track)
 
-	track_name = track.track_name
-
-	profile_user = get_user_model().objects.filter(username=url_username).first()
 	template_name = 'posts/posts-grid.html'
-	profile_url = track.get_profile_url()
-	track_url = track.get_absolute_url()
-	new_post_url = reverse('new-post')
+	profile_context = generate_profile_context(request, url_username)
+	track_context = generate_track_context(request, url_slug, url_username)
+	context = {	'template_name': template_name,
+				**profile_context, 
+				**track_context
+				} #merge two context dictionaries
 
-	streak_this_track, longest_streak_this_track = track.get_streaks()
-	num_posts_made = track.get_num_posts_made()
-	num_posts_missed = track.get_num_posts_missed()
-	num_posts_expected = track.get_num_posts_expected()
-
-	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
-	
-	print("streaks:")
-	print(streak_this_track, longest_streak_this_track)
-
-
-	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
-
-	else:
-		checkins_expected = None
-	context = {	'object_list': qs,
-	 			'profile_url': profile_url,
-	  			'track_url': track_url,
-	   			'profile_user': profile_user,
-	    		'checkins_expected': checkins_expected,
-	     		'new_post_url': new_post_url,
-	     		'streak_this_track': streak_this_track,
-	     		'longest_streak_this_track': longest_streak_this_track,
-	     		'num_posts_made': num_posts_made,
-	     		'num_posts_missed': num_posts_missed,
-	     		'num_posts_expected': num_posts_expected,
-	     		'total_posts_made': total_posts_made,
-	     		'total_posts_missed': total_posts_missed,
-	     		'overall_longest_streak': overall_longest_streak,
-	     		'track_name': track_name
-	     		}
 	return render(request, template_name, context)
+
+def habit_track_detail_feed_view(request, url_slug, url_username):
+	
+	template_name = 'posts/posts-feed.html'
+	profile_context = generate_profile_context(request, url_username)
+	track_context = generate_track_context(request, url_slug, url_username)
+	context = {	'template_name': template_name,
+				**profile_context, 
+				**track_context
+				} #merge two context dictionaries
+
+	return render(request, template_name, context)
+
+
 
 
 

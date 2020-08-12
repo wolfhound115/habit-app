@@ -122,10 +122,10 @@ class HabitTrack(HabitModel):
 		for t in tracks:
 			total_posts_made += t.get_num_posts_made()
 			total_posts_missed += t.get_num_posts_missed()
-			print("getting streaks for habit stats:")
-			print("the track being analyzed is: " + t.__str__())
-			print(t.get_streaks())
-			print("get_streaks worked!!!!")
+			#print("getting streaks for habit stats:")
+			#print("the track being analyzed is: " + t.__str__())
+			#print(t.get_streaks())
+			#print("get_streaks worked!!!!")
 			#overall_longest_streak = max(overall_longest_streak, t.get_streaks()[1])
 		return total_posts_made, total_posts_missed, overall_longest_streak
 
