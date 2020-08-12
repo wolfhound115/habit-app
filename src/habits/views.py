@@ -117,6 +117,13 @@ def generate_all_posts_context(request, url_username):
 	print("context", context)
 	return context
 
+def generate_all_tracks_context(request, url_username):
+	qs = HabitTrack.objects.filter(user__username=url_username)
+	context = { 'object_list': qs,
+	}
+	print("context", context)
+	return context
+
 def habit_all_posts_list_view(request, url_username):
 	# list out objects
 	# could be search
@@ -134,24 +141,14 @@ def habit_all_posts_list_view(request, url_username):
 	return render(request, template_name, context)
 
 def habit_all_tracks_list_view(request, url_username):
-	# list out objects
-	# could be search
-	# latermight want to filter to only people you are following?
-	#qs = HabitPost.objects.all() # python list
-
-	qs = HabitTrack.objects.filter(user__username=url_username)
-	print(qs)
-	profile_user = get_user_model().objects.filter(username=url_username).first()
-	print(profile_user.first_name, profile_user.last_name)
-	new_post_url = reverse('new-post')
 	template_name = 'tracks/tracks-grid.html'
+	profile_context = generate_profile_context(request, url_username)
+	tracks_context = generate_all_tracks_context(request, url_username)
+	context = {	'template_name': template_name,
+				**profile_context, 
+				**tracks_context
+				} #merge two context dictionaries
 
-	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
-	else:
-		checkins_expected = None
-	profile_url = "/habit/" + url_username
-	context = {'object_list': qs, 'profile_url': profile_url, 'profile_user': profile_user, 'checkins_expected': checkins_expected, 'new_post_url': new_post_url}
 	return render(request, template_name, context)
 
 
