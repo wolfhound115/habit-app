@@ -46,8 +46,8 @@ def slug_save(obj):
 # Don't need both publish_date and timestamp right
 class HabitModel(models.Model):
 	user = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
-	def get_profile_url(self):
-		return f"/habit/{self.user}"
+	#def get_profile_url(self):
+	#	return f"/habit/{self.user}"
 
 
 class JustRecurrence(models.Model):
@@ -153,7 +153,7 @@ class HabitTrack(HabitModel):
 		print("absolute URL track: ")
 		print("/habit/{self.user}/tracks/{self.slug}")
 		#return f"/habit/{self.user}/tracks/{self.slug}"
-		return f"{self.get_profile_url()}/tracks/{self.slug}"
+		return f"{self.user.get_profile_url()}/tracks/{self.slug}"
 
 	#TODO
 	def get_edit_url(self):
@@ -190,7 +190,7 @@ class HabitPost(HabitModel):
 	#this needs to be fixed
 	def get_absolute_url(self):
 		print("/habit/{self.user}/posts/{self.slug}")
-		return f"{self.get_profile_url()}/posts/{self.slug}"
+		return f"{self.user.get_profile_url()}/posts/{self.slug}"
 
 	def get_edit_url(self):
 		return f"{self.get_absolute_url()}/edit"
