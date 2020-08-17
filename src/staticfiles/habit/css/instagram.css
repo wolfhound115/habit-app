@@ -131,8 +131,62 @@ nav {
   border-bottom: 0.2rem solid #999;
 }
 
+
+
+
+
 /* Profile Section */
 
+.profile-track-details {
+    padding: 1rem 0;
+}
+
+.profile-track-details::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.profile-track-detail-stats {
+    margin-top: 2.3rem;
+}
+
+.profile-track-detail-stats li {
+    display: inline-block;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    margin-right: 4rem;
+    cursor: pointer;
+}
+
+.profile-track-detail-stats li:last-of-type {
+    margin-right: 0;
+}
+
+.profile-track-detail-stat-count{
+    font-weight: 600;
+}
+.profile-track-detail-description {
+    margin-top: 2.3rem;
+}
+
+.profile-track-detail-description li{
+    display: inline-block;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-right: 4rem;
+    cursor: pointer;
+}
+
+.profile-track-stat-posts-made {
+    color: #336600 !important;
+}
+.profile-track-stat-posts-missed {
+    color: #660000 !important;
+}
+.profile-track-stat-posts-expected {
+    color: #006666 !important;
+}
 
 
 .profile {
@@ -218,6 +272,9 @@ nav {
     font-weight: 600;
 }
 
+
+
+
 /* Gallery Section */
 
 .gallery {
@@ -259,6 +316,8 @@ nav {
 
 .gallery-item-likes {
     margin-right: 2.2rem;
+    width: 80%;
+    text-align: center;
 }
 
 .gallery-item-type {
@@ -279,6 +338,16 @@ nav {
     height: auto;
     object-fit: cover;
 }
+
+
+.post-details {
+    padding: 0 1.6rem;
+    font-size: 1.6rem;
+    font-weight: 300;
+}
+
+
+
 
 /* Loader */
 
@@ -395,7 +464,8 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
     /*nav section from https://www.bypeople.com/css-photography-app/ */
     .nav {
-        text-align: center
+        text-align: center;
+        border-top:1px solid gray;
     }
 
     .nav ul{
@@ -403,13 +473,12 @@ Remove or comment-out the code block below to see how the browser will fall-back
         display: inline-flex;
         list-style: none;
 
-
-
-
     }
 
+
+
     .nav li {
-        margin: 4rem 3rem 2rem 0rem;
+        margin: 0rem 3rem 2rem 0rem;
         cursor: pointer;
         font-size: 13pt;
         text-transform: uppercase;

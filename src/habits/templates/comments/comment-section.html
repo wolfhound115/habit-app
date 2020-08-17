@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+	
+	<div class='comment'>
+	{% for object in object_list %}
+
+		{% include 'blog/list-inline.html' with blog_post=object truncate=True detail=False %} <!-- Created a new variable to pass object in as --> 
+
+	{% endfor %}
+	</div>
+
+
+{% endblock %}

@@ -138,6 +138,7 @@ class HabitTrack(HabitModel):
 		return self.track_name
 
 	def get_dates(self):
+		print(self.recurrences)
 		datetimes = self.recurrences.occurrences(
 			# might also want to add dtend for efficiency later
 			dtstart=self.start_date
@@ -174,7 +175,7 @@ class HabitPost(HabitModel):
 	image = models.ImageField(upload_to='image/', blank=False, null=True)
 	#publish_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
-	track = models.ForeignKey(HabitTrack, null=True, on_delete=models.SET_NULL)
+	track = models.ForeignKey(HabitTrack, null=True, on_delete=models.CASCADE)
 	#habittrack should be based on foreign key just like user
 		#not sure what happens if two users have the same habit name??
 
@@ -199,11 +200,6 @@ class HabitPost(HabitModel):
 		return f"{self.get_absolute_url()}/delete" #not sure if this works
 
 
-
-
-
-
-
 class HabitEvent(HabitModel):
 	track = models.ForeignKey(HabitTrack, on_delete=models.CASCADE, null=False)
 	date_expected = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=False) #make null=false later
@@ -215,6 +211,33 @@ class HabitEvent(HabitModel):
 	def count_check_ins_expected_today(user):
 		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=timezone.now().date(), post__isnull=True)
 		return len(events_needing_post_today)
+
+
+class PostComment(HabitModel):
+	comment = models.TextField(max_length=300)
+	post = models.ForeignKey(HabitPost, on_delete=models.CASCADE)
+	parent = models.ForeignKey('self', on_delete=models.CASCADE)
+	timestamp = models.DateTimeField(auto_now_add=True)
+
+class PostLike(HabitModel):
+	post = models.ForeignKey(HabitPost, on_delete=models.CASCADE)
+
+	@staticmethod
+	def get_post_total_likes(post):
+		return len(PostLike.objects.filter(post=post))
+
+	@staticmethod
+	def get_post_users_who_liked(post):
+		return PostLike.objects.filter(post=post).values_list('user', flat=True)
+
+
+class CommentLike(HabitModel):
+	comment = models.ForeignKey(PostComment, on_delete=models.CASCADE)
+
+
+	@staticmethod
+	def get_comment_total_likes(post):
+		return len(PostLike.objects.filter(post=post))
 
 
 

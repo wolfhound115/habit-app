@@ -68,6 +68,8 @@ def generate_profile_context(request, url_username):
 	profile_url = profile_user.get_profile_url()
 	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
 
+
+
 	if request.user == profile_user:
 		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
 
@@ -88,6 +90,9 @@ def generate_profile_context(request, url_username):
 
 def generate_track_context(request, url_slug, url_username):
 	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first() #TODO change to get()
+
+
+	track_desc = track.description
 	qs = HabitPost.objects.filter(user__username=url_username, track=track)
 	track_name = track.track_name
 	track_url = track.get_absolute_url()
@@ -104,6 +109,7 @@ def generate_track_context(request, url_slug, url_username):
 	     		'num_posts_expected': num_posts_expected,
 	     		'track_url': track_url,
 	     		'track_name': track_name,
+	     		'track_desc': track_desc
 
 	}
 	print(context)
@@ -188,8 +194,12 @@ def habit_post_detail_view(request, url_slug, url_username):
 
 	#print("hello hello" + HabitPost.objects.filter(user=url_user))
 	obj = get_object_or_404(qs, user__username=url_username, slug=url_slug)
-	template_name = 'posts/detail.html'
-	context = {"object": obj}
+	template_name = 'posts/post-detail.html'
+	profile_context = generate_profile_context(request, url_username)
+	context = { "object": obj,
+				**profile_context
+				}
+
 	return render(request, template_name, context)
 
 # UPDATE

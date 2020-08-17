@@ -1,0 +1,33 @@
+{% extends "profile/profile-base.html" %}
+
+{% block gallery %}
+
+<main>
+
+
+	<div class="container">
+
+		<div class="gallery-feed">
+
+			{% block content %}
+
+
+				{% include 'posts/grid-post-preview.html' with habit_post=object truncate=True detail=False %} <!-- Created a new variable to pass object in as --> 
+
+
+			{% endblock %}
+			<div class="post-details">
+				<a href="{{ profile_url }}">{{ profile_user.username }}</a> hahahaha
+			</div>
+			
+		</div>
+		<!-- End of gallery -->
+
+		<div class="loader"></div>
+
+	</div>
+	<!-- End of container -->
+
+</main>
+
+{% endblock %}

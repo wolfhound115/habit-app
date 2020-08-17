@@ -53,29 +53,10 @@
 					{% else %}
 						<li><span class="profile-stat-count"></span>You're all caught up on your Habits!</li>
 					{% endif %}
-
-
 				</ul>
 				{% endif %}
 
-				<ul>
-					<li>
-						{{ track_name }}
-					</li>
-					<li>	
-					<div class="tooltip">
-						<span class="profile-stat-count">{{ streak_this_track }} / {{ longest_streak_this_track }} </span>
-						<span class="tooltiptext"> Current Streak / Longest Streak</span>
-					</div>
-					</li>
-					<li></li>
-					<li>
-					<div class="tooltip">	
-						<span class="profile-stat-count">{{ num_posts_made }} / {{ num_posts_missed }} / {{ num_posts_expected }} </span>
-						<span class="tooltiptext"> Posts Made/Missed/Expected</span>
-					</div>
-					</li>
-				</ul>
+				
 
 			</div>
 
@@ -87,6 +68,45 @@
 
 		</div>
 		<!-- End of profile section -->
+		{% if num_posts_made %}
+		<div class="profile-track-details">
+			<div class="profile-track-detail-stats">
+				<ul>
+					<li>
+						Habit Track: {{ track_name }}
+						
+						<div class="tooltip">	
+						<span class="profile-track-detail-stat-count">
+							(
+							<span class= "profile-track-stat-posts-made">{{ num_posts_made }}</span> / 
+							<span class= "profile-track-stat-posts-missed">{{ num_posts_missed }}</span> / 
+							<span class= "profile-track-stat-posts-expected">{{ num_posts_expected }}</span>
+							)
+						</span>
+						<span class="tooltiptext">Posts Made/Missed/Expected</span>
+					</div>
+					</li>
+					<li>
+					</li>
+					<li>Streaks: 	
+					<div class="tooltip">
+						<span class="profile-track-detail-stat-count">{{ streak_this_track }} / {{ longest_streak_this_track }}🔥</span>
+						<span class="tooltiptext">Current Streak / Longest Streak</span>
+					</div>
+					</li>
+
+				</ul>
+			</div>
+			<div class="profile-track-detail-description">
+				<ul>
+					<li>
+						 {{ track_desc }}
+					</li>
+				</ul>
+			</div>
+		</div>
+		{% endif %}
+
 
 		<div class="row">
 			<div class="nav">
