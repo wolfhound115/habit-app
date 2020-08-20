@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -207,7 +208,7 @@ def habit_post_detail_view(request, url_slug, url_username):
 		form_obj.post = post
 		form_obj.save()
 		form = PostCommentModelForm()
-		
+		return HttpResponseRedirect(request.path)
 
 	context = { "post": post,
 				"form": form,
