@@ -2,11 +2,30 @@ from django import forms
 
 from datetime import date
 
-from .models import HabitPost, HabitTrack, HabitEvent
+from .models import HabitPost, HabitTrack, HabitEvent, PostComment
 
 from django.contrib.admin.widgets import AdminDateWidget
 
 
+
+class PostCommentModelForm(forms.ModelForm):
+	class Meta:
+		model = PostComment
+		fields = ['comment']
+		widgets = {
+            'comment': forms.Textarea(
+                attrs={'placeholder': 'Add a comment...'}),
+        }
+"""
+ class PostCommentReplyModelForm(forms.ModelForm):
+	class Meta:
+		model = PostComment
+		fields = ['comment']
+		widgets = {
+            'comment': forms.Textarea(
+                attrs={'placeholder': 'Add a comment...'}),
+        }
+"""
 
 class HabitTrackModelForm(forms.ModelForm):
 
@@ -26,7 +45,6 @@ class HabitPostModelForm(forms.ModelForm):
 	def __init__(self, user, *args, **kwargs):
 
 		super(HabitPostModelForm, self).__init__(*args, **kwargs)
-
 
 		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=date.today(), post__isnull=True)
 		

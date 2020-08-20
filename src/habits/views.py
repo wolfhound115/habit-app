@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 # Create your views here.
 
 from .models import HabitPost, HabitTrack, HabitModel, HabitEvent
-from .forms import HabitPostModelForm, HabitTrackModelForm
+from .forms import HabitPostModelForm, HabitTrackModelForm, PostCommentModelForm
 from profiles.models import Profile
 from django.conf import settings
 
@@ -191,15 +191,28 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 def habit_post_detail_view(request, url_slug, url_username):
 
 	qs = HabitPost.objects.filter(user__username=url_username, slug=url_slug)
-
-	#print("hello hello" + HabitPost.objects.filter(user=url_user))
-	obj = get_object_or_404(qs, user__username=url_username, slug=url_slug)
+	post = get_object_or_404(qs, user__username=url_username, slug=url_slug)
 	template_name = 'posts/post-detail.html'
 	profile_context = generate_profile_context(request, url_username)
-	context = { "object": obj,
-				**profile_context
-				}
 
+
+
+	user = request.user
+	form = PostCommentModelForm(request.POST or None) #, user=request.user)
+	if form.is_valid():
+		print(form.cleaned_data)
+		
+		form_obj = form.save(commit=False) #this way we can modify things before we save
+		form_obj.user = request.user #now the blogposts are associated with the logged in user!
+		form_obj.post = post
+		form_obj.save()
+		form = PostCommentModelForm()
+		
+
+	context = { "post": post,
+				"form": form,
+				**profile_context
+			}
 	return render(request, template_name, context)
 
 # UPDATE

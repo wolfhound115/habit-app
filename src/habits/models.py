@@ -213,14 +213,28 @@ class HabitEvent(HabitModel):
 		return len(events_needing_post_today)
 
 
+
+
+#remove the blank=trues on the timestamps??? not sure why database is having issues
 class PostComment(HabitModel):
 	comment = models.TextField(max_length=300)
-	post = models.ForeignKey(HabitPost, on_delete=models.CASCADE)
-	parent = models.ForeignKey('self', on_delete=models.CASCADE)
-	timestamp = models.DateTimeField(auto_now_add=True)
+	post = models.ForeignKey(HabitPost, on_delete=models.CASCADE, related_name='comments')
+	parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+	timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+
+	class Meta:
+		ordering = ['timestamp'] #the order of these is the order that comments will be sorted by
+	def __str__(self):
+		s = self.pk.__str__() + self.user.__str__()
+		if self.parent is not None:
+			s += " REPLY TO " + self.parent.__str__()
+		s += " " + self.comment.__str__()
+		return s
+
 
 class PostLike(HabitModel):
-	post = models.ForeignKey(HabitPost, on_delete=models.CASCADE)
+	post = models.ForeignKey(HabitPost, on_delete=models.CASCADE, related_name='post_likes')
+	timestamp = models.DateTimeField(auto_now_add=True, blank=True)
 
 	@staticmethod
 	def get_post_total_likes(post):
@@ -232,8 +246,8 @@ class PostLike(HabitModel):
 
 
 class CommentLike(HabitModel):
-	comment = models.ForeignKey(PostComment, on_delete=models.CASCADE)
-
+	comment = models.ForeignKey(PostComment, on_delete=models.CASCADE, related_name='comment_likes')
+	timestamp = models.DateTimeField(auto_now_add=True, blank=True)
 
 	@staticmethod
 	def get_comment_total_likes(post):
@@ -262,7 +276,7 @@ def generate_habit_events(track, dates, instance):
 @receiver(post_save, sender=HabitTrack, dispatch_uid="generate_empty_habit_events")
 def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 	print("*******")
-	print("post save habit tracks reciever")
+	print("post save habit tracks reliever")
 	if created:
 
 		"""

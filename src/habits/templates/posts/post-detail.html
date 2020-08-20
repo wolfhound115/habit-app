@@ -12,13 +12,30 @@
 			{% block content %}
 
 
-				{% include 'posts/grid-post-preview.html' with habit_post=object truncate=True detail=False %} <!-- Created a new variable to pass object in as --> 
+				{% include 'posts/grid-post-preview.html' with habit_post=post truncate=True detail=False %} <!-- Created a new variable to pass object in as --> 
 
 
 			{% endblock %}
 			<div class="post-details">
 				<a href="{{ profile_url }}">{{ profile_user.username }}</a> hahahaha
 			</div>
+
+
+			<div>
+				{% for c in post.comments.all %}
+				{% if c.parent is None %}
+				<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}</p>
+					{% for r in c.replies.all %}
+						<p>-----{{ r.timestamp }} {{ r.user }} {{ r.comment }}</p>
+					{% endfor %}
+				{% endif %}
+				{% endfor %}
+			</div>
+			<form method='POST' action='.' class="post-form" enctype="multipart/form-data" > 
+				{% csrf_token %}
+    			{{ form.as_p }}
+				<button type='submit'>Post</button>
+			</form>
 			
 		</div>
 		<!-- End of gallery -->
