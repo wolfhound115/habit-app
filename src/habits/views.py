@@ -38,6 +38,8 @@ def habit_post_create_view(request):
 		obj.save()
 		form = HabitPostModelForm(user)
 
+		return HttpResponseRedirect(request.path)
+
 
 	template_name = 'posts/form.html'
 	context = {'form': form}
@@ -56,6 +58,8 @@ def habit_track_create_view(request):
 		obj.user = request.user #now the blogposts are associated with the logged in user!
 		obj.save()
 		form = HabitTrackModelForm()
+
+		return HttpResponseRedirect(request.path)
 
 	template_name = 'tracks/form.html'
 	context = {'form': form}

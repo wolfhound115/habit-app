@@ -21,6 +21,12 @@
 			</div>
 
 
+
+			<button id="go">Say hello</button>
+
+			<div id="result"></div>
+
+
 			<div>
 				{% for c in post.comments.all %}
 				{% if c.parent is None %}
@@ -28,10 +34,18 @@
 					{% for r in c.replies.all %}
 						<p>-----{{ r.timestamp }} {{ r.user }} {{ r.comment }}</p>
 					{% endfor %}
+
+					<button type="reply-button" value ="Add Child" onclick="addChild();">Reply</button>
+					<form id="reply-to-comment" class="post-form">
+						{% csrf_token %}
+    					{{ form.as_p }}
+    					<button type='submit'>Post</button>
+					</form>
+
 				{% endif %}
 				{% endfor %}
 			</div>
-			<form method='POST' action='.' class="post-form" enctype="multipart/form-data" > 
+			<form method='POST' action='.' class="post-form"> 
 				{% csrf_token %}
     			{{ form.as_p }}
 				<button type='submit'>Post</button>

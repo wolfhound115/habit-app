@@ -348,6 +348,17 @@ nav {
 
 
 
+/* comment section */
+/* "#" is used to select based on id value */
+#reply-to-comment {
+    display: none;
+}
+
+
+
+
+
+
 
 /* Loader */
 

@@ -32,6 +32,57 @@ img {
     display: block;
 }
 
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 400px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 5px;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  width: max-content;
+  top: 100%;
+  left: 50%;
+  transform:translateX(-50%); /* this centers it */
+
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;  /* At the top of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+
+
+
+
+
 .container {
     max-width: 93.5rem;
     margin: 0 auto;
@@ -60,7 +111,83 @@ img {
     clip: rect(1px, 1px, 1px, 1px);
 }
 
+/*nav section from https://www.bypeople.com/css-photography-app/ */
+nav {
+  display: inline-flex;
+}
+
+.nav li {
+  margin: 4rem 3rem 0 1rem;
+  cursor: pointer;
+  font-size: 13pt;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  color: #888;
+}
+
+.nav li:hover, .nav li:nth-child(1)  { 
+  color: #999;
+  border-bottom: 0.2rem solid #999;
+}
+
+
+
+
+
 /* Profile Section */
+
+.profile-track-details {
+    padding: 1rem 0;
+}
+
+.profile-track-details::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.profile-track-detail-stats {
+    margin-top: 2.3rem;
+}
+
+.profile-track-detail-stats li {
+    display: inline-block;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    margin-right: 4rem;
+    cursor: pointer;
+}
+
+.profile-track-detail-stats li:last-of-type {
+    margin-right: 0;
+}
+
+.profile-track-detail-stat-count{
+    font-weight: 600;
+}
+.profile-track-detail-description {
+    margin-top: 2.3rem;
+}
+
+.profile-track-detail-description li{
+    display: inline-block;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-right: 4rem;
+    cursor: pointer;
+}
+
+.profile-track-stat-posts-made {
+    color: #336600 !important;
+}
+.profile-track-stat-posts-missed {
+    color: #660000 !important;
+}
+.profile-track-stat-posts-expected {
+    color: #006666 !important;
+}
+
 
 .profile {
     padding: 5rem 0;
@@ -145,6 +272,9 @@ img {
     font-weight: 600;
 }
 
+
+
+
 /* Gallery Section */
 
 .gallery {
@@ -186,6 +316,8 @@ img {
 
 .gallery-item-likes {
     margin-right: 2.2rem;
+    width: 80%;
+    text-align: center;
 }
 
 .gallery-item-type {
@@ -206,6 +338,27 @@ img {
     height: auto;
     object-fit: cover;
 }
+
+
+.post-details {
+    padding: 0 1.6rem;
+    font-size: 1.6rem;
+    font-weight: 300;
+}
+
+
+
+/* comment section */
+/* "#" is used to select based on id value */
+.reply-to-comment {
+    display: hidden !important;
+}
+
+
+
+
+
+
 
 /* Loader */
 
@@ -319,42 +472,40 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 @supports (display: grid) {
 
+
     /*nav section from https://www.bypeople.com/css-photography-app/ */
-    nav {
-      display: inline-flex;
+    .nav {
+        text-align: center;
+        border-top:1px solid gray;
     }
 
+    .nav ul{
+        padding-inline-start: 40px;
+        display: inline-flex;
+        list-style: none;
+
+    }
+
+
+
     .nav li {
-      margin: 40px 30px 0 10px;
-      cursor: pointer;
-      font-size: 13pt;
-      text-transform: uppercase;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      color: #888;
+        margin: 0rem 3rem 2rem 0rem;
+        cursor: pointer;
+        font-size: 13pt;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        color: #888;
     }
 
     .nav li:hover, .nav li:nth-child(1)  { 
       color: #999;
-      border-bottom: 2px solid #999;
+      border-bottom: 0.2rem solid #999;
     }
 
 
 
 
-
-
-
-
-
-
-
-    
-
-    /* this root needs to be here also otherwise it breaks in chrome and default font size becomes 0...?*/
-    :root {
-        font-size: 10px;
-    }
 
     .profile {
         display: grid;
@@ -368,9 +519,15 @@ Remove or comment-out the code block below to see how the browser will fall-back
         grid-row: 1 / -1;
     }
 
-    .gallery {
+    .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+        grid-template-columns: repeat(3, minmax(22rem, 1fr));
+        grid-gap: 2rem;
+    }
+
+    .gallery-feed {
+        display: grid;
+        grid-template-columns: 1fr;
         grid-gap: 2rem;
     }
 
