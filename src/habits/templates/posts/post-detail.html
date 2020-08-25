@@ -17,7 +17,11 @@
 
 			{% endblock %}
 			<div class="post-details">
-				<a href="{{ profile_url }}">{{ profile_user.username }}</a> hahahaha
+				<a href="{{ profile_url }}">{{ profile_user.username }}</a>
+				{{ post.description }}
+				{% if post.post_likes.all %}
+				{{ post.post_likes.all|length }}❤️️
+				{% endif %}
 			</div>
 
 
@@ -30,12 +34,22 @@
 			<div>
 				{% for c in post.comments.all %}
 				{% if c.parent is None %}
-				<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}</p>
+				<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}
+					{% if c.comment_likes.all %}
+					{{ c.comment_likes.all|length }}❤️️
+					{% endif %}	
+				</p>
 					{% for r in c.replies.all %}
-						<p>-----{{ r.timestamp }} {{ r.user }} {{ r.comment }}</p>
+						<p>-----{{ r.timestamp }} {{ r.user }} {{ r.comment }}
+							{% if r.comment_likes.all %}
+							{{ r.comment_likes.all|length }}❤️️
+							{% endif %}
+						</p>
 					{% endfor %}
 
+					<button type="reply-button" value ="Add Child" >Like</button>
 					<button type="reply-button" value ="Add Child" onclick="addChild();">Reply</button>
+
 					<form id="reply-to-comment" class="post-form">
 						{% csrf_token %}
     					{{ form.as_p }}

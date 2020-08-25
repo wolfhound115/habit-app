@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 
-from .models import HabitPost, HabitTrack, HabitModel, HabitEvent
+from .models import HabitPost, HabitTrack, HabitModel, HabitEvent, CommentLike
 from .forms import HabitPostModelForm, HabitTrackModelForm, PostCommentModelForm
 from profiles.models import Profile
 from django.conf import settings

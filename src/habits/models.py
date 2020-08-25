@@ -224,6 +224,7 @@ class PostComment(HabitModel):
 
 	class Meta:
 		ordering = ['timestamp'] #the order of these is the order that comments will be sorted by
+		
 	def __str__(self):
 		s = self.pk.__str__() + self.user.__str__()
 		if self.parent is not None:
@@ -235,6 +236,9 @@ class PostComment(HabitModel):
 class PostLike(HabitModel):
 	post = models.ForeignKey(HabitPost, on_delete=models.CASCADE, related_name='post_likes')
 	timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+
+	class Meta:
+		ordering = ['timestamp'] #the order of these is the order that comments will be sorted by
 
 	@staticmethod
 	def get_post_total_likes(post):
@@ -248,6 +252,9 @@ class PostLike(HabitModel):
 class CommentLike(HabitModel):
 	comment = models.ForeignKey(PostComment, on_delete=models.CASCADE, related_name='comment_likes')
 	timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+
+	class Meta:
+		ordering = ['timestamp'] #the order of these is the order that comments will be sorted by
 
 	@staticmethod
 	def get_comment_total_likes(post):
