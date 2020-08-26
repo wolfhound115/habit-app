@@ -48,18 +48,20 @@
 					{% endfor %}
 
 					<button type="reply-button" value ="Add Child" >Like</button>
-					<button type="reply-button" value ="Add Child" onclick="addChild();">Reply</button>
-
-					<form id="reply-to-comment" class="post-form">
+					<button type="reply-button" value ="Add Child" onclick="addChild({{ c.pk }});">Reply</button>
+					<div class="reply-to-comment" id="{{ c.pk }}" style="display: none">
+					<form>
+						{{ c.pk }}
 						{% csrf_token %}
     					{{ form.as_p }}
     					<button type='submit'>Post</button>
 					</form>
+					</div>
 
 				{% endif %}
 				{% endfor %}
 			</div>
-			<form method='POST' action='.' class="post-form"> 
+			<form method='POST' action='.' class="add-comment"> 
 				{% csrf_token %}
     			{{ form.as_p }}
 				<button type='submit'>Post</button>

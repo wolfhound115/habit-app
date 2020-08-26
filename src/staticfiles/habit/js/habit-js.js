@@ -4,9 +4,15 @@
 "use strict";
 
 
-function addChild() {
-	//alert( 'Javascript click is doing stuff!!!!' );
-	document.getElementById('reply-to-comment').style.display = 'block';
+function addChild(pk) {
+	//
+	if(document.getElementById(pk).style.display == 'none'){
+		alert( 'show reply box' + pk );
+		document.getElementById(pk).style.display = 'block';
+	}else{
+		alert( 'hide reply box' + pk );
+		document.getElementById(pk).style.display = 'none';
+	}
 	//alert( 'Javascript click is doing stuff!!!!' );
 }
 

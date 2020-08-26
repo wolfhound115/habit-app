@@ -350,7 +350,7 @@ nav {
 
 /* comment section */
 /* "#" is used to select based on id value */
-#reply-to-comment {
+.reply-to-comment {
     display: none;
 }
 
