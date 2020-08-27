@@ -1,5 +1,7 @@
 {% extends "profile/profile-base.html" %}
 
+{% load habit_tags %}
+
 {% block gallery %}
 
 <main>
@@ -34,13 +36,15 @@
 			<div>
 				{% for c in post.comments.all %}
 				{% if c.parent is None %}
-				<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }} 					<button type="reply-button" value ="Add Child" onclick="addChild({{ c.pk }});">Reply</button> <span><button type="reply-button" value ="Add Child" >
+				<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}<button type="reply-button" value ="Add Child" onclick="addChild({{ c.pk }});">Reply</button> <span><button type="reply-button" value ="Add Child" >Like</button>
+										{% is_liked_by_user c request.user %}
 					{% if c.comment_likes.all %}
 					{{ c.comment_likes.all|length }}❤️️
+
 					{% else %}
 					Like
 					{% endif %}
-					</button></span>
+					</span>
 				</p>
 					{% for r in c.replies.all %}
 						<p>-----{{ r.timestamp }} {{ r.user }} {{ r.comment }}
