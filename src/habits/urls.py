@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import (
     habit_post_create_view,
     habit_post_delete_view,
@@ -8,6 +8,7 @@ from .views import (
     habit_all_tracks_list_view,
     habit_track_detail_feed_view,
     habit_track_detail_grid_view,
+    PostLikeToggle,
 )
 
 
@@ -21,7 +22,10 @@ urlpatterns = [
     path('<str:url_username>/posts/<str:url_slug>/delete/', habit_post_delete_view),
     path('<str:url_username>/tracks', habit_all_tracks_list_view),
     path('<str:url_username>/tracks/<str:url_slug>/feed', habit_track_detail_feed_view),
-    path('<str:url_username>/tracks/<str:url_slug>/grid', habit_track_detail_grid_view)
+    path('<str:url_username>/tracks/<str:url_slug>/grid', habit_track_detail_grid_view),
+    
 ]
+
+urlpatterns += [re_path(r'^like/', PostLikeToggle,  name='PostLikeToggle')] #need to figure out if this url is correct... might cause issues if some other url starts with 'like'
 
 

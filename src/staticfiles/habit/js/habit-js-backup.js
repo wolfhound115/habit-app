@@ -2,7 +2,7 @@
 
 
 "use strict";
-document.addEventListener('DOMContentLoaded', init, false);
+//document.addEventListener('DOMContentLoaded', init, false);
 
 function addChild(pk) {
 	//
@@ -17,24 +17,22 @@ function addChild(pk) {
 	//alert( 'Javascript click is doing stuff!!!!' );
 }
 
-
 function greet() {
     document.getElementById('result').innerHTML = 'Hello World';
     alert("Heres the greeting!");
     return false;
 }
 
-
-$(function() {
-   $('#go').on('click', greet);
-});
-
+document.getElementById('go').addEventListener('click', greet);
 
 $(document).ready( 
+	alert("something something");
 	function() {
-		$("#about-btn").click( function(event) {
-    		alert("You clicked the button using JQuery!");
-	});
+
+
+    $("#about-btn").click( function(event) {
+        alert("You clicked the button using JQuery!");
+    });
 });
 
 
@@ -45,7 +43,7 @@ function init(){
   }
   var button = document.getElementById('button');
   button.addEventListener('click', message, true);
-}
+};
 function LikePost(data, jqXHR) {
 	alert("You clicked the button using JQuery!");
     var data = $.parseJSON(data)
@@ -57,3 +55,4 @@ function LikePost(data, jqXHR) {
 
 
 }
+

@@ -74,18 +74,13 @@ class HabitTrack(HabitModel):
 		return len(self.get_all_events().filter(post__isnull=False))
 
 	def get_post_events_missed(self):
-		print(timezone.now().date())
-		print(timezone.now().date())
-		print(timezone.now())
-		print(timezone.now().date())
-		print(timezone.now().date())
 		all_events = self.get_all_events()
-		print("get_post_events_missed")
-		print(all_events)
+		#print("get_post_events_missed")
+		#print(all_events)
 		post_events_missed = all_events.filter(track=self, date_expected__lt=timezone.now().date(), post__isnull=True)
-		print(post_events_missed)
-		for e in all_events:
-			print(e.date_expected)
+		#print(post_events_missed)
+		#for e in all_events:
+		#	print(e.date_expected)
 
 		return post_events_missed
 

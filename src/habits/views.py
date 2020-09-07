@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 # Create your views here.
 
@@ -21,6 +21,22 @@ from django.urls import reverse
 
 #CREATE
 User = settings.AUTH_USER_MODEL
+
+
+def PostLikeToggle(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST['post_id'] #we get this post_id from our AJAX/Jquery
+        post = get_object_or_404(HabitPost, id=post_id)
+        _liked = post.post_likes.filter(user=user).exists() # return True/False
+        if _liked :
+            post.post_likes.remove(user)
+            print("removed like by " + user.__str__ + " on post " + post.__str__)
+        else:
+            post.post_likes.add(user)
+            print("added like by " + user.__str__ + " on post " + post.__str__)
+
+    return JsonResponse({'liked':_liked})
 
 
 def habit_post_create_view(request):
@@ -195,6 +211,9 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 #def habit_post_detail_view(request, url_user, url_slug): #need to figure out better way of getting user specific data
 def habit_post_detail_view(request, url_slug, url_username):
 
+	print("hi this is the request.post below:")
+	print(request.POST)
+
 	qs = HabitPost.objects.filter(user__username=url_username, slug=url_slug)
 	post = get_object_or_404(qs, user__username=url_username, slug=url_slug)
 	template_name = 'posts/post-detail.html'
@@ -213,6 +232,11 @@ def habit_post_detail_view(request, url_slug, url_username):
 		form_obj.save()
 		form = PostCommentModelForm()
 		return HttpResponseRedirect(request.path)
+
+
+
+
+	user_comment_likes = post.post_likes.filter(id=request.user.id).exists()
 
 	context = { "post": post,
 				"form": form,

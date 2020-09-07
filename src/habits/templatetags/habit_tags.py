@@ -7,4 +7,5 @@ register = template.Library()
 
 @register.simple_tag
 def is_liked_by_user(comment, user):
-    return CommentLike.objects.filter(user=user, comment=comment).exists()
+
+	return CommentLike.objects.filter(user=user, comment=comment).exists()
