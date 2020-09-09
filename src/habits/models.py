@@ -183,6 +183,9 @@ class HabitPost(HabitModel):
 	class Meta:
 		ordering = ['-timestamp'] #the order of these is the order that posts will be sorted by
 
+	def __str__(self):
+		return self.title
+
 	#this needs to be fixed
 	def get_absolute_url(self):
 		print("/habit/{self.user}/posts/{self.slug}")

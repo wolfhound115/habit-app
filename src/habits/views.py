@@ -24,19 +24,26 @@ User = settings.AUTH_USER_MODEL
 
 
 def PostLikeToggle(request):
-    user = request.user
-    if request.method == 'POST':
-        post_id = request.POST['post_id'] #we get this post_id from our AJAX/Jquery
-        post = get_object_or_404(HabitPost, id=post_id)
-        _liked = post.post_likes.filter(user=user).exists() # return True/False
-        if _liked :
-            post.post_likes.remove(user)
-            print("removed like by " + user.__str__ + " on post " + post.__str__)
-        else:
-            post.post_likes.add(user)
-            print("added like by " + user.__str__ + " on post " + post.__str__)
-
-    return JsonResponse({'liked':_liked})
+	user = request.user
+	print("PostLikeToggle was used")
+	if request.method == 'POST':
+		post_id = request.POST['post_id'] #we get this post_id from our AJAX/Jquery
+		post = get_object_or_404(HabitPost, id=post_id)
+		print("pre _liked")
+		_liked = post.post_likes.filter(user=user).exists() # return True/False
+		print(_liked)
+		if _liked:
+			existing_post_like = post.post_likes.get(user=user)
+			#post.post_likes.remove(existing_post_like)
+			existing_post_like.delete()
+			print("removed like by " + user.__str__() + " on post " + post.__str__())
+		else:
+			print("else")
+			new_post_like = post.post_likes.create(user=user)
+			post.post_likes.add(new_post_like)
+			print("added like by " + user.__str__() + " on post " + post.__str__())
+	print("finished conditionals in postliketoggle ")
+	return JsonResponse({'liked':_liked})
 
 
 def habit_post_create_view(request):

@@ -21,6 +21,7 @@ from django.urls import path, include
 from habits.views import (
     habit_post_create_view,
     habit_track_create_view,
+    PostLikeToggle
 )
 import django
 
@@ -36,7 +37,7 @@ from .views import (
 
 
 urlpatterns = [
-    path('', home_page),
+    path('', home_page, name='home'),
     path('habit/new-post/', habit_post_create_view, name='new-post'),
     path('habit/new-track/', habit_track_create_view, name='new-track'),
     path('habit/', include('habits.urls')),
@@ -44,6 +45,7 @@ urlpatterns = [
     path('about/', about_page),
     path('contact/', contact_page),
     path('admin/', admin.site.urls),
+
 ]
 
 

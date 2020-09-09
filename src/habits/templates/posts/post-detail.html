@@ -33,6 +33,8 @@
 
 			<button id="button" >DOM button</button>
 
+			<button id="like-btn" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}"> like btn {% url 'PostLikeToggle' %} {{ post.pk }} </button>
+
 
 			<div id="result"></div>
 

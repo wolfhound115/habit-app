@@ -35,6 +35,32 @@ $(document).ready(
 		$("#about-btn").click( function(event) {
     		alert("You clicked the button using JQuery!");
 	});
+
+
+	$('#like-btn').click(function () {
+            $.ajax({
+                type: 'POST',
+
+                url: $("#like-btn").attr("data-url"),
+                data: {
+                    'post_id': $("#like-btn").attr("data-post-id"),
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: LikePost,
+                dataType: 'html'
+            });
+
+            function LikePost(data, jqXHR) {
+                var data = $.parseJSON(data)
+                if (data['liked']) {
+                	document.getElementById('result').innerHTML = 'Click to like';
+                    $('.thumb').removeClass("fas fa-thumbs-up").addClass('far fa-thumbs-up')
+                } else {
+                	document.getElementById('result').innerHTML = 'Click to unlike';
+                    $('.thumb').removeClass("far fa-thumbs-up").addClass('fas fa-thumbs-up')
+                }
+            }
+        });
 });
 
 
@@ -46,6 +72,9 @@ function init(){
   var button = document.getElementById('button');
   button.addEventListener('click', message, true);
 }
+
+
+/*
 function LikePost(data, jqXHR) {
 	alert("You clicked the button using JQuery!");
     var data = $.parseJSON(data)
@@ -54,6 +83,5 @@ function LikePost(data, jqXHR) {
     } else {
         $('#thumb').removeClass("far fa-thumbs-up").addClass('fas fa-thumbs-up')
     }
-
-
 }
+*/

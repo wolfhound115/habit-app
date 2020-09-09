@@ -23,9 +23,11 @@ urlpatterns = [
     path('<str:url_username>/tracks', habit_all_tracks_list_view),
     path('<str:url_username>/tracks/<str:url_slug>/feed', habit_track_detail_feed_view),
     path('<str:url_username>/tracks/<str:url_slug>/grid', habit_track_detail_grid_view),
+    #path('post-like/', PostLikeToggle, name='PostLikeToggle'),
+    re_path(r'^ajax/post-like/$', PostLikeToggle,  name='PostLikeToggle'),
     
 ]
 
-urlpatterns += [re_path(r'^like/', PostLikeToggle,  name='PostLikeToggle')] #need to figure out if this url is correct... might cause issues if some other url starts with 'like'
+#urlpatterns += [re_path(r'^like/', PostLikeToggle,  name='PostLikeToggle')] #need to figure out if this url is correct... might cause issues if some other url starts with 'like'
 
 
