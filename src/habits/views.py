@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 
 # Create your views here.
 
-from .models import HabitPost, HabitTrack, HabitModel, HabitEvent, CommentLike
+from .models import HabitPost, HabitTrack, HabitModel, HabitEvent, CommentLike, PostLike
 from .forms import HabitPostModelForm, HabitTrackModelForm, PostCommentModelForm
 from profiles.models import Profile
 from django.conf import settings
@@ -43,7 +43,12 @@ def PostLikeToggle(request):
 			post.post_likes.add(new_post_like)
 			print("added like by " + user.__str__() + " on post " + post.__str__())
 	print("finished conditionals in postliketoggle ")
-	return JsonResponse({'liked':_liked})
+	new_total_post_likes = PostLike.get_post_total_likes(post)
+	if new_total_post_likes == 0:
+		new_total_post_likes = ''
+	return JsonResponse({	'liked':_liked,
+							'new_total_post_likes': new_total_post_likes
+						})
 
 
 def habit_post_create_view(request):
@@ -229,6 +234,7 @@ def habit_post_detail_view(request, url_slug, url_username):
 
 
 	user = request.user
+	post_liked_by_user = post.post_likes.filter(user=user).exists()
 	form = PostCommentModelForm(request.POST or None) #, user=request.user)
 	if form.is_valid():
 		print(form.cleaned_data)
@@ -247,6 +253,7 @@ def habit_post_detail_view(request, url_slug, url_username):
 
 	context = { "post": post,
 				"form": form,
+				"post_liked_by_user": post_liked_by_user,
 				**profile_context
 			}
 	return render(request, template_name, context)

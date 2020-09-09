@@ -44,6 +44,7 @@ $(document).ready(
                 url: $("#like-btn").attr("data-url"),
                 data: {
                     'post_id': $("#like-btn").attr("data-post-id"),
+                    //'total_post_likes': $("#total-post-likes").attr("data-total-post-likes"),
                     'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success: LikePost,
@@ -53,11 +54,11 @@ $(document).ready(
             function LikePost(data, jqXHR) {
                 var data = $.parseJSON(data)
                 if (data['liked']) {
-                	document.getElementById('result').innerHTML = 'Click to like';
-                    $('.thumb').removeClass("fas fa-thumbs-up").addClass('far fa-thumbs-up')
+                	document.getElementById('like-btn-txt').innerHTML = 'Like';
+                	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
                 } else {
-                	document.getElementById('result').innerHTML = 'Click to unlike';
-                    $('.thumb').removeClass("far fa-thumbs-up").addClass('fas fa-thumbs-up')
+                	document.getElementById('like-btn-txt').innerHTML = 'Unlike';
+                	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
                 }
             }
         });
@@ -72,16 +73,3 @@ function init(){
   var button = document.getElementById('button');
   button.addEventListener('click', message, true);
 }
-
-
-/*
-function LikePost(data, jqXHR) {
-	alert("You clicked the button using JQuery!");
-    var data = $.parseJSON(data)
-    if (data['liked']) {
-        $('#thumb').removeClass("fas fa-thumbs-up").addClass('far fa-thumbs-up')
-    } else {
-        $('#thumb').removeClass("far fa-thumbs-up").addClass('fas fa-thumbs-up')
-    }
-}
-*/

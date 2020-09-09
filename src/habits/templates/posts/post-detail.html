@@ -21,9 +21,13 @@
 			<div class="post-details">
 				<a href="{{ profile_url }}">{{ profile_user.username }}</a>
 				{{ post.description }}
+				<span id="total-post-likes">
 				{% if post.post_likes.all %}
-				{{ post.post_likes.all|length }}❤️️
+					{{ post.post_likes.all|length }}
+				{% else %}
 				{% endif %}
+				</span>❤️️
+
 			</div>
 
 
@@ -33,7 +37,15 @@
 
 			<button id="button" >DOM button</button>
 
-			<button id="like-btn" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}"> like btn {% url 'PostLikeToggle' %} {{ post.pk }} </button>
+			<button id="like-btn" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
+			<div id="like-btn-txt"> 
+			{% if post_liked_by_user %}
+			Unlike
+			{% else %}
+			Like
+			{% endif %}
+			</div>
+			</button>
 
 
 			<div id="result"></div>
@@ -43,7 +55,7 @@
 				{% for c in post.comments.all %}
 				{% if c.parent is None %}
 				<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}<button type="reply-button" value ="Add Child" onclick="addChild({{ c.pk }});">Reply</button> <span><button type="reply-button" value ="Add Child" >Like</button>
-										{% is_liked_by_user c request.user %}
+										{% is_comment_liked_by_user c request.user %}
 					{% if c.comment_likes.all %}
 					{{ c.comment_likes.all|length }}❤️️
 
