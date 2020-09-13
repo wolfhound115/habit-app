@@ -237,15 +237,27 @@ def habit_post_detail_view(request, url_slug, url_username):
 	post_liked_by_user = post.post_likes.filter(user=user).exists()
 	form = PostCommentModelForm(request.POST or None) #, user=request.user)
 	if form.is_valid():
+		print("this is the cleaned form data: ")
 		print(form.cleaned_data)
 		
 		form_obj = form.save(commit=False) #this way we can modify things before we save
 		form_obj.user = request.user #now the blogposts are associated with the logged in user!
 		form_obj.post = post
+		print("before conditional")
+		print(form_obj)
+		print(form_obj.parent)
+		print(form_obj)
+		if form_obj.parent:
+			print("after conditional")
+			print(form_obj.parent)
+			#form_obj.parent = post.comments.get(id = form_obj.parent)
+			print(form_obj.parent)
 		form_obj.save()
 		form = PostCommentModelForm()
 		return HttpResponseRedirect(request.path)
-
+	else:
+		print("form is not valid")
+		print(form.errors)
 
 
 

@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', init, false);
 
 function addChild(pk) {
 	//
-	alert("something else");
 	if(document.getElementById(pk).style.display == 'none'){
 		alert( 'show reply box' + pk );
 		document.getElementById(pk).style.display = 'block';
@@ -37,13 +36,13 @@ $(document).ready(
 	});
 
 
-	$('#like-btn').click(function () {
+	$('#post-like-btn').click(function () {
             $.ajax({
                 type: 'POST',
 
-                url: $("#like-btn").attr("data-url"),
+                url: $("#post-like-btn").attr("data-url"),
                 data: {
-                    'post_id': $("#like-btn").attr("data-post-id"),
+                    'post_id': $("#post-like-btn").attr("data-post-id"),
                     //'total_post_likes': $("#total-post-likes").attr("data-total-post-likes"),
                     'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
                 },

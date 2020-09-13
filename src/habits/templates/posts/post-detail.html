@@ -37,7 +37,7 @@
 
 			<button id="button" >DOM button</button>
 
-			<button id="like-btn" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
+			<button id="post-like-btn" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
 			<div id="like-btn-txt"> 
 			{% if post_liked_by_user %}
 			Unlike
@@ -53,42 +53,44 @@
 
 			<div>
 				{% for c in post.comments.all %}
-				{% if c.parent is None %}
-				<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}<button type="reply-button" value ="Add Child" onclick="addChild({{ c.pk }});">Reply</button> <span><button type="reply-button" value ="Add Child" >Like</button>
-										{% is_comment_liked_by_user c request.user %}
-					{% if c.comment_likes.all %}
-					{{ c.comment_likes.all|length }}❤️️
-
-					{% else %}
-					Like
-					{% endif %}
-					</span>
-				</p>
-					{% for r in c.replies.all %}
-						<p>-----{{ r.timestamp }} {{ r.user }} {{ r.comment }}
-							{% if r.comment_likes.all %}
-							{{ r.comment_likes.all|length }}❤️️
+					{% if c.parent is None %}
+						<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}<span><button>Like</button>
+							{% is_comment_liked_by_user c request.user %}
+							{% if c.comment_likes.all %}
+								{{ c.comment_likes.all|length }}❤️️
+							{% else %}
+								Like
 							{% endif %}
+							</span>
 						</p>
-					{% endfor %}
+							{% for r in c.replies.all %}
+								<p>-----{{ r.timestamp }} {{ r.user }} {{ r.comment }}<span><button>Like</button>
+									{% if r.comment_likes.all %}
+										{{ r.comment_likes.all|length }}❤️️
+									{% endif %}
+								</p>
+							{% endfor %}
+							<button type="reply-button" value ="Add Child" onclick="addChild({{ c.pk }});">Reply</button>
 
 
 
-					<div class="reply-to-comment" id="{{ c.pk }}" style="display: none">
-					<form>
-						{{ c.pk }}
-						{% csrf_token %}
-    					{{ form.as_p }}
-    					<button type='submit'>Post</button>
-					</form>
-					</div>
+							<div class="reply-to-comment" id="{{ c.pk }}" style="display: none">
+							<form method='POST' action='.' class="add-comment">
+								{{ c.pk }}
+								{% csrf_token %}
+		    					
+		    					<input name="comment">
+		    					<input name="parent" type="hidden" value="{{ c.pk }}" >
+		    					<button type='submit'>Post</button>
+							</form>
+							</div>
 
-				{% endif %}
+					{% endif %}
 				{% endfor %}
 			</div>
 			<form method='POST' action='.' class="add-comment"> 
 				{% csrf_token %}
-    			{{ form.as_p }}
+    			<input name="comment">
 				<button type='submit'>Post</button>
 			</form>
 
