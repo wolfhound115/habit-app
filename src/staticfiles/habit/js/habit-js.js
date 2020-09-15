@@ -40,9 +40,9 @@ $(document).ready(
             $.ajax({
                 type: 'POST',
 
-                url: $("#post-like-btn").attr("data-url"),
+                url: $(this).attr("data-url"),
                 data: {
-                    'post_id': $("#post-like-btn").attr("data-post-id"),
+                    'post_id': $(this).attr("data-post-id"),
                     //'total_post_likes': $("#total-post-likes").attr("data-total-post-likes"),
                     'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
                 },
@@ -61,6 +61,34 @@ $(document).ready(
                 }
             }
         });
+
+
+	$('.comment-like-btn').click(function () {
+		alert($(this).attr('id'));
+        $.ajax({
+            type: 'POST',
+
+            url: $(this).attr("data-url"),
+            data: {
+                'comment_id': $(this).attr("data-comment-id"),
+                //'total_post_likes': $("#total-post-likes").attr("data-total-post-likes"),
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: LikeComment,
+            dataType: 'html'
+        });
+
+        function LikeComment(data, jqXHR) {
+            var data = $.parseJSON(data)
+            if (data['liked']) {
+            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'Like';
+            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
+            } else {
+            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'Unlike';
+            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
+            }
+        }
+    });
 });
 
 

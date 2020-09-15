@@ -39,7 +39,8 @@
 
 			<button id="post-like-btn" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
 			<div id="like-btn-txt"> 
-			{% if post_liked_by_user %}
+			{% is_post_liked_by_user post user as user_liked_post %}
+			{% if user_liked_post %}
 			Unlike
 			{% else %}
 			Like
@@ -54,13 +55,22 @@
 			<div>
 				{% for c in post.comments.all %}
 					{% if c.parent is None %}
-						<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}<span><button>Like</button>
-							{% is_comment_liked_by_user c request.user %}
-							{% if c.comment_likes.all %}
-								{{ c.comment_likes.all|length }}❤️️
+						<p>{{ c.timestamp }} {{ c.user }} {{ c.comment }}<span><button class="comment-like-btn" id="{{ c.pk }}" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ c.pk }}">
+							<div id="{{ c.pk }}-like-btn-txt">
+							{% is_comment_liked_by_user c request.user as user_liked_comment %}
+							{% if user_liked_comment %}
+								Unlike
 							{% else %}
 								Like
 							{% endif %}
+							</div>
+						</button>
+								{% if c.comment_likes.all %}
+									{{ c.comment_likes.all|length }}❤️️
+								{% endif %}
+								<div id="{{ c.pk }}-total-comment-likes">
+								</div>
+
 							</span>
 						</p>
 							{% for r in c.replies.all %}

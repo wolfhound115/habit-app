@@ -255,8 +255,8 @@ class CommentLike(HabitModel):
 		ordering = ['timestamp'] #the order of these is the order that comments will be sorted by
 
 	@staticmethod
-	def get_comment_total_likes(post):
-		return len(PostLike.objects.filter(post=post))
+	def get_comment_total_likes(comment):
+		return len(CommentLike.objects.filter(comment=comment))
 
 
 

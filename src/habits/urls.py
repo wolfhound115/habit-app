@@ -9,6 +9,7 @@ from .views import (
     habit_track_detail_feed_view,
     habit_track_detail_grid_view,
     PostLikeToggle,
+    CommentLikeToggle,
 )
 
 
@@ -25,6 +26,7 @@ urlpatterns = [
     path('<str:url_username>/tracks/<str:url_slug>/grid', habit_track_detail_grid_view),
     #path('post-like/', PostLikeToggle, name='PostLikeToggle'),
     re_path(r'^ajax/post-like/$', PostLikeToggle,  name='PostLikeToggle'),
+    re_path(r'^ajax/comment-like/$', CommentLikeToggle,  name='CommentLikeToggle'),
     
 ]
 

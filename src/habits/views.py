@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 
 # Create your views here.
 
-from .models import HabitPost, HabitTrack, HabitModel, HabitEvent, CommentLike, PostLike
+from .models import HabitPost, HabitTrack, HabitModel, HabitEvent, CommentLike, PostLike, PostComment
 from .forms import HabitPostModelForm, HabitTrackModelForm, PostCommentModelForm
 from profiles.models import Profile
 from django.conf import settings
@@ -49,6 +49,41 @@ def PostLikeToggle(request):
 	return JsonResponse({	'liked':_liked,
 							'new_total_post_likes': new_total_post_likes
 						})
+
+def CommentLikeToggle(request):
+	user = request.user
+	print("CommentLikeToggle was used")
+	if request.method == 'POST':
+		comment_id = request.POST['comment_id'] #we get this post_id from our AJAX/Jquery
+		comment = get_object_or_404(PostComment, id=comment_id)
+		print("pre _liked")
+		_liked = comment.comment_likes.filter(user=user).exists() # return True/False
+		print(_liked)
+		if _liked:
+			existing_comment_like = comment.comment_likes.get(user=user)
+			#post.post_likes.remove(existing_post_like)
+			existing_comment_like.delete()
+			print("removed like by " + user.__str__() + " on comment " + comment.__str__())
+		else:
+			print("else")
+			new_comment_like = comment.comment_likes.create(user=user)
+			comment.comment_likes.add(new_comment_like)
+			print("added like by " + user.__str__() + " on comment " + comment.__str__())
+	print("finished conditionals in commentliketoggle ")
+	new_total_comment_likes = CommentLike.get_comment_total_likes(comment)
+	if new_total_comment_likes == 0:
+		new_total_comment_likes = ''
+
+	comment_like_button_text_id = "" + comment_id + "-like-btn-txt"
+	total_comment_likes_id = "" + comment_id + "-total-comment-likes"
+	print("comment like button text id is: " + comment_like_button_text_id)
+	return JsonResponse({	'liked': _liked,
+							'new_total_comment_likes': new_total_comment_likes,
+							'comment_id': comment_id,
+							'comment_like_button_text_id': comment_like_button_text_id,
+							'total_comment_likes_id': total_comment_likes_id
+						})
+
 
 
 def habit_post_create_view(request):
