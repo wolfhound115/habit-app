@@ -132,7 +132,7 @@
 		    					
 		    					<input name="comment">
 		    					<input name="parent" type="hidden" value="{{ c.pk }}" >
-		    					<button class="btn reply-btn" type='submit'>Post</button>
+		    					<button class="btn post-comment-btn	" type='submit'>Post</button>
 							</form>
 							</div>
 
@@ -142,7 +142,7 @@
 			<form method='POST' action='.' class="add-comment"> 
 				{% csrf_token %}
     			<input name="comment">
-				<button class="btn reply-btn" type='submit'>Post</button>
+				<button class="btn post-comment-btn" type='submit'>Post</button>
 			</form>
 
 			<script type="text/javascript">

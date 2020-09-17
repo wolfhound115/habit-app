@@ -239,7 +239,7 @@ nav {
 }
 
 
-.like-btn, .reply-btn {
+.like-btn, .reply-btn, .post-comment-btn {
     font-size: 1rem;
     line-height: 1.8;
     border: 0.1rem solid #dbdbdb;
