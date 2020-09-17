@@ -228,7 +228,39 @@ class PostComment(HabitModel):
 		if self.parent is not None:
 			s += " REPLY TO " + self.parent.__str__()
 		s += " " + self.comment.__str__()
+
+
 		return s
+
+	def get_age(self):
+
+		age = timezone.now() - self.timestamp
+		age_in_sec = int(age.total_seconds())
+
+
+		if age_in_sec < 60:
+			return str(int(age_in_sec)) + "s"
+		age_in_min = age_in_sec // 60
+		if age_in_min < 60:
+			return str(age_in_min) + "m"
+		age_in_hour = age_in_min // 60
+		if age_in_hour < 24:
+			return str(age_in_hour) + "h"
+		age_in_day = age_in_hour // 24
+		if age_in_day < 7:
+			return str(age_in_day) + "d"
+		age_in_week = age_in_day // 7
+		#if age_in_day < 31:
+		return str(age_in_week) + "w"
+
+		"""
+		age_in_month = int(age_in_day / 30.4)
+		if age_in_month < 12:
+			return str(age_in_month) + "mo"
+		age_in_year = int(age_in_day / 365.24)
+		return str(int(age_in_year)) + "y"
+		"""
+
 
 
 class PostLike(HabitModel):

@@ -1,5 +1,5 @@
 from django import template
-from habits.models import CommentLike, PostLike
+from habits.models import CommentLike, PostLike, PostComment
 
 
 
@@ -12,3 +12,6 @@ def is_comment_liked_by_user(comment, user):
 @register.simple_tag
 def is_post_liked_by_user(post, user):
 	return PostLike.objects.filter(user=user, post=post).exists()
+
+	
+
