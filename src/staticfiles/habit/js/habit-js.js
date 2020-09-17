@@ -4,14 +4,14 @@
 "use strict";
 document.addEventListener('DOMContentLoaded', init, false);
 
-function addChild(pk) {
+function addChild(id) {
 	//
-	if(document.getElementById(pk).style.display == 'none'){
-		alert( 'show reply box' + pk );
-		document.getElementById(pk).style.display = 'block';
+	if(document.getElementById(id).style.display == 'none'){
+		alert( 'show reply box' + id );
+		document.getElementById(id).style.display = 'block';
 	}else{
-		alert( 'hide reply box' + pk );
-		document.getElementById(pk).style.display = 'none';
+		alert( 'hide reply box' + id );
+		document.getElementById(id).style.display = 'none';
 	}
 	//alert( 'Javascript click is doing stuff!!!!' );
 }
@@ -53,10 +53,10 @@ $(document).ready(
             function LikePost(data, jqXHR) {
                 var data = $.parseJSON(data)
                 if (data['liked']) {
-                	document.getElementById('like-btn-txt').innerHTML = 'Like';
+                	document.getElementById('like-btn-txt').innerHTML = 'unlike';
                 	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
                 } else {
-                	document.getElementById('like-btn-txt').innerHTML = 'Unlike';
+                	document.getElementById('like-btn-txt').innerHTML = 'like';
                 	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
                 }
             }
@@ -81,11 +81,23 @@ $(document).ready(
         function LikeComment(data, jqXHR) {
             var data = $.parseJSON(data)
             if (data['liked']) {
-            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'Like';
-            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
+            	alert("it has been liked")
+            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'unlike';
+            	document.getElementById(data['total_comment_likes_id']).style.display = 'inline-block';
+
+            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'] + " likes";
             } else {
-            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'Unlike';
-            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
+            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'like';
+            	if(data['new_total_comment_likes'] > 0){
+            		alert("hi");
+            		alert(document.getElementById(data['total_comment_likes_id']).style.display);
+            		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes']+ " likes";	
+            	} else {
+            		alert(data['total_comment_likes_id']);
+            		document.getElementById(data['total_comment_likes_id']).style.display = 'none';
+            		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
+            	}
+            	
             }
         }
     });

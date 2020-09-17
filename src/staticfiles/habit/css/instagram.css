@@ -238,6 +238,36 @@ nav {
     margin-left: 2rem;
 }
 
+
+.like-btn, .reply-btn {
+    font-size: 1rem;
+    line-height: 1.8;
+    border: 0.1rem solid #dbdbdb;
+    border-radius: 0.3rem;
+    padding: 0 1rem;
+    margin-left: 0.2rem;
+}
+
+.reply-btn {
+    margin-left: 2rem;
+    border: none;
+}
+
+.comment-like-total {
+    margin-left: 2rem;
+    padding: 0 1rem;
+    display: inline-block;
+}
+
+.comment {
+    font-size: 1rem;
+    margin-left: 2rem;
+}
+
+.subcomment {
+    margin-left: 5rem;
+}
+
 .profile-settings-btn {
     font-size: 2rem;
     margin-left: 1rem;

@@ -46,6 +46,8 @@ def PostLikeToggle(request):
 	new_total_post_likes = PostLike.get_post_total_likes(post)
 	if new_total_post_likes == 0:
 		new_total_post_likes = ''
+
+	_liked = not _liked
 	return JsonResponse({	'liked':_liked,
 							'new_total_post_likes': new_total_post_likes
 						})
@@ -76,6 +78,8 @@ def CommentLikeToggle(request):
 
 	comment_like_button_text_id = "" + comment_id + "-like-btn-txt"
 	total_comment_likes_id = "" + comment_id + "-total-comment-likes"
+
+	_liked = not _liked
 	print("comment like button text id is: " + comment_like_button_text_id)
 	return JsonResponse({	'liked': _liked,
 							'new_total_comment_likes': new_total_comment_likes,
