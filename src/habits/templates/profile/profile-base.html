@@ -1,4 +1,5 @@
 {% load static %}
+{% load habit_tags %}
 
 <!DOCTYPE>
 <header>
@@ -33,7 +34,13 @@
 
 				<h1 class="profile-user-name">{{ profile_user.username }}</h1>
 
-				<button class="btn profile-edit-btn">Edit Profile</button>
+				{% is_this_owned_by_user post.user user as owned_by_user %}
+
+				{% if owned_by_user %}
+					<button class="btn profile-edit-btn">Edit Profile</button>
+				{% else %}
+					<button class="btn profile-follow-btn">Follow</button>
+				{% endif %}
 
 				<button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 

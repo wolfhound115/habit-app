@@ -62,6 +62,31 @@ $(document).ready(
             }
         });
 
+	$('#post-like-btn').click(function () {
+        $.ajax({
+	        type: 'POST',
+            url: $(this).attr("data-url"),
+            data: {
+                'post_id': $(this).attr("data-post-id"),
+                //'total_post_likes': $("#total-post-likes").attr("data-total-post-likes"),
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: LikePost,
+            dataType: 'html'
+        });
+
+        function LikePost(data, jqXHR) {
+            var data = $.parseJSON(data)
+            if (data['liked']) {
+            	document.getElementById('like-btn-txt').innerHTML = 'unlike';
+            	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
+            } else {
+            	document.getElementById('like-btn-txt').innerHTML = 'like';
+            	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
+            }
+        }
+    });
+
 
 	$('.comment-like-btn').click(function () {
 		alert($(this).attr('id'));
@@ -71,7 +96,6 @@ $(document).ready(
             url: $(this).attr("data-url"),
             data: {
                 'comment_id': $(this).attr("data-comment-id"),
-                //'total_post_likes': $("#total-post-likes").attr("data-total-post-likes"),
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
             },
             success: LikeComment,

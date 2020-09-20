@@ -31,6 +31,8 @@
 				</button>
 
 
+
+
 				<span id="total-post-likes">
 				{% if post.post_likes.all %}
 					{{ post.post_likes.all|length }}
@@ -44,13 +46,14 @@
 
 			</div>
 
+			<!--
 
 			<button class="btn like-btn" id="about-btn"> about btn </button>
 
 			<button id="go">Say hello</button>
 
 			<button id="button" >DOM button</button>
-
+			-->
 
 
 
@@ -130,7 +133,7 @@
 								
 								{% csrf_token %}
 		    					
-		    					<input name="comment">
+		    					<input name="comment" class="comment-box">
 		    					<input name="parent" type="hidden" value="{{ c.pk }}" >
 		    					<button class="btn post-comment-btn	" type='submit'>Post</button>
 							</form>

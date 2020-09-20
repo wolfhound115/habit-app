@@ -229,7 +229,8 @@ nav {
     font-weight: 300;
 }
 
-.profile-edit-btn {
+.profile-edit-btn,
+.profile-follow-btn {
     font-size: 1.4rem;
     line-height: 1.8;
     border: 0.1rem solid #dbdbdb;
@@ -257,6 +258,11 @@ nav {
     margin-left: 2rem;
     padding: 0 1rem;
     display: inline-block;
+}
+
+.comment-box {
+    border: none;
+    margin-left: 2rem;
 }
 
 .comment {
@@ -298,7 +304,8 @@ nav {
 
 .profile-real-name,
 .profile-stat-count,
-.profile-edit-btn {
+.profile-edit-btn,
+.profile-follow-btn {
     font-weight: 600;
 }
 
@@ -439,14 +446,16 @@ nav {
         font-size: 2.2rem;
     }
 
-    .profile-edit-btn {
+    .profile-edit-btn,
+    .profile-follow-btn {
         order: 1;
         padding: 0;
         text-align: center;
         margin-top: 1rem;
     }
 
-    .profile-edit-btn {
+    .profile-edit-btn,
+    .profile-follow-btn {
         margin-left: 0;
     }
 
@@ -456,6 +465,7 @@ nav {
     }
 
     .profile-edit-btn,
+    .profile-follow-btn,
     .profile-bio,
     .profile-stats {
         flex-basis: 100%;
@@ -589,6 +599,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
         }
 
         .profile-edit-btn,
+        .profile-follow-btn,
         .profile-stats,
         .profile-bio {
             grid-column: 1 / -1;
@@ -596,6 +607,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
         .profile-user-settings,
         .profile-edit-btn,
+        .profile-follow-btn,
         .profile-settings-btn,
         .profile-bio,
         .profile-stats {
