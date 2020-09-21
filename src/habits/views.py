@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 
 from .models import HabitPost, HabitTrack, HabitModel, HabitEvent, CommentLike, PostLike, PostComment
 from .forms import HabitPostModelForm, HabitTrackModelForm, PostCommentModelForm
-from profiles.models import Profile
+#from profiles.models import Profile
 from django.conf import settings
 
 from datetime import date

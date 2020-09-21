@@ -34,13 +34,19 @@
 
 				<h1 class="profile-user-name">{{ profile_user.username }}</h1>
 
-				{% is_this_owned_by_user post.user user as owned_by_user %}
+				{% is_this_owned_by_user profile_user user as owned_by_user %}
+				{% is_profile_followed_by_user profile_user user as user_follows_profile %}
+				{% is_user_followed_by_profile_user profile_user user as user_followed_by_profile_user %}
 
 				{% if owned_by_user %}
 					<button class="btn profile-edit-btn">Edit Profile</button>
-				{% else %}
-					<button class="btn profile-follow-btn">Follow</button>
+				{% elif user_follows_profile %}
+					<button class="btn profile-follow-btn">Followed</button>
+				{% elif user_followed_by_profile_user %}
+					<button class="btn profile-follow-btn">Follow back</button>
 				{% endif %}
+
+
 
 				<button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 
