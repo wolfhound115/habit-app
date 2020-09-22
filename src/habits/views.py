@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 
 from .models import HabitPost, HabitTrack, HabitModel, HabitEvent, CommentLike, PostLike, PostComment
 from .forms import HabitPostModelForm, HabitTrackModelForm, PostCommentModelForm
+from profiles.models import ProfileFollow
 #from profiles.models import Profile
 from django.conf import settings
 
@@ -20,7 +21,40 @@ from django.urls import reverse
 # POST -> Create/Update/Delete
 
 #CREATE
-User = settings.AUTH_USER_MODEL
+#User = settings.AUTH_USER_MODEL
+
+def ProfileFollowToggle(request):
+	user = request.user
+	print("Profile Follow Toggle")
+	if request.method == 'POST':
+		profile_user_id = request.POST['profile_user_id'] #we get this post_id from our AJAX/Jquery
+		profile_user = get_object_or_404(get_user_model(), id=profile_user_id)
+
+		profile = profile_user.user_profile
+
+		profile.followers.filter(follower=user.user_profile).exists()
+		print("pre _followed")
+		_followed = profile.followers.filter(follower=user.user_profile).exists() # return True/False
+		print(_followed)
+		if _followed:
+			existing_profile_follow = profile.followers.filter(follower=user.user_profile)
+
+			existing_profile_follow.delete()
+			print("removed follow by " + user.__str__() + " on account " + profile_user.__str__())
+		else:
+			print("else")
+			new_profile_follow = profile.followers.create(follower=user.user_profile)
+			profile.followers.add(new_profile_follow)
+			print("added follow by " + user.__str__() + " on account " + profile_user.__str__())
+	print("finished conditionals in ProfileFollowToggle ")
+	new_total_followers = ProfileFollow.get_profile_total_followers(profile)
+	#if new_total_post_likes == 0:
+	#	new_total_post_likes = ''
+
+	_followed = not _followed
+	return JsonResponse({	'followed': _followed,
+							'new_total_followers': new_total_followers,
+						})
 
 
 def PostLikeToggle(request):
@@ -48,7 +82,7 @@ def PostLikeToggle(request):
 		new_total_post_likes = ''
 
 	_liked = not _liked
-	return JsonResponse({	'liked':_liked,
+	return JsonResponse({	'liked': _liked,
 							'new_total_post_likes': new_total_post_likes
 						})
 
@@ -140,6 +174,9 @@ def generate_profile_context(request, url_username):
 	profile_url = profile_user.get_profile_url()
 	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
 
+	followers_count = ProfileFollow.get_profile_total_followers(profile_user.user_profile) + 200
+	following_count = ProfileFollow.get_profile_total_followees(profile_user.user_profile) + 200
+
 
 
 	if request.user == profile_user:
@@ -155,6 +192,8 @@ def generate_profile_context(request, url_username):
 	     		'overall_longest_streak': overall_longest_streak,
 	     		'new_post_url': new_post_url,
 	     		'checkins_expected': checkins_expected,
+	     		'following_count': following_count,
+	     		'followers_count': followers_count,
 
 	}
 	print(context)

@@ -41,9 +41,11 @@
 				{% if owned_by_user %}
 					<button class="btn profile-edit-btn">Edit Profile</button>
 				{% elif user_follows_profile %}
-					<button class="btn profile-follow-btn">Followed</button>
+					<button class="btn profile-follow-btn profile-followed" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Followed</button>
 				{% elif user_followed_by_profile_user %}
 					<button class="btn profile-follow-btn">Follow back</button>
+				{% else %}
+					<button class="btn profile-follow-btn" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Follow</button>
 				{% endif %}
 
 
@@ -56,8 +58,8 @@
 
 				<ul>
 					<li><span class="profile-stat-count">{{ total_posts_made }}</span> posts</li>
-					<li><span class="profile-stat-count">188</span> followers</li>
-					<li><span class="profile-stat-count">206</span> following</li>
+					<li><span class="profile-stat-count" id="followers-count">{{ followers_count }}</span> followers</li>
+					<li><span class="profile-stat-count" id="following-count">{{ following_count }}</span> following</li>
 				</ul>
 				{% if checkins_expected is not None %}
 				<ul>

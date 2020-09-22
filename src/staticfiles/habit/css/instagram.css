@@ -309,6 +309,10 @@ nav {
     font-weight: 600;
 }
 
+.profile-follow-btn:hover {
+    content: "Unfollow";
+}
+
 
 
 

@@ -31,6 +31,9 @@ class ProfileFollow(models.Model):
 	followee = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="followers")
 	timestamp = models.DateTimeField(auto_now_add=True, blank=True)
 
+	def __str__(self):
+		return self.follower.__str__() + " followed " + self.followee.__str__()
+
 	class Meta:
 		ordering = ['timestamp'] #the order of these is the order that comments will be sorted by
 

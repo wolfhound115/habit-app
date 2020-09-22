@@ -2,7 +2,7 @@
 
 
 "use strict";
-document.addEventListener('DOMContentLoaded', init, false);
+//document.addEventListener('DOMContentLoaded', init, false);
 
 function addChild(id) {
 	//
@@ -62,31 +62,42 @@ $(document).ready(
             }
         });
 
-	$('#post-like-btn').click(function () {
+	$('#profile-follow-btn').click(function () {
         $.ajax({
 	        type: 'POST',
             url: $(this).attr("data-url"),
             data: {
-                'post_id': $(this).attr("data-post-id"),
+                'profile_user_id': $(this).attr("data-profile-user-id"),
                 //'total_post_likes': $("#total-post-likes").attr("data-total-post-likes"),
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
             },
-            success: LikePost,
+            success: FollowProfile,
             dataType: 'html'
         });
 
-        function LikePost(data, jqXHR) {
+        function FollowProfile(data, jqXHR) {
             var data = $.parseJSON(data)
-            if (data['liked']) {
-            	document.getElementById('like-btn-txt').innerHTML = 'unlike';
-            	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
+            if (data['followed']) {
+            	document.getElementById('profile-follow-btn').innerHTML = 'Followed';
+            	document.getElementById("followers-count").innerHTML = data['new_total_followers'];
             } else {
-            	document.getElementById('like-btn-txt').innerHTML = 'like';
-            	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
+            	document.getElementById('profile-follow-btn').innerHTML = 'Follow';
+            	document.getElementById("followers-count").innerHTML = data['new_total_followers'];
             }
         }
     });
+/*
+   	$(function(){
+	  	var prev;    
 
+	  	$('.profile-followed').hover(function(){
+	 		prev = $(this).text();
+	    	$(this).text("Unfollow");
+	  	}, function(){
+	      	$(this).text(prev)
+	  	});
+	})
+*/
 
 	$('.comment-like-btn').click(function () {
 		alert($(this).attr('id'));
@@ -128,7 +139,7 @@ $(document).ready(
 });
 
 
-
+/*
 function init(){
   function message () {
     alert("Hello!");
@@ -136,3 +147,4 @@ function init(){
   var button = document.getElementById('button');
   button.addEventListener('click', message, true);
 }
+*/

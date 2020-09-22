@@ -228,8 +228,6 @@ class PostComment(HabitModel):
 		if self.parent is not None:
 			s += " REPLY TO " + self.parent.__str__()
 		s += " " + self.comment.__str__()
-
-
 		return s
 
 	def get_age(self):
