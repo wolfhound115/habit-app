@@ -35,6 +35,9 @@ from .views import (
 
 #we are mapping URLs to View functions
 
+from django.views.generic.base import RedirectView
+
+
 
 urlpatterns = [
     path('', home_page, name='home'),
@@ -46,7 +49,12 @@ urlpatterns = [
     path('contact/', contact_page),
     path('admin/', admin.site.urls),
 
+    #supposed to fix Chrome favicon bug
+    path('favicon.ico/', RedirectView.as_view(url='/static/habit/images/logos/favicon.ico')),
+
 ]
+
+
 
 
 # MANDATORY for using django-recurrence

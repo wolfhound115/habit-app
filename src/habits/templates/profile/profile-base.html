@@ -4,6 +4,9 @@
 <!DOCTYPE>
 <header>
 	
+	<link rel="shortcut icon" href="{% static '/habit/images/logos/favicon.ico' %}">
+	
+
 
 	<!-- this gives us the fonts and the like, comment characters -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,12 +16,13 @@
 	<link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
 	<script type="text/javascript" src="{% static '/habit/js/jquery.js' %}"></script>
 	<script src="{% static '/habit/js/habit-js.js' %}"></script>
-
-
-	
-	{{ post.image }}
-
-
+	<div class="top-nav-bar">
+		<div class="container">
+			<a href="{% url 'home' %}"><img src="{% static '/habit/images/logos/logo_grey.png' %}" width="75px" height="75px" ></a>
+		</div>
+	</div>
+			
+		</div>
 	<div class="container">
 
 

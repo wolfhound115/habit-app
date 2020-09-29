@@ -112,6 +112,8 @@ img {
 }
 
 /*nav section from https://www.bypeople.com/css-photography-app/ */
+
+/* not sure if this does anything on the first thing here */
 nav {
   display: inline-flex;
 }
@@ -130,6 +132,13 @@ nav {
   color: #999;
   border-bottom: 0.2rem solid #999;
 }
+
+.top-nav-bar {
+    border-bottom:1px solid gray;
+
+}
+
+
 
 
 
@@ -327,10 +336,16 @@ nav {
 
 .gallery-item {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+left: 0;
+    top: 0;
     flex: 1 0 22rem;
     margin: 1rem;
     color: #fff;
     cursor: pointer;
+    object-fit: cover;
 }
 
 .gallery-item:hover .gallery-item-info,
@@ -347,6 +362,7 @@ nav {
 
 .gallery-item-info {
     display: none;
+    z-index: 5;
 }
 
 .gallery-item-info li {
@@ -356,7 +372,8 @@ nav {
 }
 
 .gallery-item-likes {
-    margin-right: 2.2rem;
+    
+    position: center;
     width: 80%;
     text-align: center;
 }
@@ -378,6 +395,7 @@ nav {
     width: 100%;
     height: auto;
     object-fit: cover;
+    z-index: 3;
 }
 
 
@@ -567,8 +585,34 @@ Remove or comment-out the code block below to see how the browser will fall-back
     .gallery-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(22rem, 1fr));
+        grid-template-rows: 1fr;
         grid-gap: 2rem;
     }
+.gallery-item::before {
+    position: relative;
+  content: "";
+  display: block;
+  height: 0;
+  width: 0;
+  padding-bottom: 100%;
+  left: 0;
+    top: 0;
+  z-index: 2;
+}
+
+
+.square {
+    position:relative;
+  height: 285px;
+  width: 285px;
+  background-color: #555;
+  left: 0;
+    top: 0;
+  z-index: 0;
+}
+
+
+
 
     .gallery-feed {
         display: grid;

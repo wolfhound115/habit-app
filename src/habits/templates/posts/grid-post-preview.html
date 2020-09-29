@@ -5,7 +5,9 @@
 
 
 <a href="{{ habit_post.get_absolute_url }}">
-	<div class="gallery-item" tabindex="0" height="300">
+
+
+	<div class="gallery-item" tabindex="0" >
 
 		{% if habit_post.image %}
 
@@ -28,11 +30,14 @@
 
 
 			<ul>
+				<span>
 				<li class="gallery-item-likes"><span class="visually-hidden"></span>{{ habit_post.title }}</li>
-				<div></div>
+				
 				<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56 <span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
+				</span>
 			</ul>
 
 		</div>
+	</div>
 	</div>
 </a>
