@@ -150,9 +150,9 @@ nav {
 }
 
 
-.link-simple, .link-simple:link, .link-simple:visted {
+.link-simple, .link-simple:link, .link-simple:visited {
     color: black;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .link-simple:hover, .link-simple:active {
@@ -160,6 +160,24 @@ nav {
     color: black;
 }
 
+
+
+
+/* fix recurrence form formatting */
+label::after {
+    content: '\A';
+    white-space: pre;
+}
+
+/*
+button, input[type="button"], input[type="file"] { 
+    color:#050; 
+    font: bold 84% 'trebuchet ms',helvetica,sans-serif; 
+    background-color:#fed; 
+    border:1px solid; 
+    border-color: #696 #363 #363 #696; 
+}
+*/
 
 
 
@@ -258,6 +276,7 @@ nav {
 }
 
 .profile-edit-btn,
+.submit-form-btn,
 .profile-follow-btn {
     font-size: 1.4rem;
     line-height: 1.8;
@@ -266,9 +285,13 @@ nav {
     padding: 0 2.4rem;
     margin-left: 2rem;
 }
+.submit-form-btn {
+    margin-left: 0rem;
+    display: block;
+}
 
 
-.like-btn, .reply-btn, .post-comment-btn {
+.like-btn, .reply-btn, .post-comment-btn{
     font-size: 1rem;
     line-height: 1.8;
     border: 0.1rem solid #dbdbdb;
@@ -300,12 +323,8 @@ nav {
 
 .subcomment {
     margin-left: 5rem;
+    font-size: 1rem;
 }
-
-
-
-
-
 
 .profile-settings-btn {
     font-size: 2rem;
@@ -338,6 +357,7 @@ nav {
 .profile-real-name,
 .profile-stat-count,
 .profile-edit-btn,
+.submit-form-btn,
 .profile-follow-btn {
     font-weight: 600;
 }
@@ -494,6 +514,7 @@ left: 0;
     }
 
     .profile-edit-btn,
+    .submit-form-btn,
     .profile-follow-btn {
         order: 1;
         padding: 0;
@@ -502,6 +523,7 @@ left: 0;
     }
 
     .profile-edit-btn,
+    .submit-form-btn,
     .profile-follow-btn {
         margin-left: 0;
     }
@@ -512,6 +534,7 @@ left: 0;
     }
 
     .profile-edit-btn,
+    .submit-form-btn,
     .profile-follow-btn,
     .profile-bio,
     .profile-stats {
@@ -672,6 +695,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
         }
 
         .profile-edit-btn,
+        .submit-form-btn,
         .profile-follow-btn,
         .profile-stats,
         .profile-bio {
@@ -680,6 +704,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
         .profile-user-settings,
         .profile-edit-btn,
+        .submit-form-btn,
         .profile-follow-btn,
         .profile-settings-btn,
         .profile-bio,

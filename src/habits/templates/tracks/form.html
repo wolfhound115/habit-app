@@ -11,13 +11,20 @@
 {% endif %}
 
 
-<form method='POST' action='.' class="post-form" enctype="multipart/form-data"> 
-
+<form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
+<div>
 	{% csrf_token %}
     {{ form.media }}
 
     {{ form.as_p }}
-	<button type='submit'>Create Track</button>
+</div>	
+
+
+<!-- need to format this button to go to the bottom of the recurrence widget -->
+
+	<button type='submit' id='create-track' class='btn new-track-btn submit-form-btn'>Create Track</button>
+
+
 </form>
 </div>
 {% endblock %}
