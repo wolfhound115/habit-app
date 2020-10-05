@@ -144,6 +144,13 @@ nav {
     border-bottom: 0.2rem solid #999 !important;
 }
 
+
+.nav li:hover, .nav li:active {
+    text-decoration: none;
+    color: #262626 !important;
+    border-bottom: 0.2rem solid #262626 !important;
+}
+
 .top-nav-bar {
     border-bottom:1px solid gray;
 
