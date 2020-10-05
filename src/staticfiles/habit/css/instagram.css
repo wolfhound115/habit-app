@@ -20,13 +20,22 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
     box-sizing: border-box;
 }
 
-body {
+
+
+
+body, h1{
     font-family: "Open Sans", Arial, sans-serif;
-    min-height: 100vh;
     background-color: #fafafa;
     color: #262626;
+
+}
+
+body {
+    min-height: 100vh;
     padding-bottom: 3rem;
 }
+
+
 
 img {
     display: block;
@@ -97,6 +106,7 @@ img {
     color: inherit;
     padding: 0;
     cursor: pointer;
+
 }
 
 .btn:focus {
@@ -126,11 +136,12 @@ nav {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   color: #888;
+  list-style-type: none;
 }
 
 .nav li:hover, .nav li:nth-child(1)  { 
-  color: #999;
-  border-bottom: 0.2rem solid #999;
+    color: #999 !important;
+    border-bottom: 0.2rem solid #999 !important;
 }
 
 .top-nav-bar {
@@ -139,7 +150,15 @@ nav {
 }
 
 
+.link-simple, .link-simple:link, .link-simple:visted {
+    color: black;
+    text-decoration: underline;
+}
 
+.link-simple:hover, .link-simple:active {
+    text-decoration: underline;
+    color: black;
+}
 
 
 
@@ -283,6 +302,11 @@ nav {
     margin-left: 5rem;
 }
 
+
+
+
+
+
 .profile-settings-btn {
     font-size: 2rem;
     margin-left: 1rem;
@@ -346,6 +370,7 @@ left: 0;
     color: #fff;
     cursor: pointer;
     object-fit: cover;
+    background-color: #fff;
 }
 
 .gallery-item:hover .gallery-item-info,
@@ -605,7 +630,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
     position:relative;
   height: 285px;
   width: 285px;
-  background-color: #555;
+  background-color: #000;
   left: 0;
     top: 0;
   z-index: 0;

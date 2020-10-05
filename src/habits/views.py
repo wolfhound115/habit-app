@@ -23,6 +23,86 @@ from django.urls import reverse
 #CREATE
 #User = settings.AUTH_USER_MODEL
 
+
+def generate_profile_context(request, url_username):
+	print("url username to generate profile context is:")
+	print(url_username)
+	print("*******")
+
+	new_post_url = reverse('new-post')
+	profile_user = get_user_model().objects.filter(username=url_username).first()
+	profile_url = profile_user.get_profile_url()
+	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
+
+	followers_count = ProfileFollow.get_profile_total_followers(profile_user.user_profile) + 200
+	following_count = ProfileFollow.get_profile_total_followees(profile_user.user_profile) + 200
+
+
+
+	if request.user == profile_user:
+		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
+
+	else:
+		checkins_expected = None
+
+	context = { 'profile_user': profile_user,
+				'profile_url': profile_url,
+		     	'total_posts_made': total_posts_made,
+	     		'total_posts_missed': total_posts_missed,
+	     		'overall_longest_streak': overall_longest_streak,
+	     		'new_post_url': new_post_url,
+	     		'checkins_expected': checkins_expected,
+	     		'following_count': following_count,
+	     		'followers_count': followers_count,
+
+	}
+	print(context)
+	return context
+
+def generate_track_context(request, url_slug, url_username):
+	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first() #TODO change to get()
+
+
+	track_desc = track.description
+	qs = HabitPost.objects.filter(user__username=url_username, track=track)
+	track_name = track.track_name
+	track_url = track.get_absolute_url()
+	streak_this_track, longest_streak_this_track = track.get_streaks()
+	num_posts_made = track.get_num_posts_made()
+	num_posts_missed = track.get_num_posts_missed()
+	num_posts_expected = track.get_num_posts_expected()
+
+	context = { 'object_list': qs,
+				'streak_this_track': streak_this_track,
+	     		'longest_streak_this_track': longest_streak_this_track,
+	     		'num_posts_made': num_posts_made,
+	     		'num_posts_missed': num_posts_missed,
+	     		'num_posts_expected': num_posts_expected,
+	     		'track_url': track_url,
+	     		'track_name': track_name,
+	     		'track_desc': track_desc
+
+	}
+	print(context)
+	return context
+
+
+def generate_all_posts_context(request, url_username):
+	qs = HabitPost.objects.filter(user__username=url_username)
+	context = { 'object_list': qs,
+	}
+	print("context", context)
+	return context
+
+def generate_all_tracks_context(request, url_username):
+	qs = HabitTrack.objects.filter(user__username=url_username)
+	context = { 'object_list': qs,
+	}
+	print("context", context)
+	return context
+
+
+
 def ProfileFollowToggle(request):
 	user = request.user
 	print("Profile Follow Toggle")
@@ -162,84 +242,19 @@ def habit_track_create_view(request):
 
 		return HttpResponseRedirect(request.path)
 
+
+	#todo: need to make sure only logged in users can see this page
+	profile_context = generate_profile_context(request, request.user.username)
+	print(profile_context)
 	template_name = 'tracks/form.html'
-	context = {'form': form}
+	context = {	'form': form,
+				'create_track': '1',
+				**profile_context
+	}
 	return render(request, template_name, context)
 
 #RETRIEVE
-def generate_profile_context(request, url_username):
 
-	new_post_url = reverse('new-post')
-	profile_user = get_user_model().objects.filter(username=url_username).first()
-	profile_url = profile_user.get_profile_url()
-	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
-
-	followers_count = ProfileFollow.get_profile_total_followers(profile_user.user_profile) + 200
-	following_count = ProfileFollow.get_profile_total_followees(profile_user.user_profile) + 200
-
-
-
-	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
-
-	else:
-		checkins_expected = None
-
-	context = { 'profile_user': profile_user,
-				'profile_url': profile_url,
-		     	'total_posts_made': total_posts_made,
-	     		'total_posts_missed': total_posts_missed,
-	     		'overall_longest_streak': overall_longest_streak,
-	     		'new_post_url': new_post_url,
-	     		'checkins_expected': checkins_expected,
-	     		'following_count': following_count,
-	     		'followers_count': followers_count,
-
-	}
-	print(context)
-	return context
-
-def generate_track_context(request, url_slug, url_username):
-	track = HabitTrack.objects.filter(user__username=url_username, slug=url_slug).first() #TODO change to get()
-
-
-	track_desc = track.description
-	qs = HabitPost.objects.filter(user__username=url_username, track=track)
-	track_name = track.track_name
-	track_url = track.get_absolute_url()
-	streak_this_track, longest_streak_this_track = track.get_streaks()
-	num_posts_made = track.get_num_posts_made()
-	num_posts_missed = track.get_num_posts_missed()
-	num_posts_expected = track.get_num_posts_expected()
-
-	context = { 'object_list': qs,
-				'streak_this_track': streak_this_track,
-	     		'longest_streak_this_track': longest_streak_this_track,
-	     		'num_posts_made': num_posts_made,
-	     		'num_posts_missed': num_posts_missed,
-	     		'num_posts_expected': num_posts_expected,
-	     		'track_url': track_url,
-	     		'track_name': track_name,
-	     		'track_desc': track_desc
-
-	}
-	print(context)
-	return context
-
-
-def generate_all_posts_context(request, url_username):
-	qs = HabitPost.objects.filter(user__username=url_username)
-	context = { 'object_list': qs,
-	}
-	print("context", context)
-	return context
-
-def generate_all_tracks_context(request, url_username):
-	qs = HabitTrack.objects.filter(user__username=url_username)
-	context = { 'object_list': qs,
-	}
-	print("context", context)
-	return context
 
 def habit_all_posts_list_view(request, url_username):
 	# list out objects

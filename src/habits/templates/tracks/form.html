@@ -1,27 +1,23 @@
-<head>
-<title>Add habit track | Django site admin</title>
 
-
-<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
-<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
-<script type="text/javascript" src="/admin/jsi18n/"></script>
-<script type="text/javascript" src="/static/admin/js/core.js"></script>
-
-</head>
+{% extends "profile/profile-base.html" %}
+{% load habit_tags %}
 
 {% load static %}
 
-{% block content %}
-		
+{% block form-content %}
+<div class="container">
 {% if title %}
 	<h1>{{ title }}</h1>
 {% endif %}
 
+
 <form method='POST' action='.' class="post-form" enctype="multipart/form-data"> 
+
 	{% csrf_token %}
     {{ form.media }}
+
     {{ form.as_p }}
 	<button type='submit'>Create Track</button>
 </form>
-
+</div>
 {% endblock %}

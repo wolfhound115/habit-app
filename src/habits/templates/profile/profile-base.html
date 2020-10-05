@@ -3,7 +3,16 @@
 
 <!DOCTYPE>
 <header>
+
+
+	<!-- this is for the forms to work properly -->
+	<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+	<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+	<script type="text/javascript" src="/admin/jsi18n/"></script>
+	<script type="text/javascript" src="/static/admin/js/core.js"></script>
 	
+
+	<!-- this is just the favicon -->
 	<link rel="shortcut icon" href="{% static '/habit/images/logos/favicon.ico' %}">
 	
 
@@ -16,13 +25,18 @@
 	<link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
 	<script type="text/javascript" src="{% static '/habit/js/jquery.js' %}"></script>
 	<script src="{% static '/habit/js/habit-js.js' %}"></script>
+
+
+
+
+
 	<div class="top-nav-bar">
 		<div class="container">
 			<a href="{% url 'home' %}"><img src="{% static '/habit/images/logos/logo_grey.png' %}" width="75px" height="75px" ></a>
 		</div>
 	</div>
-			
-		</div>
+
+
 	<div class="container">
 
 
@@ -44,6 +58,9 @@
 
 				{% if owned_by_user %}
 					<button class="btn profile-edit-btn">Edit Profile</button>
+					{% if not create_track %}
+					<button class="btn profile-edit-btn new-track-btn" onclick="location.href='{% url 'new-track' %}'" type="button">New Track</button>
+					{% endif %}
 				{% elif user_follows_profile %}
 					<button class="btn profile-follow-btn profile-followed" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Followed</button>
 				{% elif user_followed_by_profile_user %}
@@ -159,6 +176,7 @@
 
 {% block gallery %}
 
-Gallery should be
+{% endblock %}
 
+{% block form-content %}
 {% endblock %}
