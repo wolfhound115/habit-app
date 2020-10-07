@@ -291,7 +291,12 @@ button, input[type="button"], input[type="file"] {
     border: 0.1rem solid #dbdbdb;
     border-radius: 0.3rem;
     padding: 0 2.4rem;
-    margin-left: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.profile-user-name{
+    margin-right: 1rem;
 }
 .submit-form-btn {
     margin-left: 0rem;

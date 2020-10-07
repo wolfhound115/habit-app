@@ -267,7 +267,9 @@ def habit_all_posts_list_view(request, url_username):
 	template_name = 'posts/posts-grid.html'
 	profile_context = generate_profile_context(request, url_username)
 	posts_context = generate_all_posts_context(request, url_username)
+	show_hover_info = "1"
 	context = {	'template_name': template_name,
+				'show_hover_info': show_hover_info,
 				**profile_context, 
 				**posts_context
 				} #merge two context dictionaries
@@ -292,7 +294,10 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 	template_name = 'posts/posts-grid.html'
 	profile_context = generate_profile_context(request, url_username)
 	track_context = generate_track_context(request, url_slug, url_username)
+
+	show_hover_info = "1"
 	context = {	'template_name': template_name,
+				'show_hover_info': show_hover_info,
 				**profile_context, 
 				**track_context
 				} #merge two context dictionaries
@@ -357,7 +362,6 @@ def habit_post_detail_view(request, url_slug, url_username):
 
 
 	user_comment_likes = post.post_likes.filter(id=request.user.id).exists()
-
 	context = { "post": post,
 				"form": form,
 				"post_liked_by_user": post_liked_by_user,
