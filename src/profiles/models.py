@@ -26,13 +26,6 @@ class Profile(models.Model):
 		return self.user.username
 
 
-#basically a static version of the User get_profile_url
-	@staticmethod
-	def get_profile_url(username):
-		return f"/habit/{username}"
-
-
-
 #Need to do blank = something null = something for this eventually to avoid errors
 class ProfileFollow(models.Model):
 	follower = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profiles_followed")
