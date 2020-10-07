@@ -151,10 +151,10 @@
 		<div class="row">
 			<div class="nav">
 		        <ul>
-		          <a href="{{ profile_url }}">
+		          <a href="{{ profile_user.get_profile_url }}">
 		          	<li>Posts</li>
 		          </a>
-		          <a href="{{ profile_url }}/tracks">
+		          <a href="{{ profile_user.get_profile_url }}/tracks">
 		          	<li>Tracks</li>
 		      	  </a>
 		      	  {% if track_url %}
