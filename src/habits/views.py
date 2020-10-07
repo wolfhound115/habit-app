@@ -31,7 +31,6 @@ def generate_profile_context(request, url_username):
 
 	new_post_url = reverse('new-post')
 	profile_user = get_user_model().objects.filter(username=url_username).first()
-	profile_url = profile_user.get_profile_url()
 	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
 
 	followers_count = ProfileFollow.get_profile_total_followers(profile_user.user_profile) + 200
@@ -46,7 +45,6 @@ def generate_profile_context(request, url_username):
 		checkins_expected = None
 
 	context = { 'profile_user': profile_user,
-				'profile_url': profile_url,
 		     	'total_posts_made': total_posts_made,
 	     		'total_posts_missed': total_posts_missed,
 	     		'overall_longest_streak': overall_longest_streak,
@@ -226,7 +224,6 @@ def habit_post_create_view(request):
 	context = {	'form': form,
 				'create_view': '1',
 				**profile_context
-
 
 	}
 	return render(request, template_name, context)

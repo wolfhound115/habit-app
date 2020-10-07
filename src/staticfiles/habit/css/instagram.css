@@ -308,6 +308,10 @@ button, input[type="button"], input[type="file"] {
     margin-left: 0.2rem;
 }
 
+.post-like-btn {
+    margin-left: 1.6rem;
+}
+
 .reply-btn {
     margin-left: 2rem;
     border: none;
@@ -325,13 +329,14 @@ button, input[type="button"], input[type="file"] {
 }
 
 .comment {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-left: 2rem;
 }
 
 .subcomment {
+    font-size: 1.2rem;
     margin-left: 5rem;
-    font-size: 1rem;
+
 }
 
 .profile-settings-btn {
@@ -453,7 +458,6 @@ left: 0;
 
 
 .post-details {
-    padding: 0 1.6rem;
     font-size: 1.6rem;
     font-weight: 300;
 }

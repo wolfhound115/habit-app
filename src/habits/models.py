@@ -162,6 +162,27 @@ class HabitTrack(HabitModel):
 # Do this when implementing CRUD for posts
 # https://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
 
+def get_age_from_timestamp(timestamp):
+
+	age = timezone.now() - timestamp
+	age_in_sec = int(age.total_seconds())
+
+
+	if age_in_sec < 60:
+		return str(int(age_in_sec)) + "s"
+	age_in_min = age_in_sec // 60
+	if age_in_min < 60:
+		return str(age_in_min) + "m"
+	age_in_hour = age_in_min // 60
+	if age_in_hour < 24:
+		return str(age_in_hour) + "h"
+	age_in_day = age_in_hour // 24
+	if age_in_day < 7:
+		return str(age_in_day) + "d"
+	age_in_week = age_in_day // 7
+	#if age_in_day < 31:
+	return str(age_in_week) + "w"
+
 class HabitPost(HabitModel):
 
 	slug = models.SlugField(unique=True)
@@ -196,6 +217,11 @@ class HabitPost(HabitModel):
 
 	def get_delete_url(self):
 		return f"{self.get_absolute_url()}/delete" #not sure if this works
+
+	def get_age(self):
+
+		return get_age_from_timestamp(self.timestamp)
+
 
 
 class HabitEvent(HabitModel):
@@ -232,24 +258,7 @@ class PostComment(HabitModel):
 
 	def get_age(self):
 
-		age = timezone.now() - self.timestamp
-		age_in_sec = int(age.total_seconds())
-
-
-		if age_in_sec < 60:
-			return str(int(age_in_sec)) + "s"
-		age_in_min = age_in_sec // 60
-		if age_in_min < 60:
-			return str(age_in_min) + "m"
-		age_in_hour = age_in_min // 60
-		if age_in_hour < 24:
-			return str(age_in_hour) + "h"
-		age_in_day = age_in_hour // 24
-		if age_in_day < 7:
-			return str(age_in_day) + "d"
-		age_in_week = age_in_day // 7
-		#if age_in_day < 31:
-		return str(age_in_week) + "w"
+		return get_age_from_timestamp(self.timestamp)
 
 		"""
 		age_in_month = int(age_in_day / 30.4)

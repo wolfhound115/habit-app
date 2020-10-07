@@ -2,12 +2,12 @@
 
 {% block content %}
 	
-	<div class='comment'>
+
 		<div>
 				{% for c in post.comments.all %}
 					{% if c.parent is None %}
 						<div class="comment">
-						<p><b><a class="link-simple" href="{% get_profile_url c.user %}">{{ c.user }}</a></b> {{ c.comment }}<span><button class="comment-like-btn like-btn btn" id="{{ c.pk }}" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ c.pk }}">
+						<p><b><a class="link-simple" href="{{ c.user.get_profile_url }}">{{ c.user }}</a></b> {{ c.comment }}<span><button class="comment-like-btn like-btn btn" id="{{ c.pk }}" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ c.pk }}">
 							<div id="{{ c.pk }}-like-btn-txt">
 							{% is_comment_liked_by_user c request.user as user_liked_comment %}
 							{% if user_liked_comment %}
@@ -38,7 +38,7 @@
 							{% for r in c.replies.all %}
 								<div class="subcomment">
 
-								<p><b><a class="link-simple" href="{% get_profile_url r.user %}">{{ r.user }}</a></b> {{ r.comment }}<button class="btn like-btn comment-like-btn" id="{{ r.pk }}-like" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ r.pk }}">
+								<p><b><a class="link-simple" href="{{ r.user.get_profile_url }}">{{ r.user }}</a></b> {{ r.comment }}<button class="btn like-btn comment-like-btn" id="{{ r.pk }}-like" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ r.pk }}">
 								<div id="{{ r.pk }}-like-btn-txt">
 									{% is_comment_liked_by_user r request.user as user_liked_comment %}
 									{% if user_liked_comment %}
@@ -86,7 +86,6 @@
 					{% endif %}
 				{% endfor %}
 			</div>
-	</div>
 
 
 {% endblock %}

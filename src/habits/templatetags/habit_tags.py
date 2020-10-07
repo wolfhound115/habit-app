@@ -52,7 +52,3 @@ def get_likes_formatted(likes):
 		return "1 like"
 	else:
 		return "" + str(likes) + " likes"
-
-@register.simple_tag
-def get_profile_url(username):
-	return Profile.get_profile_url(username)
