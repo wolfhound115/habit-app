@@ -6,10 +6,6 @@
 
 {% block form-content %}
 <div class="container">
-{% if title %}
-	<h1>{{ title }}</h1>
-{% endif %}
-
 
 <form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
 <div>
@@ -22,7 +18,7 @@
 
 <!-- need to format this button to go to the bottom of the recurrence widget -->
 
-	<button type='submit' id='create-track' class='btn new-track-btn submit-form-btn'>Create Track</button>
+	<button type='submit' id='create-track' class='btn submit-form-btn'>Create Track</button>
 
 
 </form>

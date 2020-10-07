@@ -58,7 +58,7 @@
 
 				{% if owned_by_user %}
 					<button class="btn profile-edit-btn">Edit Profile</button>
-					{% if not create_track %}
+					{% if not create_view %}
 					<button class="btn profile-edit-btn new-track-btn" onclick="location.href='{% url 'new-track' %}'" type="button">New Track</button>
 					{% endif %}
 				{% elif user_follows_profile %}

@@ -40,7 +40,7 @@
 				{% endif %}
 				❤️️
 				</span>
-				<div style="color:black">
+				<div style="color:black" cal>
 					<a class="link-simple" href="{{ profile_url }}">{{ profile_user.username }}</a> {{ post.description }}
 				</div>
 
@@ -59,13 +59,13 @@
 
 			<div id="result"></div>
 			
-
-			{% include 'comments/comment-section.html' with blog_post=object detail=True %}
 -->
+			{% include 'comments/comment-section.html' with blog_post=object detail=True %}
 
 
 
 
+<!--
 			<div>
 				{% for c in post.comments.all %}
 					{% if c.parent is None %}
@@ -149,6 +149,8 @@
 					{% endif %}
 				{% endfor %}
 			</div>
+
+		-->
 			<form method='POST' action='.' class="add-comment"> 
 				{% csrf_token %}
     			<input name="comment" class="comment-box">

@@ -1,18 +1,17 @@
-{% extends "base.html" %}
-
-
-{% block content %}
-
-{% if title %}
-	<h1>{{ title }}</h1>
-{% endif %}
-
-<form method='POST' action='.' class="post-form" enctype="multipart/form-data"> 
+{% extends "profile/profile-base.html" %}
+{% load habit_tags %}
+{% block form-content %}
+<div class="container">
+<form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
 		{% csrf_token %}
-
 		{{ form.as_p }}
-		<button type='submit'>Create Post</button>
+		<button type='submit' id='create-post' class='btn submit-form-btn'>Create Post</button>
 </form>
-
-
+</div>
 {% endblock %}
+
+
+
+
+
+

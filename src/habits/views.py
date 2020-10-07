@@ -221,9 +221,14 @@ def habit_post_create_view(request):
 
 		return HttpResponseRedirect(request.path)
 
-
+	profile_context = generate_profile_context(request, request.user.username)
 	template_name = 'posts/form.html'
-	context = {'form': form}
+	context = {	'form': form,
+				'create_view': '1',
+				**profile_context
+
+
+	}
 	return render(request, template_name, context)
 
 def habit_track_create_view(request):
@@ -248,7 +253,7 @@ def habit_track_create_view(request):
 	print(profile_context)
 	template_name = 'tracks/form.html'
 	context = {	'form': form,
-				'create_track': '1',
+				'create_view': '1',
 				**profile_context
 	}
 	return render(request, template_name, context)

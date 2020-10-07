@@ -12,6 +12,8 @@ class User(AbstractUser):
 	def get_profile_url(self):
 		return f"/habit/{self}"
 
+
+
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile", null=True)
 	birthdate = models.DateField(null=True, blank=True)
@@ -22,6 +24,12 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.user.username
+
+
+#basically a static version of the User get_profile_url
+	@staticmethod
+	def get_profile_url(username):
+		return f"/habit/{username}"
 
 
 
