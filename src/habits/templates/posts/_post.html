@@ -1,0 +1,24 @@
+<div class="box">
+  <article class="media">
+    <div class="media-content">
+      <div class="content">
+      	<div class="container">
+
+		<div class="gallery-feed">
+        <p>
+          {{ post.description }}
+
+
+          {% if post.image %}
+<a href="{{ post.get_absolute_url }}">
+			<img src="{{ post.image.url }}" class="gallery-image" alt="Image of post"/>
+
+</a>
+		  {% endif %}
+        </p>
+    </div>
+</div>
+      </div>
+    </div>
+  </article>
+</div>

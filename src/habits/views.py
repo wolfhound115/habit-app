@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
 
 # Create your views here.
@@ -15,6 +15,19 @@ from django.contrib.auth import get_user_model
 
 from django.urls import reverse
 
+from django.views.generic.list import ListView
+
+
+
+from django.views.decorators.http import require_GET, require_POST
+
+from django.http import Http404
+from django.core.paginator import Paginator
+
+
+
+#This is so I can print the CSRF token to verify stuff manually
+from django.middleware.csrf import get_token
 
 # CRUD: CREATE READ UPDATE DELETE
 # GET -> Retrieve/List
@@ -136,6 +149,16 @@ def ProfileFollowToggle(request):
 
 
 def PostLikeToggle(request):
+
+
+	print("POST LIKE TOGGLE TOKEN")
+	print("POST LIKE TOGGLE TOKEN")
+	print("POST LIKE TOGGLE TOKEN")
+
+	print("POST LIKE TOGGLE TOKEN")
+	print(get_token(request))
+
+
 	user = request.user
 	print("PostLikeToggle was used")
 	if request.method == 'POST':
@@ -257,6 +280,32 @@ def habit_track_create_view(request):
 
 #RETRIEVE
 
+class NewsfeedView(ListView):
+    model = HabitPost
+    paginate_by = 5
+    context_object_name = 'posts'
+    template_name = 'newsfeed/newsfeed2.html'
+
+
+
+    #Not sure if this method is needed or not...
+    def get_context_data(self, **kwargs):
+    # Call the base implementation first to get a context
+    	context = super().get_context_data(**kwargs)
+    	print("WE ARE DOING THE GET CONTEXT DATA THING")
+    	print("WE ARE DOING THE GET CONTEXT DATA THING")
+    	print("WE ARE DOING THE GET CONTEXT DATA THING")
+    	print("WE ARE DOING THE GET CONTEXT DATA THING")
+    	print("WE ARE DOING THE GET CONTEXT DATA THING")
+    	print("WE ARE DOING THE GET CONTEXT DATA THING")
+    	print("WE ARE DOING THE GET CONTEXT DATA THING")
+    	print(get_token(self.request))
+    # Add in the publisher
+    	return context
+
+
+
+
 
 def habit_all_posts_list_view(request, url_username):
 	# list out objects
@@ -267,9 +316,7 @@ def habit_all_posts_list_view(request, url_username):
 	template_name = 'posts/posts-grid.html'
 	profile_context = generate_profile_context(request, url_username)
 	posts_context = generate_all_posts_context(request, url_username)
-	show_hover_info = "1"
 	context = {	'template_name': template_name,
-				'show_hover_info': show_hover_info,
 				**profile_context, 
 				**posts_context
 				} #merge two context dictionaries
@@ -291,13 +338,15 @@ def habit_all_tracks_list_view(request, url_username):
 
 def habit_track_detail_grid_view(request, url_slug, url_username):
 
+
+
+	#TODO this should be tracks/tracksgrid but it works fine for now
 	template_name = 'posts/posts-grid.html'
 	profile_context = generate_profile_context(request, url_username)
 	track_context = generate_track_context(request, url_slug, url_username)
 
-	show_hover_info = "1"
+
 	context = {	'template_name': template_name,
-				'show_hover_info': show_hover_info,
 				**profile_context, 
 				**track_context
 				} #merge two context dictionaries
@@ -368,6 +417,65 @@ def habit_post_detail_view(request, url_slug, url_username):
 				**profile_context
 			}
 	return render(request, template_name, context)
+
+
+
+
+
+
+
+
+
+
+"""
+TRYING TO GET THE INFINITE SCROLLING TO WORK WITH SENTINELS THIS TIME
+
+
+"""
+
+
+def is_ajax(request):
+    """
+    This utility function is used, as `request.is_ajax()` is deprecated.
+
+    This implements the previous functionality. Note that you need to
+    attach this header manually if using fetch.
+    """
+    return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+
+
+@require_GET
+def post_list(request):
+    """
+    List view for posts.
+    """
+    all_posts = HabitPost.objects.order_by('-pk').all()
+    paginator = Paginator(all_posts, per_page=2)
+    page_num = int(request.GET.get("page", 1))
+    if page_num > paginator.num_pages:
+        raise Http404
+    posts = paginator.page(page_num)
+    if is_ajax(request):
+        return render(request, 'posts/_posts.html', {'posts': posts})
+    return render(request, 'newsfeed/newsfeed.html', {'posts': posts})
+
+
+@require_POST
+def create_post(request):
+    """
+    Endpoint to create posts
+    """
+    text = request.POST.get("text")
+    if text:
+        post = HabitPost.objects.create(text=request.POST.get("text"))
+    return redirect('post-list')
+
+
+
+
+
+
+
 
 # UPDATE
 

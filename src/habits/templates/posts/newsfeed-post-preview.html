@@ -1,0 +1,58 @@
+{% load static %}
+{% load habit_tags %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
+
+
+<a href="{{ habit_post.get_absolute_url }}">
+
+
+	<div class="gallery-item" tabindex="0" >
+
+		{% if habit_post.image %}
+
+				<img src="{{ habit_post.image.url }}" class="gallery-image" alt="Image of post"/>
+
+
+		{% endif %}
+
+
+		<!-- icon in the top corner of image -->
+
+
+
+
+		
+
+	</div>
+
+
+</a>
+<div class="post-details">
+			<button class="like-btn btn post-like-btn" id="{{ post.pk }}" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
+				<div id="like-btn-txt"> 
+					{% is_post_liked_by_user post user as user_liked_post %}
+					{% if user_liked_post %}
+						Unlike
+					{% else %}
+						Like
+					{% endif %}
+				</div>
+			</button>
+			<span id="total-post-likes">
+				{% if post.post_likes.all %}
+					{{ post.post_likes.all|length }}
+				{% else %}
+				{% endif %}
+				❤️️
+			</span>
+			<br>
+			<br>
+			<div style="color:black" class="comment">
+				<p>
+				<b><a class="link-simple" href="{{ profile_user.get_profile_url }}">{{ profile_user.username }}</a></b> {{ post.description }}
+				</p>
+			</div>
+
+		</div>

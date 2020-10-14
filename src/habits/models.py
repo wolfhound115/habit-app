@@ -209,7 +209,10 @@ class HabitPost(HabitModel):
 
 	#this needs to be fixed
 	def get_absolute_url(self):
-		print("/habit/{self.user}/posts/{self.slug}")
+		#print("/habit/{self.user}/posts/{self.slug}")
+		print("getting absolute url for: ")
+		print(self)
+		print(f"{self.user.get_profile_url()}/posts/{self.slug}")
 		return f"{self.user.get_profile_url()}/posts/{self.slug}"
 
 	def get_edit_url(self):

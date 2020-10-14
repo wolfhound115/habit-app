@@ -1,0 +1,93 @@
+
+
+{% load habit_tags %}
+{% load static %}
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css" />
+  <title>infinite scroll</title>
+  <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+
+
+
+
+
+  <!-- this is just the favicon -->
+  <link rel="shortcut icon" href="{% static '/habit/images/logos/favicon.ico' %}">
+  
+
+
+  <!-- this gives us the fonts and the like, comment characters -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+
+  <link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
+  <script type="text/javascript" src="{% static '/habit/js/jquery.js' %}"></script>
+  <script src="{% static '/habit/js/habit-js.js' %}"></script>
+
+
+
+  <script src="{% static '/habit/js/infinite.js' %}"></script>
+
+</head>
+
+
+
+
+
+
+
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-variable">
+        <div class="column is-three-fifths">
+
+          <form method="POST" action="{% url 'create-post' %}">
+            {% csrf_token %}
+            <div class="field">
+              <div class="control">
+                <textarea name="text" class="textarea" placeholder="Write your post here" required></textarea>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <button class="button is-link">Post</button>
+              </div>
+            </div>
+
+          </form>
+
+          <!-- element where scrolling happens -->
+          <div class="posts" id="scroll-element">
+            {% include 'posts/_posts.html' with posts=posts %}
+          </div>
+
+          <!-- bottom sentinel element -->
+          <div id="bottom-sentinel">
+          </div>
+
+        </div>
+
+
+
+        <div class="column">
+        </div>
+      </div>
+
+    </div>
+  </section>
+</body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let bottomSentinel = document.querySelector("#bottom-sentinel");
+    let scrollElement = document.querySelector("#scroll-element");
+    let baseUrl = "{% url 'post-list' %}";
+    attachInfiniteScroll(bottomSentinel, scrollElement, baseUrl);
+  })
+</script>

@@ -14,10 +14,8 @@
 					{% for object in object_list %}
 
 
-						{% include 'tracks/grid-tracks-preview.html' with habit_track=object truncate=True detail=False %} <!-- Created a new variable to pass object in as --> 
+						{% include 'tracks/grid-tracks-preview.html' with habit_track=object truncate=True show_hover_info=True %} <!-- Created a new variable to pass object in as --> 
 
-			likes
-			comments
 					{% endfor %}
 
 

@@ -36,7 +36,8 @@ $(document).ready(
 	});
 
 
-	$('#post-like-btn').click(function () {
+	$('.post-like-btn').click(function () {
+		alert($(this).attr('id'));
             $.ajax({
                 type: 'POST',
 
@@ -62,7 +63,10 @@ $(document).ready(
             }
         });
 
-	$('#profile-follow-btn').click(function () {
+
+
+	//idk why but profile follow button started having CSRF token issues... Changing it from #profile-follow-btn to .profile-follow-btn for consistency in the meantime
+	$('.profile-follow-btn').click(function () {
         $.ajax({
 	        type: 'POST',
             url: $(this).attr("data-url"),
