@@ -29,8 +29,7 @@ $(function() {
 });
 
 
-$(document).ready( 
-	function() {
+$(function() {
 		$("#about-btn").click( function(event) {
     		alert("You clicked the button using JQuery!");
 	});
@@ -54,11 +53,13 @@ $(document).ready(
             function LikePost(data, jqXHR) {
                 var data = $.parseJSON(data)
                 if (data['liked']) {
-                	document.getElementById('like-btn-txt').innerHTML = 'unlike';
-                	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
+                	alert(data['post_like_button_text_id'])
+                	alert(data['total_post_likes_id'])
+                	document.getElementById(data['post_like_button_text_id']).innerHTML = 'unlike';
+                	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
                 } else {
-                	document.getElementById('like-btn-txt').innerHTML = 'like';
-                	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
+                	document.getElementById(data['post_like_button_text_id']).innerHTML = 'like';
+                	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
                 }
             }
         });
@@ -124,13 +125,13 @@ $(document).ready(
             	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'unlike';
             	document.getElementById(data['total_comment_likes_id']).style.display = 'inline-block';
 
-            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'] + " likes";
+            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
             } else {
             	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'like';
             	if(data['new_total_comment_likes'] > 0){
             		alert("hi");
             		alert(document.getElementById(data['total_comment_likes_id']).style.display);
-            		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes']+ " likes";	
+            		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];	
             	} else {
             		alert(data['total_comment_likes_id']);
             		document.getElementById(data['total_comment_likes_id']).style.display = 'none';

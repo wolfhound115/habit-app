@@ -338,10 +338,13 @@ button, input[type="button"], input[type="file"] {
     margin-left: 2rem;
 }
 
-.subcomment {
+.subcomment{
     font-size: 1.2rem;
     margin-left: 5rem;
+}
 
+.reply-to-comment{
+    margin-left: 3rem;
 }
 
 .profile-settings-btn {

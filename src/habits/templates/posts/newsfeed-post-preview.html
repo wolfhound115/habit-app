@@ -31,7 +31,7 @@
 </a>
 <div class="post-details">
 			<button class="like-btn btn post-like-btn" id="{{ post.pk }}" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
-				<div id="like-btn-txt"> 
+				<div id="{{ post.pk }}-like-btn-txt"> 
 					{% is_post_liked_by_user post user as user_liked_post %}
 					{% if user_liked_post %}
 						Unlike
@@ -40,7 +40,7 @@
 					{% endif %}
 				</div>
 			</button>
-			<span id="total-post-likes">
+			<span id="{{ post.pk }}-total-post-likes">
 				{% if post.post_likes.all %}
 					{{ post.post_likes.all|length }}
 				{% else %}

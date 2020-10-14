@@ -29,6 +29,11 @@ from django.core.paginator import Paginator
 #This is so I can print the CSRF token to verify stuff manually
 from django.middleware.csrf import get_token
 
+
+
+
+from .templatetags.habit_tags import get_likes_formatted
+
 # CRUD: CREATE READ UPDATE DELETE
 # GET -> Retrieve/List
 # POST -> Create/Update/Delete
@@ -179,12 +184,21 @@ def PostLikeToggle(request):
 			print("added like by " + user.__str__() + " on post " + post.__str__())
 	print("finished conditionals in postliketoggle ")
 	new_total_post_likes = PostLike.get_post_total_likes(post)
-	if new_total_post_likes == 0:
-		new_total_post_likes = ''
+	#if new_total_post_likes == 0:
+	#	new_total_post_likes = ''
+	new_total_post_likes = get_likes_formatted(new_total_post_likes)
+
+
+	post_like_button_text_id = "" + post_id + "-like-btn-txt"
+	total_post_likes_id = "" + post_id + "-total-post-likes"
+
 
 	_liked = not _liked
 	return JsonResponse({	'liked': _liked,
-							'new_total_post_likes': new_total_post_likes
+							'new_total_post_likes': new_total_post_likes,
+							'post_id': post_id,
+							'post_like_button_text_id': post_like_button_text_id,
+							'total_post_likes_id': total_post_likes_id,
 						})
 
 def CommentLikeToggle(request):
@@ -208,8 +222,9 @@ def CommentLikeToggle(request):
 			print("added like by " + user.__str__() + " on comment " + comment.__str__())
 	print("finished conditionals in commentliketoggle ")
 	new_total_comment_likes = CommentLike.get_comment_total_likes(comment)
-	if new_total_comment_likes == 0:
-		new_total_comment_likes = ''
+	#if new_total_comment_likes == 0:
+	#	new_total_comment_likes = ''
+	new_total_comment_likes = get_likes_formatted(new_total_comment_likes)
 
 	comment_like_button_text_id = "" + comment_id + "-like-btn-txt"
 	total_comment_likes_id = "" + comment_id + "-total-comment-likes"
