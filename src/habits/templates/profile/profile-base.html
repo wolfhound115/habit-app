@@ -1,41 +1,6 @@
-{% load static %}
+{% extends "base/base.html" %}
 {% load habit_tags %}
-
-<!DOCTYPE>
-<header>
-
-
-	<!-- this is for the forms to work properly -->
-	<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
-	<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
-	<script type="text/javascript" src="/admin/jsi18n/"></script>
-	<script type="text/javascript" src="/static/admin/js/core.js"></script>
-	
-
-	<!-- this is just the favicon -->
-	<link rel="shortcut icon" href="{% static '/habit/images/logos/favicon.ico' %}">
-	
-
-
-	<!-- this gives us the fonts and the like, comment characters -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
-
-	<link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
-	<script type="text/javascript" src="{% static '/habit/js/jquery.js' %}"></script>
-	<script src="{% static '/habit/js/habit-js.js' %}"></script>
-
-
-
-
-
-	<div class="top-nav-bar">
-		<div class="container">
-			<a href="{% url 'home' %}"><img src="{% static '/habit/images/logos/logo_grey.png' %}" width="75px" height="75px" ></a>
-		</div>
-	</div>
-
+{% block main_content %}
 
 	<div class="container">
 
@@ -171,7 +136,7 @@
 		</div>
 	</div>
 	<!-- End of container -->
-</header>
+
 
 
 {% block gallery %}
@@ -179,4 +144,6 @@
 {% endblock %}
 
 {% block form-content %}
+{% endblock %}
+
 {% endblock %}

@@ -475,19 +475,6 @@ def post_list(request):
     return render(request, 'newsfeed/newsfeed.html', {'posts': posts})
 
 
-@require_POST
-def create_post(request):
-    """
-    Endpoint to create posts
-    """
-    text = request.POST.get("text")
-    if text:
-        post = HabitPost.objects.create(text=request.POST.get("text"))
-    return redirect('post-list')
-
-
-
-
 
 
 

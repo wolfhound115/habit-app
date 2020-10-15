@@ -1,7 +1,7 @@
-
-
-{% load habit_tags %}
+{% extends "base/base.html" %}
 {% load static %}
+{% load habit_tags %}
+
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8"/>
@@ -30,7 +30,7 @@
 
 
 
-  <script src="{% static '/habit/js/infinite_2.js' %}"></script>
+  
 
 </head>
 
@@ -38,32 +38,14 @@
 
 
 
-
+{% block main_content %}
 
 <body>
   <section class="section">
     <div class="container">
-      <div class="columns is-variable">
-        <div class="column is-three-fifths">
-
-          <form method="POST" action="{% url 'create-post' %}">
-            {% csrf_token %}
-            <div class="field">
-              <div class="control">
-                <textarea name="text" class="textarea" placeholder="Write your post here" required></textarea>
-              </div>
-            </div>
-
-            <div class="field">
-              <div class="control">
-                <button class="button is-link">Post</button>
-              </div>
-            </div>
-
-          </form>
-
           <!-- element where scrolling happens -->
-          <div class="posts" id="scroll-element">
+          <div class="posts gallery-feed" id="scroll-element">
+            {% csrf_token %}
             {% include 'posts/_posts.html' with posts=posts %}
           </div>
 
@@ -71,15 +53,11 @@
           <div id="bottom-sentinel">
           </div>
 
-        </div>
 
 
 
-        <div class="column">
-        </div>
-      </div>
 
-    </div>
+  </div>
   </section>
 </body>
 
@@ -91,3 +69,5 @@
     attachInfiniteScroll(bottomSentinel, scrollElement, baseUrl);
   })
 </script>
+
+{% endblock %}

@@ -13,7 +13,6 @@ from .views import (
     CommentLikeToggle,
     ProfileFollowToggle,
     post_list,
-    create_post
 )
 
 
@@ -26,7 +25,6 @@ urlpatterns = [
 
     #TRYING TO GET INFINITE SCROLLING TO WORK
     path('posts/', post_list, name='post-list'),
-    path('posts/create/', create_post, name='create-post'),
     path('<str:url_username>/', habit_all_posts_list_view),
     path('<str:url_username>/posts/<str:url_slug>/', habit_post_detail_view),
     path('<str:url_username>/posts/<str:url_slug>/edit/', habit_post_update_view),
