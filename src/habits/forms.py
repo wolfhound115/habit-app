@@ -42,7 +42,7 @@ class HabitTrackModelForm(forms.ModelForm):
 class HabitPostModelForm(forms.ModelForm):
 	class Meta:
 		model = HabitPost
-		fields = ['title', 'description', 'image', 'track']
+		fields = ['track', 'title', 'description', 'image']
 
 	def __init__(self, user, *args, **kwargs):
 

@@ -21,7 +21,9 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
 }
 
 
-
+ul{
+    padding-inline-start: 0;
+}
 
 body, h1{
     font-family: "Open Sans", Arial, sans-serif;
@@ -433,8 +435,8 @@ left: 0;
     z-index: 5;
 }
 
-.gallery-item-info li {
-    display: inline-block;
+
+.gallery-item-info{
     font-size: 1.7rem;
     font-weight: 600;
 }
