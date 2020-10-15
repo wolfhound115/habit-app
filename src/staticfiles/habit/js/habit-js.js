@@ -35,7 +35,11 @@ $(function() {
 	});
 
 
-	$('.post-like-btn').click(function () {
+
+
+
+	//doing it this way allows for it to work on newly loaded elements of infinite scroll too
+	$('.container').on('click', '.post-like-btn', function () {
 		alert($(this).attr('id'));
             $.ajax({
                 type: 'POST',

@@ -41,11 +41,7 @@
 				</div>
 			</button>
 			<span id="{{ post.pk }}-total-post-likes">
-				{% if post.post_likes.all %}
-					{{ post.post_likes.all|length }}
-				{% else %}
-				{% endif %}
-				❤️️
+				{% get_likes_formatted post.post_likes.all|length %}
 			</span>
 			<br>
 			<br>

@@ -30,10 +30,9 @@
 				</div>
 				</button>
 				<span id="{{ post.pk }}-total-post-likes">
-				{% if post.post_likes.all %}
+					<div  class="comment-like-total">
 					{% get_likes_formatted post.post_likes.all|length %}
-				{% else %}
-				{% endif %}
+					</div>
 				</span>
 				<br>
 				<br>
@@ -41,7 +40,9 @@
 					<p>
 					<b><a class="link-simple" href="{{ profile_user.get_profile_url }}">{{ profile_user.username }}</a></b> {{ post.description }}
 					</p>
+					{{ post.get_age }}
 				</div>
+
 
 			</div>
 

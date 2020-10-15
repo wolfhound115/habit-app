@@ -336,11 +336,13 @@ button, input[type="button"], input[type="file"] {
 .comment {
     font-size: 1.2rem;
     margin-left: 2rem;
+    font-weight: 300;
 }
 
 .subcomment{
     font-size: 1.2rem;
     margin-left: 5rem;
+    font-weight: 300;
 }
 
 .reply-to-comment{
@@ -466,7 +468,7 @@ left: 0;
 
 
 .post-details {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     font-weight: 300;
 }
 

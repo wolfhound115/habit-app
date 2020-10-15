@@ -465,7 +465,7 @@ def post_list(request):
     List view for posts.
     """
     all_posts = HabitPost.objects.order_by('-pk').all()
-    paginator = Paginator(all_posts, per_page=2)
+    paginator = Paginator(all_posts, per_page=5)
     page_num = int(request.GET.get("page", 1))
     if page_num > paginator.num_pages:
         raise Http404
