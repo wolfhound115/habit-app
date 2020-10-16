@@ -26,8 +26,8 @@
 										style="display: none"
 									{% endif %}
 									id="{{ c.pk }}-total-comment-likes">
-										
-										{% get_likes_formatted c.comment_likes.all|length %}
+									
+										{{ c.get_comment_likes_formatted }}
 										
 									</span>
 									<button class="btn reply-btn" type="reply-button" value ="Add Child" onclick="addChild('{{ c.pk }}-reply');">Reply</button>
@@ -59,7 +59,7 @@
 									{% endif %}
 									id="{{ r.pk }}-total-comment-likes">
 										
-										{% get_likes_formatted r.comment_likes.all|length %}
+										{{ r.get_comment_likes_formatted }}
 										
 									
 									</span>

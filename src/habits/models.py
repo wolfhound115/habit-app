@@ -25,6 +25,14 @@ from datetime import date
 User = settings.AUTH_USER_MODEL
 
 
+def get_likes_formatted(likes):
+	if not likes:
+		return ""
+	elif likes == 1:
+		return "1 like"
+	else:
+		return "" + str(likes) + " likes"
+
 def slug_save(obj):
 	""" A function to generate a 5 character slug and see if it has been used and contains naughty words."""
 	if not obj.slug: # if there isn't a slug
@@ -162,26 +170,34 @@ class HabitTrack(HabitModel):
 # Do this when implementing CRUD for posts
 # https://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
 
-def get_age_from_timestamp(timestamp):
+def get_age_from_timestamp(timestamp, shorten):
+	short_form, long_form = 0, 1
+	if shorten:
+		short_form, long_form = 1, 0
 
 	age = timezone.now() - timestamp
 	age_in_sec = int(age.total_seconds())
 
+	def plurify(val):
+		if val == 1:
+			return ""
+		else:
+			return "S"
 
 	if age_in_sec < 60:
-		return str(int(age_in_sec)) + "s"
+		return str(int(age_in_sec)) + "s"*short_form + (" SECOND" + plurify(age_in_sec) + " AGO")*long_form
 	age_in_min = age_in_sec // 60
 	if age_in_min < 60:
-		return str(age_in_min) + "m"
+		return str(age_in_min) + "m"*short_form + (" MINUTE" + plurify(age_in_min) + " AGO")*long_form
 	age_in_hour = age_in_min // 60
 	if age_in_hour < 24:
-		return str(age_in_hour) + "h"
+		return str(age_in_hour) + "h"*short_form + (" HOUR" + plurify(age_in_hour) + " AGO")*long_form
 	age_in_day = age_in_hour // 24
 	if age_in_day < 7:
-		return str(age_in_day) + "d"
+		return str(age_in_day) + "d"*short_form + (" DAY" + plurify(age_in_day) + " AGO")*long_form
 	age_in_week = age_in_day // 7
 	#if age_in_day < 31:
-	return str(age_in_week) + "w"
+	return str(age_in_week) + "w"*short_form + (" WEEK" + plurify(age_in_week) + " AGO")*long_form
 
 class HabitPost(HabitModel):
 
@@ -223,7 +239,10 @@ class HabitPost(HabitModel):
 
 	def get_age(self):
 
-		return get_age_from_timestamp(self.timestamp)
+		return get_age_from_timestamp(self.timestamp, shorten=False)
+
+	def get_post_likes_formatted(self):
+		return get_likes_formatted(len(self.post_likes.all()))
 
 
 
@@ -261,7 +280,7 @@ class PostComment(HabitModel):
 
 	def get_age(self):
 
-		return get_age_from_timestamp(self.timestamp)
+		return get_age_from_timestamp(self.timestamp, shorten=True)
 
 		"""
 		age_in_month = int(age_in_day / 30.4)
@@ -270,6 +289,10 @@ class PostComment(HabitModel):
 		age_in_year = int(age_in_day / 365.24)
 		return str(int(age_in_year)) + "y"
 		"""
+
+
+	def get_comment_likes_formatted(self):
+		return get_likes_formatted(len(self.comment_likes.all()))
 
 
 
@@ -287,6 +310,8 @@ class PostLike(HabitModel):
 	@staticmethod
 	def get_post_users_who_liked(post):
 		return PostLike.objects.filter(post=post).values_list('user', flat=True)
+
+
 
 
 class CommentLike(HabitModel):

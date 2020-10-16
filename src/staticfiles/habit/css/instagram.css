@@ -100,6 +100,29 @@ img {
     padding: 0 2rem;
 }
 
+.top-nav-box{
+    background-color: #FFFFFF;
+    display:flex;
+    justify-content: space-between;
+    position: relative;
+    height: 54px;
+}
+
+.top-left-logo{
+
+}
+
+.top-right-profile-image img{
+    width: 28px;
+    height: 28px;
+
+}
+
+.top-middle-search-bar{
+    align-self: flex-end;
+
+}
+
 .btn {
     display: inline-block;
     font: inherit;
@@ -637,9 +660,6 @@ Remove or comment-out the code block below to see how the browser will fall-back
       color: #999;
       border-bottom: 0.2rem solid #999;
     }
-
-
-
 
 
     .profile {

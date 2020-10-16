@@ -41,19 +41,23 @@
 				</div>
 			</button>
 			<span id="{{ post.pk }}-total-post-likes">
-				{% get_likes_formatted post.post_likes.all|length %}
+				{{ post.get_post_likes_formatted }}
 			</span>
 			<br>
 			<br>
 			<div style="color:black" class="comment">
 				<p>
-				<b><a class="link-simple" href="{{ profile_user.get_profile_url }}">{{ profile_user.username }}</a></b> {{ post.description }}
+				<b><a class="link-simple" href="{{ habit_post.user.get_profile_url }}">{{ habit_post.user.username }}</a></b> {{ post.description }}
 				</p>
+
 				{{ post.get_age }}
+				<p>
+				<a href="{{ habit_post.get_absolute_url }}">
+				View all 56 comments
+				</a>
+			</p>
 			</div>
-			<a href="{{ habit_post.get_absolute_url }}">
-			View all 56 comments
-			</a>
+
 
 
 		</div>

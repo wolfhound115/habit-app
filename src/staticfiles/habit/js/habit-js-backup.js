@@ -2,7 +2,7 @@
 
 
 "use strict";
-//document.addEventListener('DOMContentLoaded', init, false);
+document.addEventListener('DOMContentLoaded', init, false);
 
 function addChild(pk) {
 	//

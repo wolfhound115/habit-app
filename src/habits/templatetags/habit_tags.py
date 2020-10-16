@@ -39,16 +39,3 @@ def is_user_followed_by_profile_user(profile_user, user):
 	else:
 		return False
 	
-
-@register.simple_tag
-def get_user_profile_url(user):
-	return user.get_profile_url
-
-@register.simple_tag
-def get_likes_formatted(likes):
-	if not likes:
-		return ""
-	elif likes == 1:
-		return "1 like"
-	else:
-		return "" + str(likes) + " likes"

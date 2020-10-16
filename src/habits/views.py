@@ -32,7 +32,7 @@ from django.middleware.csrf import get_token
 
 
 
-from .templatetags.habit_tags import get_likes_formatted
+from .models import get_likes_formatted
 
 # CRUD: CREATE READ UPDATE DELETE
 # GET -> Retrieve/List
@@ -40,6 +40,9 @@ from .templatetags.habit_tags import get_likes_formatted
 
 #CREATE
 #User = settings.AUTH_USER_MODEL
+
+
+
 
 
 def generate_profile_context(request, url_username):

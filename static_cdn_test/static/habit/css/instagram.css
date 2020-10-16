@@ -517,6 +517,12 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 @supports (display: grid) {
 
+    .top-nav-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(22rem, 1fr));
+        grid-gap: 2rem;
+    }
+
 
     /*nav section from https://www.bypeople.com/css-photography-app/ */
     .nav {
