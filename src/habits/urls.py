@@ -38,10 +38,6 @@ urlpatterns = [
     re_path(r'^ajax/profile-follow/$', ProfileFollowToggle,  name='ProfileFollowToggle'),
 
 
-
-
-
-
     
 ]
 

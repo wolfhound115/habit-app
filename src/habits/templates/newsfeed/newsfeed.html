@@ -42,7 +42,7 @@
 
 <body>
   <section class="section">
-    <div class="container">
+    <div class="container infinite-newsfeed-container">
           <!-- element where scrolling happens -->
           <div class="posts gallery-feed" id="scroll-element">
             {% csrf_token %}
@@ -68,6 +68,8 @@
     let baseUrl = "{% url 'post-list' %}";
     attachInfiniteScroll(bottomSentinel, scrollElement, baseUrl);
   })
+
 </script>
+
 
 {% endblock %}

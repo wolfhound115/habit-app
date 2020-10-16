@@ -32,13 +32,13 @@
 	<div class="top-nav-bar">
 		<div class="container top-nav-box">
 			<div class="top-left-logo">
-				<a href="{% url 'home' %}"><img src="{% static '/habit/images/logos/logo_white_long.png' %}" height="50px" ></a>
+				<a href="{% url 'post-list' %}"><img src="{% static '/habit/images/logos/logo_white_long.png' %}" height="50px" ></a>
 			</div>
 			<div class="top-middle-search-bar" font-color="black">
 				Search Bar Goes Here
 			</div>
 			<div class="top-right-profile-image profile-image">
-				<img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+				<a href="{{ user.get_profile_url }}"><img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""></a>
 			</div>
 		</div>
 	</div>
