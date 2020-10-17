@@ -37,8 +37,13 @@
 			<div class="top-middle-search-bar" font-color="black">
 				Search Bar Goes Here
 			</div>
+
 			<div class="top-right-profile-image profile-image">
+				{% if user.is_authenticated %}
 				<a href="{{ user.get_profile_url }}"><img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""></a>
+				{% else %}
+				Register/Log In
+				{% endif %}
 			</div>
 		</div>
 	</div>

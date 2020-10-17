@@ -20,8 +20,13 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
     box-sizing: border-box;
 }
 
+p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 
-ul{
+}
+
+ul {
     padding-inline-start: 0;
 }
 
@@ -37,10 +42,32 @@ body {
     padding-bottom: 3rem;
 }
 
+b {
+    font-weight: 600;
+}
 
 
 img {
     display: block;
+}
+
+.add-comment {
+    display: -webkit-flex;
+    margin-left: 1.6rem;
+}
+
+.post-age {
+    font-size: 1rem !important;
+}
+
+input{
+    -webkit-flex: 1;
+    outline: 0;
+}
+
+.light-grey-link {
+    color: rgb(142,142,142) !important;
+    text-decoration: none !important;
 }
 
 
@@ -347,16 +374,27 @@ button, input[type="button"], input[type="file"] {
 
 
 .like-btn, .reply-btn, .post-comment-btn{
-    font-size: 1rem;
+    font-size: 1.2rem;
     line-height: 1.8;
-    border: 0.1rem solid #dbdbdb;
+    /*border: 0.1rem solid #dbdbdb;*/
     border-radius: 0.3rem;
     padding: 0 1rem;
     margin-left: 0.2rem;
 }
 
+.post-comment-btn{
+    color: rgb(0,149,246);
+    appearance: none;
+    border-image-width: 0;
+}
+
 .post-like-btn {
+    margin-left: -0.4rem;
+}
+
+.post-likes {
     margin-left: 1.6rem;
+    margin-right: 1rem;
 }
 
 .reply-btn {
@@ -365,30 +403,31 @@ button, input[type="button"], input[type="file"] {
 }
 
 .comment-like-total {
-    margin-left: 2rem;
+    margin-left: 1.6rem;
     padding: 0 1rem;
     display: inline-block;
 }
 
 .comment-box {
     border: none;
-    margin-left: 2rem;
+    color: rgb(142,142,142) !important;
+    padding-bottom: 0rem;
 }
 
 .comment {
-    font-size: 1.2rem;
-    margin-left: 2rem;
-    font-weight: 300;
+    font-size: 1.4rem;
+    margin-left: 1.6rem;
+    font-weight: 400;
 }
 
 .subcomment{
-    font-size: 1.2rem;
-    margin-left: 5rem;
-    font-weight: 300;
+    font-size: 1.4rem;
+    margin-left: 4.4rem;
+    font-weight: 400;
 }
 
 .reply-to-comment{
-    margin-left: 3rem;
+
 }
 
 .profile-settings-btn {
@@ -522,6 +561,10 @@ button, input[type="button"], input[type="file"] {
 .post-details {
     font-size: 1.2rem;
     font-weight: 300;
+    border-top: 1px solid rgb(239,239,239);
+    /*border-bottom: 1px solid rgb(239,239,239);*/
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 
@@ -547,7 +590,7 @@ button, input[type="button"], input[type="file"] {
     border: 0.6rem solid #999;
     border-bottom-color: transparent;
     border-radius: 50%;
-    margin: 0 auto;
+    margin: 2rem auto;
     animation: loader 500ms linear infinite;
 }
 
@@ -667,7 +710,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
     .nav ul{
         margin: 0;
-        padding-inline-start: 40px;
+        padding-inline-start: 0px;
         display: inline-flex;
         list-style-type: none;
 
@@ -738,7 +781,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 
 
 
-    .gallery-feed {
+    .gallery-feed, .post-detail-view{
         display: grid;
         grid-template-columns: 1fr;
         grid-gap: 2rem;

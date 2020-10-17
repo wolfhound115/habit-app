@@ -242,8 +242,16 @@ class HabitPost(HabitModel):
 		return get_age_from_timestamp(self.timestamp, shorten=False)
 
 	def get_post_likes_formatted(self):
+		print(self.get_comments_preview())
 		return get_likes_formatted(len(self.post_likes.all()))
 
+
+	#returns the last 2 comments made on the post most recently
+	def get_comments_preview(self):
+		return self.comments.all().order_by('-timestamp')[:2:-1]
+
+	def has_many_comments(self):
+		return len(self.comments.all()) >= 3
 
 
 class HabitEvent(HabitModel):
