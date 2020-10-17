@@ -389,12 +389,11 @@ button, input[type="button"], input[type="file"] {
 }
 
 .post-like-btn {
-    margin-left: -0.4rem;
+    margin-left: 0.6rem;
 }
 
 .post-likes {
     margin-left: 1.6rem;
-    margin-right: 1rem;
 }
 
 .reply-btn {
@@ -412,6 +411,7 @@ button, input[type="button"], input[type="file"] {
     border: none;
     color: rgb(142,142,142) !important;
     padding-bottom: 0rem;
+    padding-left: 0rem;
 }
 
 .comment {

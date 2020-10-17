@@ -60,13 +60,21 @@ $(function() {
                 	alert(data['post_like_button_text_id'])
                 	alert(data['total_post_likes_id'])
                 	document.getElementById(data['post_like_button_text_id']).innerHTML = 'unlike';
+                	document.getElementById(data['total_post_likes_id']).style.display = 'inline-block';
                 	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
                 } else {
                 	document.getElementById(data['post_like_button_text_id']).innerHTML = 'like';
-                	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
-                }
-            }
-        });
+                	if(data['new_total_post_likes'] > 0){
+	                	alert("hi");
+	            		alert(document.getElementById(data['total_post_likes_id']).style.display);
+	            	} else {
+	            		alert(data['total_comment_likes_id']);
+	            		document.getElementById(data['total_post_likes_id']).style.display = 'none';
+	                	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
+                	}
+            	}
+        }
+    });
 
 
 

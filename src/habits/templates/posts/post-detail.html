@@ -19,7 +19,13 @@
 
 			{% endblock %}
 			<div class="post-details">
-				<span class="post-likes" id="{{ post.pk }}-total-post-likes">
+				<span class="post-likes" id="{{ post.pk }}-total-post-likes"
+				{% if post.post_likes.all %}
+					style="display: inline-block"
+				{% else %}
+					style="display: none"
+				{% endif %}
+				>
 					{{ post.get_post_likes_formatted }}
 				</span>
 				<button class="like-btn btn post-like-btn" id="{{ post.pk }}" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
