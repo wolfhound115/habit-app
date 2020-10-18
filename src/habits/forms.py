@@ -11,7 +11,7 @@ from django.contrib.admin.widgets import AdminDateWidget
 class PostCommentModelForm(forms.ModelForm):
 	class Meta:
 		model = PostComment
-		fields = ['comment', 'parent']
+		fields = ['comment', 'parent', 'post']
 		widgets = {
             'comment': forms.Textarea(
                 attrs={'placeholder': 'Add a comment...'}),

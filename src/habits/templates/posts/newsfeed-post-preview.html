@@ -37,7 +37,7 @@
 				style="display: none"
 			{% endif %}
 			>
-			
+
 				{{ post.get_post_likes_formatted }}
 			</span>
 			<button class="like-btn btn post-like-btn" id="{{ post.pk }}" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
@@ -69,7 +69,7 @@
 				</p>
 				{% endif %}
 			{% endif %}
-				{% include 'comments/comment-section-preview.html' with comments=post.get_comments_preview detail=True %}
+				{% include 'comments/comment-section-preview.html' with comments=post.get_comments_preview post=post %}
 				<div class="post-age comment">
 				<a class="light-grey-link"href="{{ habit_post.get_absolute_url }}">
 				<p>{{ post.get_age }}</p>

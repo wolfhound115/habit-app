@@ -15,6 +15,8 @@
 		<form method='POST' action='.' class="add-comment"> 
 			{% csrf_token %}
 			<input name="comment" class="comment-box light-grey" placeholder="Add a comment...">
+			<input type="hidden" name="post" value="{{ post.pk }}">
+
 			<button class="btn post-comment-btn" type='submit'>Post</button>
 		</form>
 

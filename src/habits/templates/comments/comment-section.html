@@ -18,7 +18,7 @@
 							</div>
 
 						</button>
-							<div>{{ c.get_age }}
+							<div><span class="comment-age">{{ c.get_age }}</span>
 									<span class="comment-like-total" 
 									{% if c.comment_likes.all %}
 										style="display: inline-block"
@@ -50,7 +50,7 @@
 								</div>
 								</button>
 								<div>
-									{{ r.get_age }} 
+									<span class="comment-age">{{ r.get_age }} </span>
 									<span class="comment-like-total" 
 									{% if r.comment_likes.all %}
 										style="display: inline-block"

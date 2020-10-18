@@ -58,6 +58,7 @@ img {
 
 .post-age {
     font-size: 1rem !important;
+    max-width: max-content;
 }
 
 input{
@@ -402,9 +403,14 @@ button, input[type="button"], input[type="file"] {
 }
 
 .comment-like-total {
-    margin-left: 1.6rem;
+    margin-left: 3rem;
     padding: 0 1rem;
     display: inline-block;
+    font-size: 1.2rem;
+}
+
+.comment-age{
+    font-size: 1.2rem;
 }
 
 .comment-box {
