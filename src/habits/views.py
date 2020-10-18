@@ -474,7 +474,7 @@ def post_list(request):
     	print(form)
     	print(form)
     	print(form)
-    	
+
     	print("this is the cleaned form data: ")
     	print(form.cleaned_data)
     	form_obj = form.save(commit=False) #this way we can modify things before we save
@@ -491,7 +491,7 @@ def post_list(request):
     		print(form_obj.parent)
     	form_obj.save()
     	form = PostCommentModelForm()
-    	return HttpResponseRedirect(request.path)
+    	return HttpResponseRedirect(HabitPost.objects.get(pk=form_obj.post).get_absolute_url())
     else:
     	print("form is not valid")
     	print(form.errors)

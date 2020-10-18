@@ -387,6 +387,7 @@ button, input[type="button"], input[type="file"] {
     color: rgb(0,149,246);
     appearance: none;
     border-image-width: 0;
+    margin-right: 0.6rem;
 }
 
 .post-like-btn {

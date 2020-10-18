@@ -43,7 +43,7 @@
 					<b><a class="link-simple" href="{{ post.user.get_profile_url }}">{{ post.user.username }}</a></b> {{ post.description }}
 					</p>
 				</div>
-				{% include 'comments/comment-section.html' with comments=post.comments.all detail=True %}
+				{% include 'comments/comment-section.html' with comments=post.comments.all post=post %}
 
 				<div class="post-age comment">
 					<a class="light-grey-link"href="{{ habit_post.get_absolute_url }}">
