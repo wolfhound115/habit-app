@@ -37,10 +37,18 @@
 						Like
 					{% endif %}
 				</div>
+
 				</button>
+				<span class="tooltip post-streak">
+					{{ post.get_post_specific_streak }}🔥
+					<span class="tooltiptext">Streak Progress</span>
+				</span>
 				<div style="color:black" class="comment">
 					<p>
-					<b><a class="link-simple" href="{{ post.user.get_profile_url }}">{{ post.user.username }}</a></b> {{ post.description }}
+						<b><a class="link-simple" href="{{ post.user.get_profile_url }}">{{ post.user.username }}</a></b> 
+						<i>{{post.track}}</i> [{{ post.get_post_num }}/{{ post.get_total_posts_expected_num }}]
+						<br>
+						{{ post.description }}
 					</p>
 				</div>
 				{% include 'comments/comment-section.html' with comments=post.comments.all post=post %}
@@ -70,8 +78,6 @@
 
 		</div>
 		<!-- End of gallery -->
-
-		<div class="loader"></div>
 
 	</div>
 	<!-- End of container -->

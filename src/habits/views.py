@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 
 # Create your views here.
 
 from .models import HabitPost, HabitTrack, HabitModel, HabitEvent, CommentLike, PostLike, PostComment
 from .forms import HabitPostModelForm, HabitTrackModelForm, PostCommentModelForm
-from profiles.models import ProfileFollow
+from profiles.models import ProfileFollow, Profile
 #from profiles.models import Profile
 from django.conf import settings
 
@@ -16,6 +16,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 
 from django.views.generic.list import ListView
+from django.views.generic.edit import FormView
 
 
 
@@ -33,6 +34,10 @@ from django.middleware.csrf import get_token
 
 
 from .models import get_likes_formatted
+
+
+
+import json
 
 # CRUD: CREATE READ UPDATE DELETE
 # GET -> Retrieve/List
@@ -459,7 +464,14 @@ def is_ajax(request):
     This implements the previous functionality. Note that you need to
     attach this header manually if using fetch.
     """
-    return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+
+    print("testing is_ajax")
+    print("testing is_ajax")
+    print("testing is_ajax")
+    print(request.META.get("HTTP_X_REQUESTED_WITH"))
+    print(request.META.get("HTTP-X-REQUESTED-WITH"))
+    print("testing is_ajax")
+    return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest" or request.META.get("HTTP-X-REQUESTED-WITH") == "XMLHttpRequest"
 
 
 
@@ -508,6 +520,81 @@ def post_list(request):
     return render(request, 'newsfeed/newsfeed.html', {'posts': posts})
 
 
+
+def autocompleteModel(request):
+
+	print("autocompleteModel")
+	print("autocompleteModel")
+	print("autocompleteModel")
+	print("autocompleteModel")
+	print("autocompleteModel")
+	print(request.is_ajax())
+	#if request.is_ajax():
+
+
+	# FOR SOME REASON q IS ALWAYS EMPTY, AND THATS WHY search_qs GETS ALL USER NAMES SINCE THEY ALL CONTAIN ""
+	print("hi it is ajax in autocomplete")
+	print(request)
+	q = request.GET.get('term', '').capitalize()
+	print(q)
+	print(get_user_model().objects.all())
+	for user in get_user_model().objects.all():
+		print(user.username)
+		print(user.username == q)
+	search_qs = get_user_model().objects.filter(username__icontains=q)
+	results = []
+	print(q)
+	print(q)
+	print(q)
+
+
+	#the json stuff here is django 1.6 or older so this can be updated
+	for r in search_qs:
+		results.append(r.username)
+	data = json.dumps(results)
+	print(results)
+	print(data)
+	#else:
+		#data = 'fail'
+	mimetype = 'application/json'
+	return HttpResponse(data, mimetype)
+
+
+
+
+class AutoCompleteView(FormView):
+	print("AutoCompleteView")
+	print("AutoCompleteView")
+	print("AutoCompleteView")
+
+	print("AutoCompleteView")
+	print("AutoCompleteView")
+	print("AutoCompleteView")
+
+	def get(self,request,*args,**kwargs):
+		print("flag 0")
+		data = request.GET
+		username = data.get("term")
+		User=get_user_model()
+		if username:
+			print("flag 1")
+			users = User.objects.filter(username__icontains = username)
+		else:
+			print("flag 2")
+			users = User.objects.all()
+		results = []
+		for user in users:
+			print("flag 3")
+			print("user for loop user is: " + user.__str__())
+			user_json = {}
+			user_json['id'] = user.id
+			user_json['label'] = user.username
+			user_json['value'] = user.username
+			results.append(user_json)
+		data = json.dumps(results)
+		mimetype = 'application/json'
+		print("flag 4")
+		return HttpResponse(data, mimetype)
 
 
 

@@ -13,6 +13,8 @@ from .views import (
     CommentLikeToggle,
     ProfileFollowToggle,
     post_list,
+    autocompleteModel,
+    AutoCompleteView
 )
 
 
@@ -36,8 +38,8 @@ urlpatterns = [
     re_path(r'^ajax/post-like/$', PostLikeToggle,  name='PostLikeToggle'),
     re_path(r'^ajax/comment-like/$', CommentLikeToggle,  name='CommentLikeToggle'),
     re_path(r'^ajax/profile-follow/$', ProfileFollowToggle,  name='ProfileFollowToggle'),
-
-
+    re_path(r'^ajax/search/', autocompleteModel, name='search'),
+    re_path(r'^ajax/autocomplete/$',AutoCompleteView.as_view(), name='autocomplete')
     
 ]
 

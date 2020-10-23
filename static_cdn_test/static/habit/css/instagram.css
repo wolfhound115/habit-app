@@ -522,6 +522,9 @@ Remove or comment-out the code block below to see how the browser will fall-back
         grid-template-columns: repeat(3, minmax(22rem, 1fr));
         grid-gap: 2rem;
     }
+    .top-left-logo{
+        
+    }
 
 
     /*nav section from https://www.bypeople.com/css-photography-app/ */

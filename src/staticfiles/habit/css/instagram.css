@@ -83,7 +83,7 @@ input{
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 400px;
-  background-color: black;
+  background-color: gray;
   color: #fff;
   text-align: center;
   padding: 5px 5px;
@@ -97,7 +97,7 @@ input{
   left: 50%;
   transform:translateX(-50%); /* this centers it */
 
-  opacity: 0.5;
+  opacity: 1;
   transition: opacity 0.3s;
 }
 
@@ -114,7 +114,7 @@ input{
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent black transparent;
+  border-color: transparent transparent gray transparent;
 }
 
 
@@ -146,9 +146,13 @@ input{
 
 }
 
+.top-right-profile-image{
+    margin-right: 0px !important;
+}
 .top-right-profile-image img{
     width: 28px;
     height: 28px;
+
 
 }
 
@@ -392,6 +396,7 @@ button, input[type="button"], input[type="file"] {
 
 .post-like-btn {
     margin-left: 0.6rem;
+    margin-right: 0.6rem;
 }
 
 .post-likes {
@@ -401,6 +406,13 @@ button, input[type="button"], input[type="file"] {
 .reply-btn {
     margin-left: 2rem;
     border: none;
+}
+
+.comment-like-btn{
+    position: relative;
+    float: right;
+    margin-right: -1rem;
+
 }
 
 .comment-like-total {
@@ -424,12 +436,14 @@ button, input[type="button"], input[type="file"] {
 .comment {
     font-size: 1.4rem;
     margin-left: 1.6rem;
+    margin-right: 1.6rem;
     font-weight: 400;
 }
 
 .subcomment{
     font-size: 1.4rem;
     margin-left: 4.4rem;
+    margin-right: 1.6rem;
     font-weight: 400;
 }
 
@@ -574,6 +588,12 @@ button, input[type="button"], input[type="file"] {
     padding-bottom: 1rem;
 }
 
+
+.post-streak {
+    position: relative;
+    float: right;
+    margin-right: 1.6rem;
+}
 
 
 /* comment section */

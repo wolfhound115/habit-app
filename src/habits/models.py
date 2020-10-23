@@ -115,6 +115,9 @@ class HabitTrack(HabitModel):
 		longest_streak = max(streak, longest_streak)
 		return streak, longest_streak
 
+
+
+
 	@staticmethod
 	def get_user_habit_stats(user):
 		tracks = HabitTrack.objects.filter(user=user)
@@ -254,10 +257,37 @@ class HabitPost(HabitModel):
 		return len(self.comments.all()) >= 3
 
 
+	def get_post_specific_streak(self):
+		dates = self.track.get_dates()
+		all_previous_events = self.track.get_all_events().filter(date_expected__lte=self.post_event.date_expected)
+		streak = 0
+		skipped_previous = True
+		for d in dates:
+			if d > self.post_event.date_expected:
+				return streak
+			if all_previous_events.get(date_expected=d).post is not None:
+				streak += 1
+				print(streak)
+				skipped_previous = False
+			elif skipped_previous is False:
+				skipped_previous = True
+			else:
+				streak = 0
+		return streak
+
+
+	def get_post_num(self):
+		return len(self.track.get_all_events().filter(date_expected__lte=self.post_event.date_expected))
+
+
+	def get_total_posts_expected_num(self):
+		return len(self.track.get_all_events())
+
+
 class HabitEvent(HabitModel):
 	track = models.ForeignKey(HabitTrack, on_delete=models.CASCADE, null=False)
 	date_expected = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=False) #make null=false later
-	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True)
+	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True, related_name="post_event")
 
 	def __str__(self):
 		return self.track.__str__() + " " + self.date_expected.strftime("%m/%d/%Y")

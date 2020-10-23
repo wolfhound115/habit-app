@@ -5,14 +5,14 @@
 <link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
 
 <div class="container-item-bordered">
-<a href="{{ habit_post.get_absolute_url }}">
+<a href="{{ post.get_absolute_url }}">
 
 
 	<div class="gallery-item" tabindex="0" >
 
-		{% if habit_post.image %}
+		{% if post.image %}
 
-				<img src="{{ habit_post.image.url }}" class="gallery-image" alt="Image of post"/>
+				<img src="{{ post.image.url }}" class="gallery-image" alt="Image of post"/>
 
 
 		{% endif %}
@@ -52,18 +52,21 @@
 			</button>
 			<div style="color:black" class="comment">
 				<p>
-				<b><a class="link-simple" href="{{ habit_post.user.get_profile_url }}">{{ habit_post.user.username }}</a></b> {{ post.description }}
+					<b><a class="link-simple" href="{{ post.user.get_profile_url }}">{{ post.user.username }}</a></b> 
+					<i>{{post.track}}</i> [{{ post.get_post_num }}/{{ post.get_total_posts_expected_num }}]
+					<br>
+					{{ post.description }}
 				</p>
 
 
 			</div>
 			<div>
-			{% if habit_post.comments.all %}
-				{% if habit_post.has_many_comments %}
+			{% if post.comments.all %}
+				{% if post.has_many_comments %}
 				<p>
-					<a class="comment light-grey-link" href="{{ habit_post.get_absolute_url }}">
+					<a class="comment light-grey-link" href="{{ post.get_absolute_url }}">
 					View all 
-					<span>{{ habit_post.comments.all|length }}</span>
+					<span>{{ post.comments.all|length }}</span>
 					 comments
 					</a>
 				</p>
@@ -71,7 +74,7 @@
 			{% endif %}
 				{% include 'comments/comment-section-preview.html' with comments=post.get_comments_preview post=post %}
 				<div class="post-age comment">
-				<a class="light-grey-link"href="{{ habit_post.get_absolute_url }}">
+				<a class="light-grey-link"href="{{ post.get_absolute_url }}">
 				<p>{{ post.get_age }}</p>
 				</a>
 			</div>
