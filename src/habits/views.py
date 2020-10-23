@@ -590,6 +590,7 @@ class AutoCompleteView(FormView):
 			user_json['id'] = user.id
 			user_json['label'] = user.username
 			user_json['value'] = user.username
+			user_json['url'] = user.get_profile_url()
 			results.append(user_json)
 		data = json.dumps(results)
 		mimetype = 'application/json'

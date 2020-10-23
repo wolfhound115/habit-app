@@ -58,21 +58,58 @@
 				 </form>
 			</div>
 
-
-			<input name="user_name"class="form-control "id="new-user">
-
+			<div class="ui-widget top-middle-search-bar">
+				<input name="user_name"class="form-control "id="search-user">
+			</div>
 
 			<script type="text/javascript">
 				$(function() {
-					$("#new-user").autocomplete({
-						source: "{% url 'autocomplete' %}",
-						minLength: 1,
-					});
+					$("#search-user").autocomplete({ autoFocus: true });
+					$("#search-user").autocomplete({
+		                source: function(request, response) {
+		                $.ajax({
+			                url: "{% url 'autocomplete' %}",
+			                data: {
+				                term: $("#search-user").val() ,
+			                },
+			                dataType: "json",
+			                type: "GET",
+			                success: function(data){
+			                      response(data);
+			                }
+		                });
+			            },
+			            select: function(event, ui) {
+			                location = String(ui.item.url);
+			                              
+			            }               
+		            });
 				});
 
 
 
-				
+
+
+
+
+				/*
+				$(function() {
+					$("#new-user").autocomplete({ autoFocus: true });
+					$("#new-user").autocomplete({
+
+						source: "{% url 'autocomplete' %}",
+						minLength: 1,
+						select: function(event, ui) {
+					     // console.log(ui.item.value, event, ui)
+					    //location = "{% url 'post-list' %}"
+					    console.log($(this).data['id'])
+					    }
+					});
+				});
+
+				*/
+
+
 			</script>
 
 
