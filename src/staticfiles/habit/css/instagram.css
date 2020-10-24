@@ -72,6 +72,30 @@ input{
 }
 
 
+ul.ui-autocomplete {
+    list-style: none;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.ui-state-hover{
+    background-color: #fafafa !important;
+}
+.ui-menu-item.ui-state-focus
+{
+  border: 1px solid #000 !important;
+  background: #000 !important;
+}
+
+ul li{
+    list-style-type: none;
+}
+
+
+
+
+
 /* Tooltip container */
 .tooltip {
   position: relative;
@@ -517,9 +541,13 @@ button, input[type="button"], input[type="file"] {
     object-fit: cover;
     background-color: #fff;
 }
-.container-item-bordered{
+.container-item-bordered, .ui-autocomplete-input{
     border: 1px solid #dadada;
     background-color: white;
+}
+
+.ui-autocomplete-input{
+    background-color: #fafafa;
 }
 
 .gallery-item:hover .gallery-item-info,
@@ -577,6 +605,7 @@ button, input[type="button"], input[type="file"] {
     object-fit: cover;
     z-index: 3;
 }
+
 
 
 .post-details {
