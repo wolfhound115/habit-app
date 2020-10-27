@@ -808,7 +808,6 @@ Remove or comment-out the code block below to see how the browser will fall-back
     .gallery-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(22rem, 1fr));
-        grid-template-rows: 1fr;
         grid-gap: 2rem;
     }
 .gallery-item::before {

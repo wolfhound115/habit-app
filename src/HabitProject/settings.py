@@ -34,6 +34,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,7 +48,10 @@ INSTALLED_APPS = [
 
     'recurrence',
     'habits',
-    'profiles'
+    'profiles',
+
+    'crispy_forms',
+    'register.apps.RegisterConfig'
 ]
 
 MIDDLEWARE = [
@@ -146,3 +151,12 @@ STATICFILES_DIRS = ( #this is where you'd put files locally to test before uploa
 MEDIA_ROOT = os.path.join(LOCAL_STATIC_CDN_PATH, 'media')
 MEDIA_URL = '/media/'
 
+
+
+
+
+# this is for registration form formatting
+CRISPY_TEMPLATE_PACK="bootstrap4"
+
+LOGIN_REDIRECT_URL = "/habit/posts"
+LOGOUT_REDIRECT_URL = "/habit/posts"
