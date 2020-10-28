@@ -59,8 +59,8 @@ def generate_profile_context(request, url_username):
 	profile_user = get_user_model().objects.filter(username=url_username).first()
 	total_posts_made, total_posts_missed, overall_longest_streak = HabitTrack.get_user_habit_stats(profile_user)
 
-	followers_count = ProfileFollow.get_profile_total_followers(profile_user.user_profile) + 200
-	following_count = ProfileFollow.get_profile_total_followees(profile_user.user_profile) + 200
+	followers_count = ProfileFollow.get_profile_total_followers(profile_user.user_profile)
+	following_count = ProfileFollow.get_profile_total_followees(profile_user.user_profile)
 
 
 
@@ -129,6 +129,8 @@ def generate_all_tracks_context(request, url_username):
 
 def ProfileFollowToggle(request):
 	user = request.user
+	if not user.is_authenticated:
+		return
 	print("Profile Follow Toggle")
 	if request.method == 'POST':
 		profile_user_id = request.POST['profile_user_id'] #we get this post_id from our AJAX/Jquery
@@ -406,7 +408,10 @@ def habit_post_detail_view(request, url_slug, url_username):
 
 
 	user = request.user
-	post_liked_by_user = post.post_likes.filter(user=user).exists()
+	print(user)
+
+	post_liked_by_user = user.is_authenticated and post.post_likes.filter(user=user).exists()
+
 	form = PostCommentModelForm(request.POST or None) #, user=request.user)
 	if form.is_valid():
 		print("this is the cleaned form data: ")

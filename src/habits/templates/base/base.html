@@ -40,6 +40,14 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.js" type="text/javascript"></script>
 
+
+
+
+
+
+
+
+
 	<div class="top-nav-bar">
 		<div class="container top-nav-box">
 			<div class="top-left-logo">
@@ -139,7 +147,7 @@
 				{% if user.is_authenticated %}
 				<a href="{{ user.get_profile_url }}"><img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""></a>
 				{% else %}
-				Register/Log In
+				<a href="/habit/register">Register</a>/<a href="/habit/login">Log In</a>
 				{% endif %}
 			</div>
 		</div>

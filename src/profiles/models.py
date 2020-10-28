@@ -4,7 +4,13 @@ from django.conf import settings
 
 
 from django.contrib.auth.models import AbstractUser
+
+
+from django.contrib.auth import get_user_model
+
 User = settings.AUTH_USER_MODEL
+
+
 
 class User(AbstractUser):
 	print("****")
@@ -46,3 +52,7 @@ class ProfileFollow(models.Model):
 	def get_profile_total_followees(profile):
 		return len(ProfileFollow.objects.filter(follower=profile))
 			
+
+#this is so in the registration form email is checked for uniqueness too because its stored in the default user model
+User=get_user_model()
+User._meta.get_field('email')._unique = True

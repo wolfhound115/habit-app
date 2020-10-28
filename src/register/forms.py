@@ -12,7 +12,7 @@ class RegisterForm(UserCreationForm):
 	
 	class Meta:
 		model = User
-		fields = ["username", "email", "password1", "password2"]
-
-
-	    # Validate password matched / and clean them
+		fields = ["email", "first_name", "last_name", "username", "password1", "password2"]
+		unique_together = ('email', 'username')# probably unnecessary
+		
+	
