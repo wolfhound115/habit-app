@@ -11,6 +11,18 @@ from django.contrib.auth import get_user_model
 User = settings.AUTH_USER_MODEL
 
 
+import os
+import random
+
+
+#this is to avoid image name overlaps and organize user file uploads
+def photo_path(instance, filename):
+    basefilename, file_extension= os.path.splitext(filename)
+    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+    randomstr = ''.join((random.choice(chars)) for x in range(50))
+    return 'image/userphotos/{userid}/{randomstring}{ext}'.format(userid= instance.user.id, randomstring= randomstr, ext= file_extension)
+
+
 
 class User(AbstractUser):
 	print("****")
@@ -23,6 +35,8 @@ class User(AbstractUser):
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile", null=True)
 	birthdate = models.DateField(null=True, blank=True)
+	profile_bio = models.CharField(max_length=2200, null=True, blank=True)
+	profile_image = models.ImageField(upload_to=photo_path, blank=False, null=True)
 	account_creation_date = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True)
 
 	class Meta:

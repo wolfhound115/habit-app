@@ -13,7 +13,8 @@ from django.utils.crypto import get_random_string
 
 from datetime import date
 
-
+import os
+import random
 
 # Create your models here.
 
@@ -23,6 +24,29 @@ from datetime import date
 # Description is also optional
 
 User = settings.AUTH_USER_MODEL
+
+
+#this is to avoid image name overlaps and organize user file uploads
+def photo_path(instance, filename):
+    basefilename, file_extension= os.path.splitext(filename)
+    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+    randomstr = ''.join((random.choice(chars)) for x in range(50))
+    return 'image/userphotos/{userid}/{randomstring}{ext}'.format(userid= instance.user.id, randomstring= randomstr, ext= file_extension)
+"""            
+def photo_path(instance, filename):
+    basefilename, file_extension= os.path.splitext(filename)
+    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+    randomstr = ''.join((random.choice(chars)) for x in range(10))
+    return 'image/userphotos/{userid}/{basename}{randomstring}{ext}'.format(userid= instance.user.id, basename= basefilename, randomstring= randomstr, ext= file_extension)
+
+
+class UserPhoto(models.Model):
+    user= models.ForeignKey(User)
+    photo= models.ImageField(upload_to= photo_path, null=True)
+"""
+
+
+
 
 
 def get_likes_formatted(likes):
@@ -67,9 +91,13 @@ class HabitTrack(HabitModel):
 	track_name = models.CharField(max_length=100)
 	slug = models.SlugField(unique=True)
 	description = models.CharField(max_length=2200)
-	cover_image = models.ImageField(upload_to='image/', blank=False, null=True)
+	cover_image = models.ImageField(upload_to=photo_path, blank=False, null=True)
 	recurrences = RecurrenceField(null=True)
 	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+	creation_date = models.DateTimeField(auto_now=False, auto_now_add=True, blank=True, null=True) #just for sorting tracks made same day purposes
+
+
+
 
 
 	def get_num_posts_expected(self):
@@ -153,7 +181,7 @@ class HabitTrack(HabitModel):
 		return dates
 
 	class Meta:
-		ordering = ['-start_date'] #the order of these is the order that posts will be sorted by
+		ordering = ['-start_date', '-creation_date'] #the order of these is the order that posts will be sorted by
 
 	#this needs to be fixed
 	def get_absolute_url(self):
@@ -207,7 +235,7 @@ class HabitPost(HabitModel):
 	slug = models.SlugField(unique=True)
 	title = models.CharField(max_length=100)
 	description = models.CharField(max_length=2200)
-	image = models.ImageField(upload_to='image/', blank=False, null=True)
+	image = models.ImageField(upload_to=photo_path, blank=False, null=True)
 	#publish_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	track = models.ForeignKey(HabitTrack, null=True, on_delete=models.CASCADE)

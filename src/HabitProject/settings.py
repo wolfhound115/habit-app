@@ -51,7 +51,11 @@ INSTALLED_APPS = [
     'profiles',
 
     'crispy_forms',
-    'register.apps.RegisterConfig'
+    'register.apps.RegisterConfig',
+
+
+    #this is to autodelete files after objects are deleted
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
