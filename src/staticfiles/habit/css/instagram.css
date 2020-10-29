@@ -12,6 +12,7 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
 
 :root {
     font-size: 10px;
+    background-color: #ffffff;
 }
 
 *,
@@ -42,6 +43,7 @@ body {
     padding-bottom: 3rem;
 }
 
+
 b {
     font-weight: 600;
 }
@@ -49,6 +51,11 @@ b {
 
 img {
     display: block;
+}
+
+.profile-box {
+    position: relative;
+    padding-top: 5.4rem;
 }
 
 .add-comment {
@@ -149,13 +156,14 @@ ul li{
 .container {
     max-width: 93.5rem;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: auto 2rem;
     justify-content: center;
 
 }
 
 .infinite-newsfeed-container{
-    margin-top: 3rem;
+    position: relative;
+    padding-top: 8.4rem;
 }
 
 .top-nav-box{
@@ -182,6 +190,9 @@ ul li{
 
 .top-middle-search-bar{
     align-self: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    transform:translateX(-25%); /* this centers it */
 
 }
 
@@ -242,6 +253,9 @@ nav {
 .top-nav-bar {
     border-bottom:1px solid #dadada;
     background-color: #ffffff;
+    width: 100%;
+    position:fixed;
+    z-index: 6;
 
 }
 
@@ -658,6 +672,14 @@ button, input[type="button"], input[type="file"] {
         flex-wrap: wrap;
         padding: 4rem 0;
     }
+
+    .top-right-profile-image img{
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+
+
 
     .profile::after {
         display: none;
