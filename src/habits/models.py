@@ -272,6 +272,12 @@ class HabitPost(HabitModel):
 
 		return get_age_from_timestamp(self.timestamp, shorten=False)
 
+	def get_num_post_likes(self):
+		return len(self.post_likes.all())
+
+	def get_num_post_comments(self):
+		return len(self.comments.all())
+
 	def get_post_likes_formatted(self):
 		print(self.get_comments_preview())
 		return get_likes_formatted(len(self.post_likes.all()))

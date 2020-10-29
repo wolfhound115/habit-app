@@ -145,7 +145,14 @@
 			-->
 			<div class="top-right-profile-image profile-image">
 				{% if user.is_authenticated %}
-				<a href="{{ user.get_profile_url }}"><img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""></a>
+				<a href="{{ user.get_profile_url }}">
+					{% if user.user_profile.profile_image %}
+					<img src="{{ user.user_profile.profile_image.url }}" alt="Image of post"/>
+					{% else %}
+					<img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+					{% endif %}
+				</a>
+				<a class="logout-button"href= "{% url 'logout' %}">Log Out</a>
 				{% else %}
 				<a href="/habit/register">Register</a>/<a href="/habit/login">Log In</a>
 				{% endif %}

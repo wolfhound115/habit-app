@@ -27,7 +27,7 @@ urlpatterns = [
 
     #TRYING TO GET INFINITE SCROLLING TO WORK
     path('posts/', post_list, name='post-list'),
-    path('<str:url_username>/', habit_all_posts_list_view),
+    path('<str:url_username>/', habit_all_posts_list_view, name='user-profile'),
     path('<str:url_username>/posts/<str:url_slug>/', habit_post_detail_view),
     path('<str:url_username>/posts/<str:url_slug>/edit/', habit_post_update_view),
     path('<str:url_username>/posts/<str:url_slug>/delete/', habit_post_delete_view),

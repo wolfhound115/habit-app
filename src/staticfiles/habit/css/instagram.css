@@ -174,6 +174,10 @@ ul li{
     height: 54px;
 }
 
+.logout-button{
+    margin-left: 0.5rem;
+}
+
 .top-left-logo{
 
 }
@@ -182,8 +186,8 @@ ul li{
     margin-right: 0px !important;
 }
 .top-right-profile-image img{
-    width: 28px;
-    height: 28px;
+    width: 28px !important;
+    height: 28px !important;
 
 
 }
@@ -363,11 +367,18 @@ button, input[type="button"], input[type="file"] {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 3rem;
+    max-height: 24rem !important;
+    max-width: 24rem !important;
+    overflow: hidden;
+    z-index: 5;
 }
 
 .profile-image img {
     border-radius: 50%;
+    object-fit: cover;
+    height: 240px;
+    max-width: 240px;
+
 }
 
 .profile-user-settings,
@@ -388,7 +399,7 @@ button, input[type="button"], input[type="file"] {
     font-weight: 300;
 }
 
-.profile-edit-btn,
+.profile-btn,
 .submit-form-btn,
 .profile-follow-btn {
     font-size: 1.4rem;
@@ -402,7 +413,7 @@ button, input[type="button"], input[type="file"] {
 
 
 /* center profile buttons vertically */
-.profile-edit-btn {
+.profile-btn {
     top: 50%;
     transform: translateY(-20%);
 }
@@ -495,7 +506,7 @@ button, input[type="button"], input[type="file"] {
 }
 
 .profile-stats {
-    margin-top: 2.3rem;
+    /*margin-top: 2.3rem;*/
 }
 
 .profile-stats li {
@@ -514,12 +525,12 @@ button, input[type="button"], input[type="file"] {
     font-size: 1.6rem;
     font-weight: 400;
     line-height: 1.5;
-    margin-top: 2.3rem;
+    /*margin-top: 2.3rem;*/
 }
 
 .profile-real-name,
 .profile-stat-count,
-.profile-edit-btn,
+.profile-btn,
 .submit-form-btn,
 .profile-follow-btn {
     font-weight: 600;
@@ -554,6 +565,8 @@ button, input[type="button"], input[type="file"] {
     cursor: pointer;
     object-fit: cover;
     background-color: #fff;
+    overflow: hidden;
+    max-height: 1fr;
 }
 .container-item-bordered, .ui-autocomplete-input{
     border: 1px solid #dadada;
@@ -695,6 +708,8 @@ button, input[type="button"], input[type="file"] {
 
     .profile-image img {
         width: 7.7rem;
+        height: 7.7rem;
+        object-fit: cover;
     }
 
     .profile-user-settings {
@@ -708,7 +723,7 @@ button, input[type="button"], input[type="file"] {
         font-size: 2.2rem;
     }
 
-    .profile-edit-btn,
+    .profile-btn,
     .submit-form-btn,
     .profile-follow-btn {
         order: 1;
@@ -717,7 +732,7 @@ button, input[type="button"], input[type="file"] {
         margin-top: 1rem;
     }
 
-    .profile-edit-btn,
+    .profile-btn,
     .submit-form-btn,
     .profile-follow-btn {
         margin-left: 0;
@@ -728,7 +743,7 @@ button, input[type="button"], input[type="file"] {
         margin-top: 1.5rem;
     }
 
-    .profile-edit-btn,
+    .profile-btn,
     .submit-form-btn,
     .profile-follow-btn,
     .profile-bio,
@@ -832,6 +847,9 @@ Remove or comment-out the code block below to see how the browser will fall-back
         grid-template-columns: repeat(3, minmax(22rem, 1fr));
         grid-gap: 2rem;
     }
+
+
+
 .gallery-item::before {
     position: relative;
   content: "";
@@ -894,7 +912,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
             grid-gap: 1rem;
         }
 
-        .profile-edit-btn,
+        .profile-btn,
         .submit-form-btn,
         .profile-follow-btn,
         .profile-stats,
@@ -903,7 +921,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
         }
 
         .profile-user-settings,
-        .profile-edit-btn,
+        .profile-btn,
         .submit-form-btn,
         .profile-follow-btn,
         .profile-settings-btn,

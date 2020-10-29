@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from .views import (
-    register
+    EditProfileView
 
 )
 
@@ -10,7 +10,8 @@ from .views import (
 #we are mapping URLs to View functions
 urlpatterns = [
 
-    re_path(r'^register/$', register,  name='register'),
+    re_path(r'^edit-profile/$', EditProfileView.as_view(),  name='edit-profile'),
     
 ]
+
 

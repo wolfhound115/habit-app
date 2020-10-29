@@ -8,8 +8,11 @@
 		<div class="profile">
 
 			<div class="profile-image">
-
+				{% if profile_user.user_profile.profile_image %}
+				<img src="{{ profile_user.user_profile.profile_image.url }}" alt="Image of post"/>
+				{% else %}
 				<img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+				{% endif %}
 
 			</div>
 
@@ -22,16 +25,16 @@
 				{% is_user_followed_by_profile_user profile_user user as user_followed_by_profile_user %}
 
 				{% if owned_by_user %}
-					<button class="btn profile-edit-btn">Edit Profile</button>
+					<button class="btn profile-edit-btn profile-btn" onclick="location.href='{% url "edit-profile" %}';">Edit Profile</button>
 					{% if not create_view %}
-					<button class="btn profile-edit-btn new-track-btn" onclick="location.href='{% url 'new-track' %}'" type="button">New Track</button>
+					<button class="btn new-track-btn profile-btn" onclick="location.href='{% url 'new-track' %}'" type="button">New Track</button>
 					{% endif %}
 				{% elif user_follows_profile %}
-					<button class="btn profile-follow-btn profile-followed" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Followed</button>
+					<button class="btn profile-follow-btn profile-followed profile-btn" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Followed</button>
 				{% elif user_followed_by_profile_user %}
-					<button class="btn profile-follow-btn">Follow back</button>
+					<button class="btn profile-follow-btn profile-btn">Follow back</button>
 				{% else %}
-					<button class="btn profile-follow-btn" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Follow</button>
+					<button class="btn profile-follow-btn profile-btn" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Follow</button>
 				{% endif %}
 
 
@@ -47,8 +50,9 @@
 					<li><span class="profile-stat-count" id="followers-count">{{ followers_count }}</span> followers</li>
 					<li><span class="profile-stat-count" id="following-count">{{ following_count }}</span> following</li>
 				</ul>
-				{% if checkins_expected is not None %}
+				
 				<ul>
+					{% if checkins_expected is not None %}
 					{% if checkins_expected > 0 %}
 					<li>
 						<a href="{{ new_post_url }}">
@@ -58,8 +62,12 @@
 					{% else %}
 						<li><span class="profile-stat-count"></span>You're all caught up on your Habits!</li>
 					{% endif %}
+					{% else %}
+					<li><br>
+					</li>
+					{% endif %}
 				</ul>
-				{% endif %}
+				
 
 				
 
@@ -67,7 +75,11 @@
 
 			<div class="profile-bio">
 
-				<p><span class="profile-real-name">{{ profile_user.first_name }} {{ profile_user.last_name }}</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+				<p><span class="profile-real-name">{{ profile_user.first_name }} {{ profile_user.last_name }}</span> 
+				{% if profile_user.user_profile.profile_bio %}
+					{{ profile_user.user_profile.profile_bio }}
+				{% endif %}
+				</p>
 
 			</div>
 

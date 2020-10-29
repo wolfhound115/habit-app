@@ -44,6 +44,7 @@ urlpatterns = [
     path('habit/new-post/', habit_post_create_view, name='new-post'),
     path('habit/new-track/', habit_track_create_view, name='new-track'),
     path('habit/', include('register.urls')),
+    path('habit/', include('profiles.urls')),
     path('habit/', include('django.contrib.auth.urls')),
     path('habit/', include('habits.urls')),
 

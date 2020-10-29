@@ -35,7 +35,7 @@ from django.middleware.csrf import get_token
 
 from .models import get_likes_formatted
 
-
+from django.contrib.auth.decorators import login_required
 
 import json
 
@@ -480,6 +480,7 @@ def is_ajax(request):
 
 
 
+@login_required(login_url='/habit/login')
 def post_list(request):
     """
     List view for posts.
