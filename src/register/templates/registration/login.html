@@ -22,6 +22,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+<div>Please sign in!</div>
      <form method="post" class="from-group">
 		{% csrf_token %}
 		{{ form|crispy }}

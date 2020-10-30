@@ -36,6 +36,7 @@ from django.middleware.csrf import get_token
 from .models import get_likes_formatted
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 import json
 
@@ -249,7 +250,7 @@ def CommentLikeToggle(request):
 						})
 
 
-
+@login_required()
 def habit_post_create_view(request):
 	# create object
 	# ? use a form
@@ -276,6 +277,7 @@ def habit_post_create_view(request):
 	}
 	return render(request, template_name, context)
 
+@login_required()
 def habit_track_create_view(request):
 	# create object
 	# ? use a form
@@ -305,7 +307,9 @@ def habit_track_create_view(request):
 
 #RETRIEVE
 
-class NewsfeedView(ListView):
+
+
+class NewsfeedView(LoginRequiredMixin, ListView):
     model = HabitPost
     paginate_by = 5
     context_object_name = 'posts'
@@ -331,7 +335,7 @@ class NewsfeedView(ListView):
 
 
 
-
+@login_required()
 def habit_all_posts_list_view(request, url_username):
 	# list out objects
 	# could be search
@@ -348,6 +352,8 @@ def habit_all_posts_list_view(request, url_username):
 
 	return render(request, template_name, context)
 
+
+@login_required()
 def habit_all_tracks_list_view(request, url_username):
 	template_name = 'tracks/tracks-grid.html'
 	profile_context = generate_profile_context(request, url_username)
@@ -360,7 +366,7 @@ def habit_all_tracks_list_view(request, url_username):
 	return render(request, template_name, context)
 
 
-
+@login_required()
 def habit_track_detail_grid_view(request, url_slug, url_username):
 
 
@@ -378,6 +384,8 @@ def habit_track_detail_grid_view(request, url_slug, url_username):
 
 	return render(request, template_name, context)
 
+
+@login_required()
 def habit_track_detail_feed_view(request, url_slug, url_username):
 	
 	template_name = 'posts/posts-feed.html'
@@ -395,6 +403,7 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 
 
 #def habit_post_detail_view(request, url_user, url_slug): #need to figure out better way of getting user specific data
+@login_required()
 def habit_post_detail_view(request, url_slug, url_username):
 
 	print("hi this is the request.post below:")
@@ -479,8 +488,7 @@ def is_ajax(request):
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest" or request.META.get("HTTP-X-REQUESTED-WITH") == "XMLHttpRequest"
 
 
-
-@login_required(login_url='/habit/login')
+@login_required
 def post_list(request):
     """
     List view for posts.
