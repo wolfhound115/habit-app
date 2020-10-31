@@ -18,7 +18,7 @@ def register(request):
 			raw_password = form.cleaned_data.get('password1')
 			user = authenticate(username=username, password=raw_password)
 			login(request, user)
-			return redirect('/habit/posts') #redirect to edit profile view isntead to add profile picture/ bio/ dob/ etc
+			return redirect('/habit/edit-profile') #redirect to edit profile view isntead to add profile picture/ bio/ dob/ etc
 	else:
 		form = RegisterForm()
 

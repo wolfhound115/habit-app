@@ -17,13 +17,13 @@
 		{% endif %}
 
 
-		<!-- icon in the top corner of image -->
+		<!-- icon in the top corner of image 
 		<div class="gallery-item-type">
 
 			<span class="visually-hidden">Gallery</span><i class="fas fa-clone" aria-hidden="true"></i>
 
 		</div>
-
+		-->
 
 		{% if show_hover_info %}
 		<div class="gallery-item-info">
@@ -32,16 +32,16 @@
 				<div class="gallery-item-likes"><span class="visually-hidden"></span>
 					{{ habit_post.title }}
 					<br>
+
+					<span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> {{ habit_post.get_num_post_likes }} 
+
+					<span class="visually-hidden">Comments:</span> <i class="fas fa-comment" aria-hidden="true"></i> {{ habit_post.get_num_post_comments }} 
+
 					{% if habit_post.get_post_specific_streak > 1 %}
-						{{ habit_post.get_post_specific_streak }} 🔥
+						 🔥{{ habit_post.get_post_specific_streak }}
 					{% endif %}
 					
-					{% if habit_post.get_num_post_likes > 0 %}
-					<span class="visually-hidden">Likes:</span> {{ habit_post.get_num_post_likes }} <i class="fas fa-heart" aria-hidden="true"></i>
-					{% endif %}
-					{% if habit_post.get_num_post_comments > 0 %}
-					<span class="visually-hidden">Comments:</span> {{ habit_post.get_num_post_comments }} <i class="fas fa-comment" aria-hidden="true"></i>
-					{% endif %}
+
 				</div>
 
 

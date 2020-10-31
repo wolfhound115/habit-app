@@ -1,26 +1,7 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-
-  </head>
-  <body>
-
-
-
-  </body>
-</html>
-
-
-
 {% extends "profile/profile-base.html" %}
-{% load habit_tags %}
 
-{% load static %}
+
+
 	<!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -32,20 +13,28 @@
 
 
 
-
+{% load habit_tags %}
 {% block form-content %}
 <div class="container">
+    <p>
+<label>Track:</label> {{ object.track }}
+</p>
+<p>
+<label>Timestamp:</label> {{ object.timestamp }}
+</p>
 
-{% load crispy_forms_tags %}
-
-
-
-<form enctype="multipart/form-data" method="post">
-  {% csrf_token %}
-  {{ form.media }}
-  {{ form|crispy }}
-  <br>
-	<button type="submit" class="btn btn-success submit-form-btn">Save Profile</button>
+<form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type='submit' id='create-post' class='btn submit-form-btn'>Update Post</button>
 </form>
+
+
 </div>
 {% endblock %}
+
+
+
+
+
+

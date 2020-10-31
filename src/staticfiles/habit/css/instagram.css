@@ -61,6 +61,11 @@ img {
 .add-comment {
     display: -webkit-flex;
     margin-left: 1.6rem;
+    /*padding-top: 1rem;*/
+}
+
+.add-subcomment {
+    margin-left: 4.4rem;
 }
 
 .post-age {
@@ -285,6 +290,19 @@ label::after {
     white-space: pre;
 }
 
+
+
+/* edit profile form formatting */
+
+.form-group {
+    padding-top: 2rem;
+}
+
+
+
+
+
+
 /*
 button, input[type="button"], input[type="file"] { 
     color:#050; 
@@ -465,7 +483,7 @@ button, input[type="button"], input[type="file"] {
 }
 
 .comment-like-total {
-    margin-left: 3rem;
+    margin-left: 2rem;
     padding: 0 1rem;
     display: inline-block;
     font-size: 1.2rem;
@@ -473,6 +491,7 @@ button, input[type="button"], input[type="file"] {
 
 .comment-age{
     font-size: 1.2rem;
+    padding-right: 1rem;
 }
 
 .comment-box {
@@ -642,6 +661,11 @@ button, input[type="button"], input[type="file"] {
     /*border-bottom: 1px solid rgb(239,239,239);*/
     padding-top: 1rem;
     padding-bottom: 1rem;
+}
+
+.post-details-main{
+    padding-bottom: 0.4rem;
+    padding-top: 0.4rem;
 }
 
 

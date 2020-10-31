@@ -11,10 +11,16 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+from habits.views import generate_profile_context
+
 
 from .forms import EditProfileForm
 
+	
+
 # Create your views here.
+
+
 
 
 
@@ -31,3 +37,12 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 
 	def get_success_url(self, *args, **kwargs):
 		return self.request.user.get_profile_url()
+
+	def get_context_data(self, **kwargs):          
+	    context = super().get_context_data(**kwargs)                     
+	    profile_context = generate_profile_context(self.request, self.request.user.username)
+
+	    context = {	**context,
+	    			**profile_context
+	    }
+	    return context

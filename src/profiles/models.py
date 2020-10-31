@@ -36,7 +36,7 @@ class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile", null=True)
 	birthdate = models.DateField(null=True, blank=True)
 	profile_bio = models.CharField(max_length=150, null=True, blank=True)
-	profile_image = models.ImageField(upload_to=photo_path, blank=False, null=True)
+	profile_image = models.ImageField(upload_to=photo_path, blank=True, null=True)
 	account_creation_date = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True)
 
 	class Meta:

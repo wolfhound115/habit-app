@@ -29,7 +29,7 @@
 
 
 </a>
-<div class="post-details">
+<div class="post-details post-details-main">
 			<span class="post-likes" id="{{ post.pk }}-total-post-likes"
 			{% if post.post_likes.all %}
 				style="display: inline-block"
@@ -53,7 +53,7 @@
 			<div style="color:black" class="comment">
 				<p>
 					<b><a class="link-simple" href="{{ post.user.get_profile_url }}">{{ post.user.username }}</a></b> 
-					<i>{{post.track}}</i> [{{ post.get_post_num }}/{{ post.get_total_posts_expected_num }}]
+					<i><a class="link-simple" href="{{ post.track.get_absolute_url }}/grid">{{post.track}}</a></i> [{{ post.get_post_num }}/{{ post.get_total_posts_expected_num }}]
 					<br>
 					{{ post.description }}
 				</p>
@@ -71,13 +71,17 @@
 					</a>
 				</p>
 				{% endif %}
-			{% endif %}
-				{% include 'comments/comment-section-preview.html' with comments=post.get_comments_preview post=post %}
-				<div class="post-age comment">
+			{% endif %}				
+			{% include 'comments/comment-section-preview.html' with comments=post.get_comments_preview post=post %}
+			<div class="post-age comment">
 				<a class="light-grey-link"href="{{ post.get_absolute_url }}">
 				<p>{{ post.get_age }}</p>
 				</a>
 			</div>
+
+
 			</div>
+
 		</div>
+						{% include 'comments/add-new-comment.html' with post=post %}
 	</div>

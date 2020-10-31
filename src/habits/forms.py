@@ -39,6 +39,17 @@ class HabitTrackModelForm(forms.ModelForm):
             'start_date': AdminDateWidget(),
         }
 
+
+
+class HabitPostEditModelForm(forms.ModelForm):
+	class Meta:
+		model = HabitPost
+		fields = ['title', 'description', 'image']
+
+
+
+
+
 class HabitPostModelForm(forms.ModelForm):
 	class Meta:
 		model = HabitPost

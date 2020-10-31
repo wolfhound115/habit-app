@@ -36,7 +36,12 @@ from django.middleware.csrf import get_token
 from .models import get_likes_formatted
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+from django.views.generic import UpdateView
+
+
+from .forms import HabitPostModelForm, HabitPostEditModelForm
 
 import json
 
@@ -271,7 +276,7 @@ def habit_post_create_view(request):
 	profile_context = generate_profile_context(request, request.user.username)
 	template_name = 'posts/form.html'
 	context = {	'form': form,
-				'create_view': '1',
+				#'create_view': '1',
 				**profile_context
 
 	}
@@ -300,7 +305,7 @@ def habit_track_create_view(request):
 	print(profile_context)
 	template_name = 'tracks/form.html'
 	context = {	'form': form,
-				'create_view': '1',
+				#'create_view': '1',
 				**profile_context
 	}
 	return render(request, template_name, context)
@@ -621,6 +626,62 @@ def habit_post_update_view(request, url_slug, url_username):
 	template_name = 'posts/update.html'
 	context = {"object": obj, 'form': None}
 	return render(request, template_name, context)
+
+
+
+
+class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+	form_class = HabitPostEditModelForm
+	template_name = "posts/edit-form.html"
+
+
+
+
+	def get_object(self):
+		url_slug = self.kwargs['url_slug']
+		url_username = self.kwargs['url_username']
+		qs = HabitPost.objects.filter(user__username=url_username, slug=url_slug)
+		post = get_object_or_404(qs, user__username=url_username, slug=url_slug)
+		return post
+
+	def test_func(self):
+		return self.request.user == self.get_object().user
+
+	def get_success_url(self, *args, **kwargs):
+		return self.request.user.get_profile_url()
+
+	def get_context_data(self, **kwargs):          
+	    context = super().get_context_data(**kwargs)                    
+	    profile_context = generate_profile_context(self.request, self.request.user.username)
+	    print(context)
+
+	    context = {	**context,
+	    			**profile_context
+	    }
+	    return context
+
+
+
+	def get_login_url(self):
+		if not self.request.user.is_authenticated():
+			return super(EditPostView, self).get_login_url()
+		else:
+			return 'post_list'
+
+"""
+	def get_initial(self, *args, **kwargs):
+		
+		base_initial = super().get_initial()
+		# So here you're initiazing you're form's data
+		profile_context = generate_profile_context(self.request, self.request.user.username)
+		context = {	**base_initial,
+					**profile_context
+		}
+		return context
+"""
+
+
+
 
 
 # DELETE

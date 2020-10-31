@@ -26,9 +26,9 @@
 
 				{% if owned_by_user %}
 					<button class="btn profile-edit-btn profile-btn" onclick="location.href='{% url "edit-profile" %}';">Edit Profile</button>
-					{% if not create_view %}
+					
 					<button class="btn new-track-btn profile-btn" onclick="location.href='{% url 'new-track' %}'" type="button">New Track</button>
-					{% endif %}
+					
 				{% elif user_follows_profile %}
 					<button class="btn profile-follow-btn profile-followed profile-btn" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Followed</button>
 				{% elif user_followed_by_profile_user %}
