@@ -1,10 +1,14 @@
 from django import forms
 
-from datetime import date
+from datetime import date, datetime
 
 from .models import HabitPost, HabitTrack, HabitEvent, PostComment
 
 from django.contrib.admin.widgets import AdminDateWidget
+
+from django.utils import timezone
+
+from timezone_field import TimeZoneFormField
 
 
 
@@ -31,13 +35,34 @@ class PostCommentModelForm(forms.ModelForm):
 
 class HabitTrackModelForm(forms.ModelForm):
 
-
+	#timezone = TimeZoneFormField(display_GMT_offset=True) this doesnt work in the current update of django-timezone-field
 	class Meta:
 		model = HabitTrack
-		fields = ['track_name', 'description', 'cover_image', 'start_date', 'recurrences']
+		fields = ['track_name', 'description', 'cover_image', 'timezone', 'start_date', 'recurrences']
 		widgets = {
-            'start_date': AdminDateWidget(),
-        }
+		    'start_date': AdminDateWidget(),
+			}
+
+
+
+	#note that fields are cleaned in order so they wont appear in cleaned data until the previous field has been cleaned
+	def clean_timezone(self):
+		timezone = self.cleaned_data['timezone']
+		print(timezone)
+		return timezone
+
+
+	def clean_start_date(self):
+		print(self.cleaned_data['timezone'])
+		start_date = self.cleaned_data['start_date']
+		track_timezone = self.cleaned_data['timezone']
+		timezone_corrected_start_date = track_timezone.localize(start_date.replace(tzinfo=None))
+		timezone_corrected_now = datetime.now(track_timezone)
+		#print(timezone_corrected_start_date, timezone_corrected_start_date.date(), timezone_corrected_now, timezone_corrected_now.date(), timezone_corrected_start_date.date() < timezone_corrected_now.date())
+		print("testing if ", start_date, " corrected to timezone ", track_timezone, " to be ", timezone_corrected_start_date, " has a date (ignoring time) before ", timezone_corrected_now)
+		if timezone_corrected_start_date.date() < timezone_corrected_now.date():
+			raise forms.ValidationError("The date cannot be in the past!")
+		return timezone_corrected_start_date
 
 
 
@@ -75,6 +100,12 @@ class HabitPostModelForm(forms.ModelForm):
 
 		print("These tracks should be listed in the dropdown: ")
 		print(tracks_needing_post_today)
+
+		#get track ids of any track that has events owned by this user without a post yet
+		track_ids_2 = HabitEvent.objects.filter(user=user, post__isnull=True).values_list('track', flat=True)
+
+
+
 
 		self.fields['track'].queryset = tracks_needing_post_today
 

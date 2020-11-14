@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'habits',
     'profiles',
 
+    'timezone_field',
+
+
     'crispy_forms',
     'register.apps.RegisterConfig',
 

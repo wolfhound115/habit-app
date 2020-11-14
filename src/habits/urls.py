@@ -16,6 +16,7 @@ from .views import (
     autocompleteModel,
     AutoCompleteView,
     EditPostView,
+    ConfirmPostDeleteView
 )
 
 
@@ -31,7 +32,8 @@ urlpatterns = [
     path('<str:url_username>/', habit_all_posts_list_view, name='user-profile'),
     path('<str:url_username>/posts/<str:url_slug>/', habit_post_detail_view),
     path('<str:url_username>/posts/<str:url_slug>/edit/', EditPostView.as_view()),
-    path('<str:url_username>/posts/<str:url_slug>/delete/', habit_post_delete_view),
+    path('<str:url_username>/posts/<str:url_slug>/delete/', ConfirmPostDeleteView.as_view(), name='confirm-delete-post'),
+    #path('<str:url_username>/posts/<str:url_slug>/delete/', habit_post_delete_view),
     path('<str:url_username>/tracks', habit_all_tracks_list_view),
     path('<str:url_username>/tracks/<str:url_slug>/feed', habit_track_detail_feed_view),
     path('<str:url_username>/tracks/<str:url_slug>/grid', habit_track_detail_grid_view),

@@ -189,6 +189,13 @@ ul li{
 
 .top-right-profile-image{
     margin-right: 0px !important;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 5;
+    background-color: #FFFFFF;
 }
 .top-right-profile-image img{
     width: 28px !important;
@@ -298,7 +305,9 @@ label::after {
     padding-top: 2rem;
 }
 
-
+ul.errorlist {
+    background-color: #fafafa;
+}
 
 
 
@@ -389,12 +398,14 @@ button, input[type="button"], input[type="file"] {
     max-width: 24rem !important;
     overflow: hidden;
     z-index: 5;
+    border-radius: 50%;
+    background-color: #FFFFFF;
 }
 
 .profile-image img {
-    border-radius: 50%;
+    /*border-radius: 50%;*/
     object-fit: cover;
-    height: 240px;
+    /*height: 240px;*/
     max-width: 240px;
 
 }
@@ -443,6 +454,13 @@ button, input[type="button"], input[type="file"] {
     margin-left: 0rem;
     display: block;
 }
+
+
+
+.edit-form-btn{
+    display:inline-block;
+}
+
 
 
 .like-btn, .reply-btn, .post-comment-btn{

@@ -23,11 +23,15 @@
 <label>Timestamp:</label> {{ object.timestamp }}
 </p>
 
-<form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
+<form method='POST' id='editform' action='.' class="habit-form" enctype="multipart/form-data"> 
 		{% csrf_token %}
 		{{ form.as_p }}
-		<button type='submit' id='create-post' class='btn submit-form-btn'>Update Post</button>
+		
 </form>
+<button class="btn submit-form-btn edit-form-btn" onclick="javascript:history.back();">Cancel</button>
+<button type='submit' form='editform' id='create-post' class='btn submit-form-btn edit-form-btn'>Update Post</button> 
+<button type='submit' class='btn submit-form-btn edit-form-btn' onClick="location.href='{{ object.get_delete_url }}'">Delete Post</button>
+
 
 
 </div>

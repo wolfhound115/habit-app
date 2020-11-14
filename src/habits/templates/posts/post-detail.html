@@ -39,14 +39,20 @@
 				</div>
 
 				</button>
+				{% is_this_owned_by_user profile_user user as owned_by_user %}
+
 				<span class="tooltip post-streak">
 					{{ post.get_post_specific_streak }}🔥
 					<span class="tooltiptext">Streak Progress</span>
 				</span>
+
+					{% if owned_by_user %}
+						<a href="{{ post.get_edit_url }}">Edit </a>
+					{% endif %}
 				<div style="color:black" class="comment">
 					<p>
 						<b><a class="link-simple" href="{{ post.user.get_profile_url }}">{{ post.user.username }}</a></b> 
-						<i><a class="link-simple" href="{{ post.track.get_absolute_url }}/grid">{{post.track}}</a></i> [{{ post.get_post_num }}/{{ post.get_total_posts_expected_num }}]
+						<i><a class="link-simple" href="{{ post.track.get_absolute_url }}/grid">{{post.track.track_name}}</a></i> [{{ post.get_post_num }}/{{ post.get_total_posts_expected_num }}]
 						<br>
 						{{ post.description }}
 					</p>

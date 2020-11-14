@@ -13,7 +13,7 @@ from datetime import date
 
 from django.contrib.auth import get_user_model
 
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
@@ -37,8 +37,9 @@ from .models import get_likes_formatted
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic.edit import DeletionMixin
 
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, DeleteView
 
 
 from .forms import HabitPostModelForm, HabitPostEditModelForm
@@ -648,7 +649,7 @@ class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 		return self.request.user == self.get_object().user
 
 	def get_success_url(self, *args, **kwargs):
-		return self.request.user.get_profile_url()
+		return self.get_object().get_absolute_url()
 
 	def get_context_data(self, **kwargs):          
 	    context = super().get_context_data(**kwargs)                    
@@ -663,8 +664,79 @@ class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 	def get_login_url(self):
-		if not self.request.user.is_authenticated():
+		if not self.request.user.is_authenticated:
 			return super(EditPostView, self).get_login_url()
+		else:
+			return 'post_list'
+
+
+
+"""
+	def delete(self, request, *args, **kwargs):
+
+		self.object = self.get_object()
+		success_url = self.get_success_url()
+		if self.object.user == self.request.user:
+			return redirect('confirm_delete_post', ) # Also add id of Article
+
+		return redirect('home')
+"""
+
+class ConfirmPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+	model = HabitPost
+	template_name = 'posts/post-delete.html' # need change
+	success_url = reverse_lazy('post-list')
+
+
+	def get_context_data(self, **kwargs):          
+	    context = super().get_context_data(**kwargs)                    
+	    profile_context = generate_profile_context(self.request, self.request.user.username)
+	    print(context)
+
+	    context = {	**context,
+	    			**profile_context
+	    }
+	    return context
+
+
+	def get_object(self):
+		url_slug = self.kwargs['url_slug']
+		url_username = self.kwargs['url_username']
+		qs = HabitPost.objects.filter(user__username=url_username, slug=url_slug)
+		post = get_object_or_404(qs, user__username=url_username, slug=url_slug)
+		return post
+	
+	def delete(self, request, *args, **kwargs):
+		"""
+        Call the delete() method on the fetched object and then redirect to the
+        success URL.
+		"""
+		self.object = self.get_object()
+		success_url = self.get_success_url()
+		if self.object.user == self.request.user:
+			self.object.delete()
+			return redirect('home')
+
+		return redirect('home')
+
+	def test_func(self):
+
+		print("checked ConfirmPostDeleteView test function")
+		print("checked ConfirmPostDeleteView test function")
+		print("checked ConfirmPostDeleteView test function")
+		print("checked ConfirmPostDeleteView test function")
+		print("checked ConfirmPostDeleteView test function")
+		print("checked ConfirmPostDeleteView test function")
+		print("checked ConfirmPostDeleteView test function")
+
+		print("checked ConfirmPostDeleteView test function")
+		print("checked ConfirmPostDeleteView test function")
+		print("checked ConfirmPostDeleteView test function")
+		return self.request.user == self.get_object().user
+
+	def get_login_url(self):
+		if not self.request.user.is_authenticated:
+			return super(ConfirmPostDeleteView, self).get_login_url()
 		else:
 			return 'post_list'
 

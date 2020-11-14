@@ -11,20 +11,16 @@ Get started on a new Habit!
 <br>
 *note that habit track dates and schedules cannot be modified after the track has been created
 </div>
-<form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
+<form method='POST' id='new-track-form' action='.' class="habit-form" enctype="multipart/form-data"> 
 <div>
 	{% csrf_token %}
     {{ form.media }}
 
     {{ form.as_p }}
 </div>	
-
-
-<!-- need to format this button to go to the bottom of the recurrence widget -->
-<div class="container">
-	<button type='submit' id='create-track' class='btn submit-form-btn'>Create Track</button>
-</div>
-
 </form>
+</div>
+<div class="container">
+<button type='submit' form='new-track-form' id='create-track' class='btn submit-form-btn'>Create Track</button>
 </div>
 {% endblock %}

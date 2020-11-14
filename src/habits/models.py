@@ -11,10 +11,12 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 
-from datetime import date
+from datetime import date, datetime
 
 import os
 import random
+
+from timezone_field import TimeZoneField
 
 # Create your models here.
 
@@ -92,10 +94,10 @@ class HabitTrack(HabitModel):
 	slug = models.SlugField(unique=True)
 	description = models.CharField(max_length=2200)
 	cover_image = models.ImageField(upload_to=photo_path, blank=False, null=True)
-	recurrences = RecurrenceField(null=True)
-	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+	recurrences = RecurrenceField(null=False, blank=False)
+	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=False)
 	creation_date = models.DateTimeField(auto_now=False, auto_now_add=True, blank=True, null=True) #just for sorting tracks made same day purposes
-
+	timezone = TimeZoneField(default='America/Los_Angeles', blank=False, null=False) # defaults supported
 
 
 
@@ -144,7 +146,10 @@ class HabitTrack(HabitModel):
 		return streak, longest_streak
 
 
-
+	def get_timezone_corrected_datetime_now(self):
+		timezone_corrected_now = datetime.now(self.timezone)
+		print(timezone_corrected_now)
+		return timezone_corrected_now
 
 	@staticmethod
 	def get_user_habit_stats(user):
@@ -169,7 +174,7 @@ class HabitTrack(HabitModel):
 		super(HabitTrack, self).save(*args, **kwargs)
 
 	def __str__(self):
-		return self.track_name
+		return self.track_name + self.creation_date.__str__()
 
 	def get_dates(self):
 		print(self.recurrences)
@@ -269,7 +274,6 @@ class HabitPost(HabitModel):
 		return f"{self.get_absolute_url()}/delete" #not sure if this works
 
 	def get_age(self):
-
 		return get_age_from_timestamp(self.timestamp, shorten=False)
 
 	def get_num_post_likes(self):
@@ -348,7 +352,11 @@ class PostComment(HabitModel):
 		if self.parent is not None:
 			s += " REPLY TO " + self.parent.__str__()
 		s += " " + self.comment.__str__()
+
+		s += " " + self.timestamp.__str__()
 		return s
+
+
 
 	def get_age(self):
 
