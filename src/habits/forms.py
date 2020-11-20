@@ -76,6 +76,15 @@ class HabitPostEditModelForm(forms.ModelForm):
 
 
 class HabitPostModelForm(forms.ModelForm):
+
+	#overriding so track_name is displayed rather than using __str__ representation of the name
+	class TrackModelChoiceField(forms.ModelChoiceField):
+		def label_from_instance(self, obj):
+			return obj.track_name
+
+
+	track = TrackModelChoiceField(queryset=None, to_field_name='track_name')
+	description = forms.CharField(widget=forms.Textarea)
 	class Meta:
 		model = HabitPost
 		fields = ['track', 'title', 'description', 'image']
@@ -123,7 +132,7 @@ class HabitPostModelForm(forms.ModelForm):
 		print("********** hopefully this is fixed now *******")
 
 		
-		filtered_user_tracks = filtered_user_tracks.values_list('track_name', flat=True)
+		#filtered_user_tracks = filtered_user_tracks.values_list('description', flat=True)
 
 		print("why doesn't this work: ", filtered_user_tracks, tracks_needing_post_today)
 		print("????")
