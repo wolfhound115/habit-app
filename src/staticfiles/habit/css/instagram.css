@@ -255,7 +255,7 @@ nav {
 
 .nav li:hover, .nav li:nth-child(1)  { 
     color: #999 !important;
-    border-bottom: 0.2rem solid #ffffff !important;
+    border-bottom: 0.2rem solid #fafafa !important;
     text-decoration: none !important;
 }
 

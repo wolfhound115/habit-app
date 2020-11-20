@@ -96,6 +96,8 @@ class HabitPostModelForm(forms.ModelForm):
 
 		#get all the ids of tracks for events needing post today then filter tracks for only those ids
 		track_ids = HabitEvent.objects.filter(user=user, date_expected=date.today(), post__isnull=True).values_list('track', flat=True)
+		
+		### this is the original faulty set
 		tracks_needing_post_today = HabitTrack.objects.filter(id__in=track_ids)
 
 		print("These tracks should be listed in the dropdown: ")
@@ -105,9 +107,29 @@ class HabitPostModelForm(forms.ModelForm):
 		track_ids_2 = HabitEvent.objects.filter(user=user, post__isnull=True).values_list('track', flat=True)
 
 
+		user_tracks = HabitTrack.objects.filter(user=user)
+		filtered_user_tracks = user_tracks
+		for t in user_tracks:
+			if not HabitEvent.objects.filter(user=user, track=t, date_expected=t.get_timezone_corrected_datetime_now().date(), post__isnull=True).exists():
+				print("Excluding ", t.track_name, " with track specific time of ", t.get_timezone_corrected_datetime_now(), "from the list of options")
+				filtered_user_tracks = filtered_user_tracks.exclude(pk=t.pk)
+			else:
+				print("Including ", t.track_name, " with track specific time of ", t.get_timezone_corrected_datetime_now(), "in the list of options")	
 
 
-		self.fields['track'].queryset = tracks_needing_post_today
+		print("***** This is the original faulty queryset and the timezone corrected queryset *****")
+		print("faulty: ", tracks_needing_post_today, " because filtered using today date of ", date.today())
+		print("corrected: ", filtered_user_tracks)
+		print("********** hopefully this is fixed now *******")
+
+		
+		filtered_user_tracks = filtered_user_tracks.values_list('track_name', flat=True)
+
+		print("why doesn't this work: ", filtered_user_tracks, tracks_needing_post_today)
+		print("????")
+		print(filtered_user_tracks == tracks_needing_post_today)
+		self.fields['track'].queryset = filtered_user_tracks #tracks_needing_post_today
+		#print(self.fields['track'].queryset, self.fields['track'].queryset.values_list('track_name', flat=True))
 
 
 		#self.fields['media'].queryset  = unused_files

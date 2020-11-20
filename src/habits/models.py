@@ -151,6 +151,11 @@ class HabitTrack(HabitModel):
 		print(timezone_corrected_now)
 		return timezone_corrected_now
 
+	def is_post_expected_today(self):
+		print(self.id, self.timezone)
+		print(HabitEvent.objects.filter(user=self.user, track=self, date_expected=datetime.now(self.timezone).date(), post__isnull=True))
+
+
 	@staticmethod
 	def get_user_habit_stats(user):
 		tracks = HabitTrack.objects.filter(user=user)
@@ -174,7 +179,8 @@ class HabitTrack(HabitModel):
 		super(HabitTrack, self).save(*args, **kwargs)
 
 	def __str__(self):
-		return self.track_name + self.creation_date.__str__()
+		#self.is_post_expected_today()
+		return self.id.__str__() + self.track_name + self.creation_date.__str__()
 
 	def get_dates(self):
 		print(self.recurrences)
@@ -328,7 +334,7 @@ class HabitEvent(HabitModel):
 	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True, related_name="post_event")
 
 	def __str__(self):
-		return self.track.__str__() + " " + self.date_expected.strftime("%m/%d/%Y")
+		return self.date_expected.strftime("%m/%d/%Y") #self.track.__str__() + " " + self.date_expected.strftime("%m/%d/%Y")
 
 	def count_check_ins_expected_today(user):
 		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=timezone.now().date(), post__isnull=True)
@@ -458,21 +464,26 @@ def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 		print("postsave habit posts the user is: ")
 		print(instance.user)
 		print(instance.slug)
-		print(User)
 		print("instance is: ")
 		print(instance)
-		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
+
+		timezone_corrected_date_expected=instance.track.get_timezone_corrected_datetime_now().date()
+		incorrect_event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
+
+		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=timezone_corrected_date_expected).first()
+
 		print(event)
 		if event == None:
 			print("##############################################################################################")
 			print("*********************** NO POST EXPECTED FOR TODAY SO THIS IS AN ERROR THAT NEEDS TO BE FIXED")
+			print("I think i fixed this already in the forms?? not sure????")
 			print("##############################################################################################")
 		event.post = instance
 
 		event.save() #this will save only the event column instead of the entire row
-		print(event.post)
-		print(event)
-		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
-		print(event.post)
-		print(event)
+
+		print("********")
+		print("these are the values for post_save_habit_posts after doing timezone correction")
+		print("event post: ", event.post, ", correct event: ", event, ", incorrect event: ", incorrect_event)
+		print("********")
 
