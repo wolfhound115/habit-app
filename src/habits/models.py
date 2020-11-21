@@ -115,7 +115,7 @@ class HabitTrack(HabitModel):
 		all_events = self.get_all_events()
 		#print("get_post_events_missed")
 		#print(all_events)
-		post_events_missed = all_events.filter(track=self, date_expected__lt=timezone.now().date(), post__isnull=True)
+		post_events_missed = all_events.filter(track=self, date_expected__lt=self.get_timezone_corrected_datetime_now().date(), post__isnull=True)
 		#print(post_events_missed)
 		#for e in all_events:
 		#	print(e.date_expected)
@@ -154,6 +154,13 @@ class HabitTrack(HabitModel):
 	def is_post_expected_today(self):
 		print(self.id, self.timezone)
 		print(HabitEvent.objects.filter(user=self.user, track=self, date_expected=datetime.now(self.timezone).date(), post__isnull=True))
+
+	@staticmethod
+	def count_check_ins_expected_today(user):
+		total_check_ins_expected = 0
+		for track in HabitTrack.objects.filter(user=user):
+			total_check_ins_expected += HabitEvent.objects.filter(user=user, track=track, date_expected=track.get_timezone_corrected_datetime_now().date(), post__isnull=True).count()
+		return total_check_ins_expected
 
 
 	@staticmethod
@@ -469,7 +476,6 @@ def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 
 		timezone_corrected_date_expected=instance.track.get_timezone_corrected_datetime_now().date()
 		incorrect_event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=instance.timestamp.date()).first()
-
 		event = HabitEvent.objects.filter(user=instance.user).filter(track=instance.track).filter(date_expected=timezone_corrected_date_expected).first()
 
 		print(event)

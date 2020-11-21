@@ -72,7 +72,7 @@ def generate_profile_context(request, url_username):
 
 
 	if request.user == profile_user:
-		checkins_expected = HabitEvent.count_check_ins_expected_today(profile_user)
+		checkins_expected = HabitTrack.count_check_ins_expected_today(profile_user)
 
 	else:
 		checkins_expected = None
