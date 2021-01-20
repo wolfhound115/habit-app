@@ -199,7 +199,7 @@ ul li{
 
 }
 
-.top-right-profile-image{
+.top-right-buttons{
     margin-right: 0px !important;
     float: left;
     display: flex;
@@ -208,12 +208,13 @@ ul li{
     overflow: hidden;
     z-index: 5;
     background-color: #FFFFFF;
+    min-width: 8.5rem;
 }
-.top-right-profile-image img{
+.top-right-buttons img{
     width: 28px !important;
     height: 28px !important;
-
-
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .top-middle-search-bar{
@@ -400,12 +401,19 @@ button, input[type="button"], input[type="file"] {
     clear: both;
 }
 
+.profile-image.profile-image-circle {
+    height: 240px;
+    width: 240px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .profile-image {
     float: left;
     width: calc(33.333% - 1rem);
     display: flex;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
     max-height: 24rem !important;
     max-width: 24rem !important;
     overflow: hidden;
@@ -734,15 +742,23 @@ button, input[type="button"], input[type="file"] {
 /* Media Query */
 
 @media screen and (max-width: 40rem) {
+    .profile-image.profile-image-circle {
+        height: 77px;
+        width: 77px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
     .profile {
         display: flex;
         flex-wrap: wrap;
         padding: 4rem 0;
     }
 
-    .top-right-profile-image img{
+    .top-right-buttons img{
         width: 28px !important;
         height: 28px !important;
+        border-radius: 50%;
+        object-fit: cover;
     }
 
 
