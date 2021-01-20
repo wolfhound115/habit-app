@@ -1,16 +1,23 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+
   </head>
   <body>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -20,13 +27,20 @@
   </body>
 </html>
 
-{% block title %}Create an Account{% endblock %}
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class="login-container">
+<div class="top-left-logo">
+        <img src="{% static '/habit/images/logos/logo_white_long.png' %}" height="50px" >
+</div>
+</div>
+<div class="login-container">
+
     <form method="POST" class="form-group">
 		{% csrf_token %}
 		{{ form|crispy }}
 		<button type="submit" class="btn btn-success">Register</button>
     </form>
+</div>
 {% endblock %}

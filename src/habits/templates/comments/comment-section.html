@@ -1,94 +1,89 @@
 {% load habit_tags %}
 
 {% block content %}
-	
+	<div>
+		{% for c in comments %}
+			{% if c.parent is None %}
+				<div class="comment">
+				<p><b><a class="link-simple" href="{{ c.user.get_profile_url }}">{{ c.user }}</a></b> {{ c.comment }}<span><button class="comment-like-btn like-btn btn" id="{{ c.pk }}" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ c.pk }}">
+					<div id="{{ c.pk }}-like-btn-txt">
+					{% is_comment_liked_by_user c request.user as user_liked_comment %}
+					{% if user_liked_comment %}
+						Unlike
+					{% else %}
+						Like
+					{% endif %}
+					</div>
 
-		<div>
-				{% for c in comments %}
-					{% if c.parent is None %}
-						<div class="comment">
-						<p><b><a class="link-simple" href="{{ c.user.get_profile_url }}">{{ c.user }}</a></b> {{ c.comment }}<span><button class="comment-like-btn like-btn btn" id="{{ c.pk }}" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ c.pk }}">
-							<div id="{{ c.pk }}-like-btn-txt">
-							{% is_comment_liked_by_user c request.user as user_liked_comment %}
+				</button>
+					<div><span class="comment-age">{{ c.get_age }}</span>
+							<span class="comment-like-total" 
+							{% if c.comment_likes.all %}
+								style="display: inline-block"
+							{% else %}
+								style="display: none"
+							{% endif %}
+							id="{{ c.pk }}-total-comment-likes">
+							
+								{{ c.get_comment_likes_formatted }}
+								
+							</span>
+							<button class="btn reply-btn" type="reply-button" value ="Add Child" onclick="addChild('{{ c.pk }}-reply');">Reply</button>
+					</div>
+				</span>
+				</p>
+				</div>
+					{% for r in c.replies.all %}
+						<div class="subcomment">
+
+						<p><b><a class="link-simple" href="{{ r.user.get_profile_url }}">{{ r.user }}</a></b> {{ r.comment }}<button class="btn like-btn comment-like-btn" id="{{ r.pk }}-like" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ r.pk }}">
+						<div id="{{ r.pk }}-like-btn-txt">
+							{% is_comment_liked_by_user r request.user as user_liked_comment %}
 							{% if user_liked_comment %}
 								Unlike
 							{% else %}
 								Like
 							{% endif %}
-							</div>
 
+						</div>
 						</button>
-							<div><span class="comment-age">{{ c.get_age }}</span>
-									<span class="comment-like-total" 
-									{% if c.comment_likes.all %}
-										style="display: inline-block"
-									{% else %}
-										style="display: none"
-									{% endif %}
-									id="{{ c.pk }}-total-comment-likes">
-									
-										{{ c.get_comment_likes_formatted }}
-										
-									</span>
-									<button class="btn reply-btn" type="reply-button" value ="Add Child" onclick="addChild('{{ c.pk }}-reply');">Reply</button>
-							</div>
-						</span>
+						<div>
+							<span class="comment-age">{{ r.get_age }} </span>
+							<span class="comment-like-total" 
+							{% if r.comment_likes.all %}
+								style="display: inline-block"
+							{% else %}
+								style="display: none"
+							{% endif %}
+							id="{{ r.pk }}-total-comment-likes">
+								
+								{{ r.get_comment_likes_formatted }}
+								
+							
+							</span>
+							<button class="btn reply-btn" type="reply-button" value ="Add Child" onclick="addChild('{{ c.pk }}-reply');">Reply</button>
+						</div>
 						</p>
 						</div>
-							{% for r in c.replies.all %}
-								<div class="subcomment">
-
-								<p><b><a class="link-simple" href="{{ r.user.get_profile_url }}">{{ r.user }}</a></b> {{ r.comment }}<button class="btn like-btn comment-like-btn" id="{{ r.pk }}-like" data-url="{% url 'CommentLikeToggle' %}" data-comment-id="{{ r.pk }}">
-								<div id="{{ r.pk }}-like-btn-txt">
-									{% is_comment_liked_by_user r request.user as user_liked_comment %}
-									{% if user_liked_comment %}
-										Unlike
-									{% else %}
-										Like
-									{% endif %}
-
-								</div>
-								</button>
-								<div>
-									<span class="comment-age">{{ r.get_age }} </span>
-									<span class="comment-like-total" 
-									{% if r.comment_likes.all %}
-										style="display: inline-block"
-									{% else %}
-										style="display: none"
-									{% endif %}
-									id="{{ r.pk }}-total-comment-likes">
-										
-										{{ r.get_comment_likes_formatted }}
-										
-									
-									</span>
-									<button class="btn reply-btn" type="reply-button" value ="Add Child" onclick="addChild('{{ c.pk }}-reply');">Reply</button>
-								</div>
-								</p>
-								</div>
-							{% endfor %}
-							
+					{% endfor %}
+					
 
 
 
-							<div class="btn reply-to-comment" id="{{ c.pk }}-reply" style="display: none">
-							<form method='POST' action='.' class="add-comment add-subcomment">
-								
-								{% csrf_token %}
-		    					
-		    					<input name="comment" class="comment-box light-grey" placeholder="Add a comment...">
-		    					<input name="parent" type="hidden" value="{{ c.pk }}" >
-		    					<input type="hidden" name="post" value="{{ post.pk }}">
+					<div class="btn reply-to-comment" id="{{ c.pk }}-reply" style="display: none">
+					<form method='POST' action='.' class="add-comment add-subcomment">
+						
+						{% csrf_token %}
+						
+						<input name="comment" class="comment-box light-grey" placeholder="Add a comment...">
+						<input name="parent" type="hidden" value="{{ c.pk }}" >
+						<input type="hidden" name="post" value="{{ post.pk }}">
 
-		    					<button class="btn post-comment-btn	" type='submit'>Post</button>
-							</form>
-							</div>
- 
-					{% endif %}
-				{% endfor %}
-			</div>
+						<button class="btn post-comment-btn	" type='submit'>Post</button>
+					</form>
+					</div>
 
-
-
+			{% endif %}
+		{% endfor %}
+	</div>
 {% endblock %}

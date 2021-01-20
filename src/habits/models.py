@@ -21,31 +21,16 @@ from timezone_field import TimeZoneField
 # Create your models here.
 
 
-# HabitPost is each individual picture/desc upload
-# Title could be some default habitName Day __
-# Description is also optional
 
 User = settings.AUTH_USER_MODEL
 
 
-#this is to avoid image name overlaps and organize user file uploads
+#this is to avoid image filename overlaps and organize user file uploads
 def photo_path(instance, filename):
     basefilename, file_extension= os.path.splitext(filename)
     chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
     randomstr = ''.join((random.choice(chars)) for x in range(50))
     return 'image/userphotos/{userid}/{randomstring}{ext}'.format(userid= instance.user.id, randomstring= randomstr, ext= file_extension)
-"""            
-def photo_path(instance, filename):
-    basefilename, file_extension= os.path.splitext(filename)
-    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
-    randomstr = ''.join((random.choice(chars)) for x in range(10))
-    return 'image/userphotos/{userid}/{basename}{randomstring}{ext}'.format(userid= instance.user.id, basename= basefilename, randomstring= randomstr, ext= file_extension)
-
-
-class UserPhoto(models.Model):
-    user= models.ForeignKey(User)
-    photo= models.ImageField(upload_to= photo_path, null=True)
-"""
 
 
 
@@ -77,11 +62,10 @@ def slug_save(obj):
             	# create another slug and check it again
 				obj.slug = get_random_string(11)
 
-# Don't need both publish_date and timestamp right
+
 class HabitModel(models.Model):
-	user = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL) #n not sure what user data to store
-	#def get_profile_url(self):
-	#	return f"/habit/{self.user}"
+	user = models.ForeignKey(User, blank=False, null=True, on_delete=models.SET_NULL)
+
 
 
 class JustRecurrence(models.Model):
@@ -100,8 +84,6 @@ class HabitTrack(HabitModel):
 	timezone = TimeZoneField(default='America/Los_Angeles', blank=False, null=False) # defaults supported
 
 
-
-
 	def get_num_posts_expected(self):
 		return len(self.get_dates())
 
@@ -113,20 +95,14 @@ class HabitTrack(HabitModel):
 
 	def get_post_events_missed(self):
 		all_events = self.get_all_events()
-		#print("get_post_events_missed")
-		#print(all_events)
 		post_events_missed = all_events.filter(track=self, date_expected__lt=self.get_timezone_corrected_datetime_now().date(), post__isnull=True)
-		#print(post_events_missed)
-		#for e in all_events:
-		#	print(e.date_expected)
-
 		return post_events_missed
 
 	def get_num_posts_missed(self):
 		return len(self.get_post_events_missed())
 
 
-#this breaks if you delete a single event because len(dates) and len(all_events) will not be the same then!
+#this breaks if you delete a single event because then len(dates) and len(all_events) will not be the same
 	def get_streaks(self):
 		dates = self.get_dates()
 		all_events = self.get_all_events()
@@ -173,11 +149,6 @@ class HabitTrack(HabitModel):
 		for t in tracks:
 			total_posts_made += t.get_num_posts_made()
 			total_posts_missed += t.get_num_posts_missed()
-			#print("getting streaks for habit stats:")
-			#print("the track being analyzed is: " + t.__str__())
-			#print(t.get_streaks())
-			#print("get_streaks worked!!!!")
-			#overall_longest_streak = max(overall_longest_streak, t.get_streaks()[1])
 		return total_posts_made, total_posts_missed, overall_longest_streak
 
 	def save(self, *args, **kwargs):
@@ -215,9 +186,6 @@ class HabitTrack(HabitModel):
 	def get_delete_url(self):
 		return f"{self.get_absolute_url()}/delete" #not sure if this works
 
-# TODO Limit queryset for habit posts in the habit post creation form to only valid tracks for today's date for this user
-# Do this when implementing CRUD for posts
-# https://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
 
 def get_age_from_timestamp(timestamp, shorten):
 	short_form, long_form = 0, 1
@@ -254,11 +222,8 @@ class HabitPost(HabitModel):
 	title = models.CharField(max_length=100)
 	description = models.CharField(max_length=2200)
 	image = models.ImageField(upload_to=photo_path, blank=False, null=True)
-	#publish_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	track = models.ForeignKey(HabitTrack, null=True, on_delete=models.CASCADE)
-	#habittrack should be based on foreign key just like user
-		#not sure what happens if two users have the same habit name??
 
 	def save(self, *args, **kwargs):
 		""" Add Slug creating/checking to save method. """
@@ -272,19 +237,14 @@ class HabitPost(HabitModel):
 	def __str__(self):
 		return self.title
 
-	#this needs to be fixed
 	def get_absolute_url(self):
-		#print("/habit/{self.user}/posts/{self.slug}")
-		print("getting absolute url for: ")
-		print(self)
-		print(f"{self.user.get_profile_url()}/posts/{self.slug}")
 		return f"{self.user.get_profile_url()}/posts/{self.slug}"
 
 	def get_edit_url(self):
 		return f"{self.get_absolute_url()}/edit"
 
 	def get_delete_url(self):
-		return f"{self.get_absolute_url()}/delete" #not sure if this works
+		return f"{self.get_absolute_url()}/delete"
 
 	def get_age(self):
 		return get_age_from_timestamp(self.timestamp, shorten=False)
@@ -341,7 +301,7 @@ class HabitEvent(HabitModel):
 	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True, related_name="post_event")
 
 	def __str__(self):
-		return self.date_expected.strftime("%m/%d/%Y") #self.track.__str__() + " " + self.date_expected.strftime("%m/%d/%Y")
+		return self.date_expected.strftime("%m/%d/%Y")
 
 	def count_check_ins_expected_today(user):
 		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=timezone.now().date(), post__isnull=True)
@@ -372,16 +332,7 @@ class PostComment(HabitModel):
 
 
 	def get_age(self):
-
 		return get_age_from_timestamp(self.timestamp, shorten=True)
-
-		"""
-		age_in_month = int(age_in_day / 30.4)
-		if age_in_month < 12:
-			return str(age_in_month) + "mo"
-		age_in_year = int(age_in_day / 365.24)
-		return str(int(age_in_year)) + "y"
-		"""
 
 
 	def get_comment_likes_formatted(self):
@@ -429,14 +380,7 @@ def generate_habit_events(track, dates, instance):
 		print(instance.user)
 		HabitEvent.objects.create(track=track, date_expected=d, user=instance.user)
 	
-	#TODO
-	#streak counter
-	#	get queryset of all events for this track before today inclusive, sort, and iterate through list counting how many before instance.post not none
-	#	we know from snapchat that people like streaks!
 
-# may need to disconnect/reconnect if this is causing recursive save calls
-# weak – Django stores signal handlers as weak references by default. 
-# Thus, if your receiver is a local function, it may be garbage collected. To prevent this, pass weak=False when you call the signal’s connect() method.
 
 @receiver(post_save, sender=HabitTrack, dispatch_uid="generate_empty_habit_events")
 def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
@@ -444,15 +388,7 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 	print("post save habit tracks reliever")
 	if created:
 
-		"""
-		datetimes = instance.recurrences.occurrences(
-
-			# might also want to add dtend for efficiency later
-
-			dtstart=instance.start_date
-		)
-		dates = [dt.date() for dt in datetimes] #this removes the time from the datetime
-		"""
+		
 		print("GENERATING EVENTS FOR")
 		print(instance.user)
 		print("AUTOMATICALLY")
@@ -461,9 +397,7 @@ def post_save_habit_tracks(sender, instance, created, *args, **kwargs):
 		generate_habit_events(track=instance, dates=dates, instance=instance)
 
 
-#POST SAVE DIDNT WORK AFTER I MADE POST CREATE VIEW 
 
-# TODO Do something if today isn't a valid day to post, or limit the option to post from before this step
 @receiver(post_save, sender=HabitPost, dispatch_uid="connect_habit_event_foreign_key_to_this_post")
 def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 
@@ -481,15 +415,9 @@ def post_save_habit_posts(sender, instance, created, *args, **kwargs):
 		print(event)
 		if event == None:
 			print("##############################################################################################")
-			print("*********************** NO POST EXPECTED FOR TODAY SO THIS IS AN ERROR THAT NEEDS TO BE FIXED")
-			print("I think i fixed this already in the forms?? not sure????")
+			print("*********************** NO POST EXPECTED FOR TODAY SO THIS IS AN ERROR IF IT OCCURS ##########")
 			print("##############################################################################################")
 		event.post = instance
-
 		event.save() #this will save only the event column instead of the entire row
 
-		print("********")
-		print("these are the values for post_save_habit_posts after doing timezone correction")
-		print("event post: ", event.post, ", correct event: ", event, ", incorrect event: ", incorrect_event)
-		print("********")
 

@@ -6,21 +6,24 @@
 
 {% block form-content %}
 <div class="container">
-<div class="form-instructions">
-Get started on a new Habit!
-<br>
-*note that habit track dates and schedules cannot be modified after the track has been created
-</div>
-<form method='POST' id='new-track-form' action='.' class="habit-form" enctype="multipart/form-data"> 
-<div>
-	{% csrf_token %}
-    {{ form.media }}
-
-    {{ form.as_p }}
-</div>	
-</form>
+	<div class="form-instructions">
+		Get started on a new Habit!
+		<br>
+		*note that habit track dates and schedules cannot be modified after the track has been created
+	</div>
+	<form method='POST' id='new-track-form' action='.' class="habit-form" enctype="multipart/form-data"> 
+		<div>
+			{% csrf_token %}
+		    {{ form.media }}
+		    {{ form.as_p }}
+		</div>	
+	</form>
+	<br>
+	<br>
 </div>
 <div class="container">
-<button type='submit' form='new-track-form' id='create-track' class='btn submit-form-btn'>Create Track</button>
-</div>
+	<p>
+		<button type='submit' form='new-track-form' id='create-track' class='btn submit-form-btn'>Create Track</button>
+	</p>
+</div>ß
 {% endblock %}

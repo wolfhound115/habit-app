@@ -1,20 +1,15 @@
 {% load habit_tags %}
 {% block content %}
 	
-
-		<div>
-			{% for c in comments %}
-				<div class="comment">
-					<p>
-						<b><a class="link-simple" href="{{ c.user.get_profile_url }}">{{ c.user }}</a></b>
-						 {{ c.comment }}
-					</p>
-				</div>
-			{% endfor %}
-		</div>
-
-
-
-
+	<div>
+		{% for c in comments %}
+			<div class="comment">
+				<p>
+					<b><a class="link-simple" href="{{ c.user.get_profile_url }}">{{ c.user }}</a></b>
+					 {{ c.comment }}
+				</p>
+			</div>
+		{% endfor %}
+	</div>
 
 {% endblock %}

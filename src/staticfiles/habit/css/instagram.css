@@ -106,6 +106,11 @@ ul li{
 
 
 
+/* Fixing recurrence widget messing up form alignment */
+.recurrence-widget{
+    margin-right: 75%;
+}
+
 
 
 /* Tooltip container */
@@ -158,12 +163,18 @@ ul li{
 
 
 
-.container {
+.container{
     max-width: 93.5rem;
     margin: 0 auto;
     padding: auto 2rem;
     justify-content: center;
+}
 
+ .login-container{
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: auto 2rem;
+    justify-content: center;
 }
 
 .infinite-newsfeed-container{
@@ -183,7 +194,8 @@ ul li{
     margin-left: 0.5rem;
 }
 
-.top-left-logo{
+.registration-logo-centered{
+    align-self: center;
 
 }
 

@@ -5,62 +5,57 @@
 <link rel="stylesheet" type="text/css" href="{% static '/habit/css/instagram.css' %}">
 
 <div class="container-item-bordered">
-<a href="{{ post.get_absolute_url }}">
+	<a href="{{ post.get_absolute_url }}">
 
 
-	<div class="gallery-item" tabindex="0" >
+		<div class="gallery-item" tabindex="0" >
 
-		{% if post.image %}
+			{% if post.image %}
 
-				<img src="{{ post.image.url }}" class="gallery-image" alt="Image of post"/>
-
-
-		{% endif %}
+					<img src="{{ post.image.url }}" class="gallery-image" alt="Image of post"/>
 
 
-		<!-- icon in the top corner of image -->
-
-
-
-
-		
-
-	</div>
-
-
-</a>
-<div class="post-details post-details-main">
-			<span class="post-likes" id="{{ post.pk }}-total-post-likes"
-			{% if post.post_likes.all %}
-				style="display: inline-block"
-			{% else %}
-				style="display: none"
 			{% endif %}
-			>
-
-				{{ post.get_post_likes_formatted }}
-			</span>
-			<button class="like-btn btn post-like-btn" id="{{ post.pk }}" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
-				<div id="{{ post.pk }}-like-btn-txt"> 
-					{% is_post_liked_by_user post user as user_liked_post %}
-					{% if user_liked_post %}
-						Unlike
-					{% else %}
-						Like
-					{% endif %}
-				</div>
-			</button>
-			<div style="color:black" class="comment">
-				<p>
-					<b><a class="link-simple" href="{{ post.user.get_profile_url }}">{{ post.user.username }}</a></b> 
-					<i><a class="link-simple" href="{{ post.track.get_absolute_url }}/grid">{{post.track.track_name}}</a></i> [{{ post.get_post_num }}/{{ post.get_total_posts_expected_num }}]
-					<br>
-					{{ post.description }}
-				</p>
 
 
+			<!-- icon in the top corner of image -->
+
+		</div>
+
+
+	</a>
+	<div class="post-details post-details-main">
+		<span class="post-likes" id="{{ post.pk }}-total-post-likes"
+		{% if post.post_likes.all %}
+			style="display: inline-block"
+		{% else %}
+			style="display: none"
+		{% endif %}
+		>
+
+			{{ post.get_post_likes_formatted }}
+		</span>
+		<button class="like-btn btn post-like-btn" id="{{ post.pk }}" data-url="{% url 'PostLikeToggle' %}" data-post-id="{{ post.pk }}">
+			<div id="{{ post.pk }}-like-btn-txt"> 
+				{% is_post_liked_by_user post user as user_liked_post %}
+				{% if user_liked_post %}
+					Unlike
+				{% else %}
+					Like
+				{% endif %}
 			</div>
-			<div>
+		</button>
+		<div style="color:black" class="comment">
+			<p>
+				<b><a class="link-simple" href="{{ post.user.get_profile_url }}">{{ post.user.username }}</a></b> 
+				<i><a class="link-simple" href="{{ post.track.get_absolute_url }}/grid">{{post.track.track_name}}</a></i> [{{ post.get_post_num }}/{{ post.get_total_posts_expected_num }}]
+				<br>
+				{{ post.description }}
+			</p>
+
+
+		</div>
+		<div>
 			{% if post.comments.all %}
 				{% if post.has_many_comments %}
 				<p>
@@ -78,10 +73,8 @@
 				<p>{{ post.get_age }}</p>
 				</a>
 			</div>
-
-
-			</div>
+		</div>
 
 		</div>
-						{% include 'comments/add-new-comment.html' with post=post %}
+		{% include 'comments/add-new-comment.html' with post=post %}
 	</div>

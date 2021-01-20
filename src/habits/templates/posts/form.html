@@ -16,15 +16,11 @@
 {% load habit_tags %}
 {% block form-content %}
 <div class="container">
-
-
-<form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
-		{% csrf_token %}
-		{{ form.as_p }}
-		<button type='submit' id='create-post' class='btn submit-form-btn'>Create Post</button>
-</form>
-
-
+    <form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
+    	{% csrf_token %}
+    	{{ form.as_p }}
+    	<button type='submit' id='create-post' class='btn submit-form-btn'>Create Post</button>
+    </form>
 </div>
 {% endblock %}
 

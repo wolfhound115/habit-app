@@ -4,18 +4,13 @@
 
 {% block form-content %}
 <div class="container">
-<div>
-Are you sure you want to Delete this post rather than edit it? This action cannot be undone. If the post checkin date has passed then you will not be able to replace this post and it will be recorded as a missed post.
-</div>
-
-
-
-<form method='POST' id='confirmdelete' action='.' class="habit-form" enctype="multipart/form-data"> 
-		{% csrf_token %}
-		
-</form>
-<button class="btn submit-form-btn edit-form-btn" onclick="javascript:history.back();">Cancel</button>
-<button type='submit' form='confirmdelete' id='create-post' class='btn submit-form-btn edit-form-btn'>Delete Post</button>
-
+	<div>
+		Are you sure you want to Delete this post rather than edit it? This action cannot be undone. If the post checkin date has passed then you will not be able to replace this post and it will be recorded as a missed post.
+	</div>
+	<form method='POST' id='confirmdelete' action='.' class="habit-form" enctype="multipart/form-data"> 
+		{% csrf_token %}		
+	</form>
+	<button class="btn submit-form-btn edit-form-btn" onclick="javascript:history.back();">Cancel</button>
+	<button type='submit' form='confirmdelete' id='create-post' class='btn submit-form-btn edit-form-btn'>Delete Post</button>
 </div>
 {% endblock %}

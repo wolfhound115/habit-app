@@ -46,21 +46,12 @@ from .forms import HabitPostModelForm, HabitPostEditModelForm
 
 import json
 
-# CRUD: CREATE READ UPDATE DELETE
-# GET -> Retrieve/List
-# POST -> Create/Update/Delete
-
-#CREATE
-#User = settings.AUTH_USER_MODEL
 
 
 
 
 
 def generate_profile_context(request, url_username):
-	print("url username to generate profile context is:")
-	print(url_username)
-	print("*******")
 
 	new_post_url = reverse('new-post')
 	profile_user = get_user_model().objects.filter(username=url_username).first()
@@ -161,8 +152,6 @@ def ProfileFollowToggle(request):
 			print("added follow by " + user.__str__() + " on account " + profile_user.__str__())
 	print("finished conditionals in ProfileFollowToggle ")
 	new_total_followers = ProfileFollow.get_profile_total_followers(profile)
-	#if new_total_post_likes == 0:
-	#	new_total_post_likes = ''
 
 	_followed = not _followed
 	return JsonResponse({	'followed': _followed,
@@ -171,11 +160,6 @@ def ProfileFollowToggle(request):
 
 
 def PostLikeToggle(request):
-
-
-	print("POST LIKE TOGGLE TOKEN")
-	print("POST LIKE TOGGLE TOKEN")
-	print("POST LIKE TOGGLE TOKEN")
 
 	print("POST LIKE TOGGLE TOKEN")
 	print(get_token(request))
@@ -191,7 +175,7 @@ def PostLikeToggle(request):
 		print(_liked)
 		if _liked:
 			existing_post_like = post.post_likes.get(user=user)
-			#post.post_likes.remove(existing_post_like)
+			
 			existing_post_like.delete()
 			print("removed like by " + user.__str__() + " on post " + post.__str__())
 		else:
@@ -201,14 +185,10 @@ def PostLikeToggle(request):
 			print("added like by " + user.__str__() + " on post " + post.__str__())
 	print("finished conditionals in postliketoggle ")
 	new_total_post_likes = PostLike.get_post_total_likes(post)
-	#if new_total_post_likes == 0:
-	#	new_total_post_likes = ''
 	new_total_post_likes = get_likes_formatted(new_total_post_likes)
-
 
 	post_like_button_text_id = "" + post_id + "-like-btn-txt"
 	total_post_likes_id = "" + post_id + "-total-post-likes"
-
 
 	_liked = not _liked
 	return JsonResponse({	'liked': _liked,
@@ -229,7 +209,6 @@ def CommentLikeToggle(request):
 		print(_liked)
 		if _liked:
 			existing_comment_like = comment.comment_likes.get(user=user)
-			#post.post_likes.remove(existing_post_like)
 			existing_comment_like.delete()
 			print("removed like by " + user.__str__() + " on comment " + comment.__str__())
 		else:
@@ -239,8 +218,7 @@ def CommentLikeToggle(request):
 			print("added like by " + user.__str__() + " on comment " + comment.__str__())
 	print("finished conditionals in commentliketoggle ")
 	new_total_comment_likes = CommentLike.get_comment_total_likes(comment)
-	#if new_total_comment_likes == 0:
-	#	new_total_comment_likes = ''
+
 	new_total_comment_likes = get_likes_formatted(new_total_comment_likes)
 
 	comment_like_button_text_id = "" + comment_id + "-like-btn-txt"
@@ -258,15 +236,12 @@ def CommentLikeToggle(request):
 
 @login_required()
 def habit_post_create_view(request):
-	# create object
-	# ? use a form
+
 	user = request.user
 	form = HabitPostModelForm(user, request.POST or None, request.FILES or None) #, user=request.user)
 	if form.is_valid():
 		print(form.cleaned_data)
-		#can do obj = form.save(commit=False) to modify data like 
-		#obj.title = form.cleaned_data.get("title") + "0"
-		#obj.save()
+
 		obj = form.save(commit=False) #this way we can modify things before we save
 		obj.user = request.user #now the blogposts are associated with the logged in user!
 		obj.save()
@@ -277,7 +252,6 @@ def habit_post_create_view(request):
 	profile_context = generate_profile_context(request, request.user.username)
 	template_name = 'posts/form.html'
 	context = {	'form': form,
-				#'create_view': '1',
 				**profile_context
 
 	}
@@ -285,14 +259,11 @@ def habit_post_create_view(request):
 
 @login_required()
 def habit_track_create_view(request):
-	# create object
-	# ? use a form
+
 	form = HabitTrackModelForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		print(form.cleaned_data)
-		#can do obj = form.save(commit=False) to modify data like 
-		#obj.title = form.cleaned_data.get("title") + "0"
-		#obj.save()
+
 		obj = form.save(commit=False) #this way we can modify things before we save
 		obj.user = request.user #now the blogposts are associated with the logged in user!
 		obj.save()
@@ -300,13 +271,11 @@ def habit_track_create_view(request):
 
 		return HttpResponseRedirect(request.path)
 
-
-	#todo: need to make sure only logged in users can see this page
 	profile_context = generate_profile_context(request, request.user.username)
 	print(profile_context)
 	template_name = 'tracks/form.html'
 	context = {	'form': form,
-				#'create_view': '1',
+
 				**profile_context
 	}
 	return render(request, template_name, context)
@@ -315,38 +284,9 @@ def habit_track_create_view(request):
 
 
 
-class NewsfeedView(LoginRequiredMixin, ListView):
-    model = HabitPost
-    paginate_by = 5
-    context_object_name = 'posts'
-    template_name = 'newsfeed/newsfeed2.html'
-
-
-
-    #Not sure if this method is needed or not...
-    def get_context_data(self, **kwargs):
-    # Call the base implementation first to get a context
-    	context = super().get_context_data(**kwargs)
-    	print("WE ARE DOING THE GET CONTEXT DATA THING")
-    	print("WE ARE DOING THE GET CONTEXT DATA THING")
-    	print("WE ARE DOING THE GET CONTEXT DATA THING")
-    	print("WE ARE DOING THE GET CONTEXT DATA THING")
-    	print("WE ARE DOING THE GET CONTEXT DATA THING")
-    	print("WE ARE DOING THE GET CONTEXT DATA THING")
-    	print("WE ARE DOING THE GET CONTEXT DATA THING")
-    	print(get_token(self.request))
-    # Add in the publisher
-    	return context
-
-
-
 
 @login_required()
 def habit_all_posts_list_view(request, url_username):
-	# list out objects
-	# could be search
-	# latermight want to filter to only people you are following?
-	#qs = HabitPost.objects.all() # python list
 
 	template_name = 'posts/posts-grid.html'
 	profile_context = generate_profile_context(request, url_username)
@@ -374,8 +314,6 @@ def habit_all_tracks_list_view(request, url_username):
 
 @login_required()
 def habit_track_detail_grid_view(request, url_slug, url_username):
-
-
 
 	#TODO this should be tracks/tracksgrid but it works fine for now
 	template_name = 'posts/posts-grid.html'
@@ -406,9 +344,6 @@ def habit_track_detail_feed_view(request, url_slug, url_username):
 
 
 
-
-
-#def habit_post_detail_view(request, url_user, url_slug): #need to figure out better way of getting user specific data
 @login_required()
 def habit_post_detail_view(request, url_slug, url_username):
 
@@ -484,29 +419,15 @@ def is_ajax(request):
     This implements the previous functionality. Note that you need to
     attach this header manually if using fetch.
     """
-
-    print("testing is_ajax")
-    print("testing is_ajax")
-    print("testing is_ajax")
-    print(request.META.get("HTTP_X_REQUESTED_WITH"))
-    print(request.META.get("HTTP-X-REQUESTED-WITH"))
-    print("testing is_ajax")
     return request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest" or request.META.get("HTTP-X-REQUESTED-WITH") == "XMLHttpRequest"
 
 
 @login_required
 def post_list(request):
-    """
-    List view for posts.
-    """
+
     form = PostCommentModelForm(request.POST or None) #, user=request.user)
 
     if form.is_valid():
-    	print(form)
-    	print(form)
-    	print(form)
-    	print(form)
-
     	print("this is the cleaned form data: ")
     	print(form.cleaned_data)
     	form_obj = form.save(commit=False) #this way we can modify things before we save
@@ -542,18 +463,8 @@ def post_list(request):
 
 
 def autocompleteModel(request):
-
-	print("autocompleteModel")
-	print("autocompleteModel")
-	print("autocompleteModel")
-	print("autocompleteModel")
-	print("autocompleteModel")
-	print(request.is_ajax())
-	#if request.is_ajax():
-
-
-	# FOR SOME REASON q IS ALWAYS EMPTY, AND THATS WHY search_qs GETS ALL USER NAMES SINCE THEY ALL CONTAIN ""
-	print("hi it is ajax in autocomplete")
+	
+	print("This is ajax in autocomplete")
 	print(request)
 	q = request.GET.get('term', '').capitalize()
 	print(q)
@@ -670,18 +581,6 @@ class EditPostView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 			return 'post_list'
 
 
-
-"""
-	def delete(self, request, *args, **kwargs):
-
-		self.object = self.get_object()
-		success_url = self.get_success_url()
-		if self.object.user == self.request.user:
-			return redirect('confirm_delete_post', ) # Also add id of Article
-
-		return redirect('home')
-"""
-
 class ConfirmPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = HabitPost
 	template_name = 'posts/post-delete.html' # need change
@@ -728,10 +627,6 @@ class ConfirmPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
 		print("checked ConfirmPostDeleteView test function")
 		print("checked ConfirmPostDeleteView test function")
 		print("checked ConfirmPostDeleteView test function")
-
-		print("checked ConfirmPostDeleteView test function")
-		print("checked ConfirmPostDeleteView test function")
-		print("checked ConfirmPostDeleteView test function")
 		return self.request.user == self.get_object().user
 
 	def get_login_url(self):
@@ -740,17 +635,6 @@ class ConfirmPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)
 		else:
 			return 'post_list'
 
-"""
-	def get_initial(self, *args, **kwargs):
-		
-		base_initial = super().get_initial()
-		# So here you're initiazing you're form's data
-		profile_context = generate_profile_context(self.request, self.request.user.username)
-		context = {	**base_initial,
-					**profile_context
-		}
-		return context
-"""
 
 
 
