@@ -1,9 +1,8 @@
-ß{% extends "profile/profile-base.html" %}
+{% extends "profile/profile-base.html" %}
 
 {% block gallery %}
 
 <main>
-
 
 	<div class="container">
 
@@ -12,7 +11,6 @@
 			{% block content %}
 	
 					{% for object in object_list %}
-
 
 						{% include 'posts/grid-post-preview.html' with habit_post=object truncate=True show_hover_info=True %} <!-- Created a new variable to pass object in as --> 
 

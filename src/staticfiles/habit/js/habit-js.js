@@ -2,7 +2,7 @@
 
 
 "use strict";
-//document.addEventListener('DOMContentLoaded', init, false);
+
 
 function addChild(id) {
 	//
@@ -103,18 +103,6 @@ $(function() {
             }
         }
     });
-/*
-   	$(function(){
-	  	var prev;    
-
-	  	$('.profile-followed').hover(function(){
-	 		prev = $(this).text();
-	    	$(this).text("Unfollow");
-	  	}, function(){
-	      	$(this).text(prev)
-	  	});
-	})
-*/
 
 	$('.comment-like-btn').click(function () {
 		alert($(this).attr('id'));
@@ -155,13 +143,3 @@ $(function() {
     });
 });
 
-
-/*
-function init(){
-  function message () {
-    alert("Hello!");
-  }
-  var button = document.getElementById('button');
-  button.addEventListener('click', message, true);
-}
-*/
