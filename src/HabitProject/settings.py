@@ -167,5 +167,5 @@ CRISPY_TEMPLATE_PACK="bootstrap4"
 
 
 LOGIN_URL = "/habit/login"
-LOGIN_REDIRECT_URL = "/habit/posts"
-LOGOUT_REDIRECT_URL = "/habit/posts"
+LOGIN_REDIRECT_URL = "/habit/"
+LOGOUT_REDIRECT_URL = "/habit/"
