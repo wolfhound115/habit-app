@@ -14,7 +14,7 @@
 		{% if show_hover_info %}
 		<div class="gallery-item-info">
 			<div class="gallery-item-likes"><span class="visually-hidden"></span>
-				{{ habit_post.title }}
+				{{habit_post.track.track_name}}</i> [{{ habit_post.get_post_num }}/{{ habit_post.get_total_posts_expected_num }}]
 				<br>
 				<span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> {{ habit_post.get_num_post_likes }} 
 				<span class="visually-hidden">Comments:</span> <i class="fas fa-comment" aria-hidden="true"></i> {{ habit_post.get_num_post_comments }} 

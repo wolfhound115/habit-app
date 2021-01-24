@@ -93,6 +93,7 @@ def generate_track_context(request, url_slug, url_username):
 	num_posts_made = track.get_num_posts_made()
 	num_posts_missed = track.get_num_posts_missed()
 	num_posts_expected = track.get_num_posts_expected()
+	show_track_details = True
 
 	context = { 'object_list': qs,
 				'streak_this_track': streak_this_track,
@@ -102,7 +103,8 @@ def generate_track_context(request, url_slug, url_username):
 	     		'num_posts_expected': num_posts_expected,
 	     		'track_url': track_url,
 	     		'track_name': track_name,
-	     		'track_desc': track_desc
+	     		'track_desc': track_desc,
+	     		'show_track_details': show_track_details
 
 	}
 	print(context)
