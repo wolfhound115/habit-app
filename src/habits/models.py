@@ -219,7 +219,6 @@ def get_age_from_timestamp(timestamp, shorten):
 class HabitPost(HabitModel):
 
 	slug = models.SlugField(unique=True)
-	title = models.CharField(max_length=100)
 	description = models.CharField(max_length=2200)
 	image = models.ImageField(upload_to=photo_path, blank=False, null=True)
 	timestamp = models.DateTimeField(auto_now_add=True)
@@ -235,7 +234,7 @@ class HabitPost(HabitModel):
 		ordering = ['-timestamp'] #the order of these is the order that posts will be sorted by
 
 	def __str__(self):
-		return self.title
+		return self.track.__str__() + " " + self.timestamp.date().__str__()
 
 	def get_absolute_url(self):
 		return f"{self.user.get_profile_url()}/posts/{self.slug}"
