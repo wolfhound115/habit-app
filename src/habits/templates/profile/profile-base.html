@@ -32,7 +32,7 @@
 				{% elif user_follows_profile %}
 					<button class="btn profile-follow-btn profile-followed profile-btn" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Followed</button>
 				{% elif user_followed_by_profile_user %}
-					<button class="btn profile-follow-btn profile-btn">Follow back</button>
+					<button class="btn profile-follow-btn profile-btn" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Follow back</button>
 				{% else %}
 					<button class="btn profile-follow-btn profile-btn" id="profile-follow-btn" data-url="{% url 'ProfileFollowToggle' %}" data-profile-user-id="{{ profile_user.id }}">Follow</button>
 				{% endif %}

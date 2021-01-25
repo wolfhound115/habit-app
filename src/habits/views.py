@@ -142,11 +142,13 @@ def ProfileFollowToggle(request):
 		print("pre _followed")
 		_followed = profile.followers.filter(follower=user.user_profile).exists() # return True/False
 		print(_followed)
+		_follow_back = False
 		if _followed:
 			existing_profile_follow = profile.followers.filter(follower=user.user_profile)
 
 			existing_profile_follow.delete()
 			print("removed follow by " + user.__str__() + " on account " + profile_user.__str__())
+			_follow_back = user.user_profile.followers.filter(follower=profile).exists() #toggle should show "follow back" button if you unfollow someone that follows you
 		else:
 			print("else")
 			new_profile_follow = profile.followers.create(follower=user.user_profile)
@@ -158,6 +160,7 @@ def ProfileFollowToggle(request):
 	_followed = not _followed
 	return JsonResponse({	'followed': _followed,
 							'new_total_followers': new_total_followers,
+							'follow_back': _follow_back
 						})
 
 

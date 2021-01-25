@@ -70,7 +70,11 @@ $(function() {
             	document.getElementById('profile-follow-btn').innerHTML = 'Followed';
             	document.getElementById("followers-count").innerHTML = data['new_total_followers'];
             } else {
-            	document.getElementById('profile-follow-btn').innerHTML = 'Follow';
+                if (data['follow_back']) {
+                    document.getElementById('profile-follow-btn').innerHTML = 'Follow Back';
+                } else {
+                    document.getElementById('profile-follow-btn').innerHTML = 'Follow';
+                }
             	document.getElementById("followers-count").innerHTML = data['new_total_followers'];
             }
         }
