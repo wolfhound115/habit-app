@@ -11,8 +11,10 @@
 		<br>
 		*note that habit track dates and schedules cannot be modified after the track has been created
 	</div>
+	<link rel="stylesheet" type="text/css" href="{% static '/habit/css/jquery-ui-datepicker-skin.css' %}">
 	<form method='POST' id='new-track-form' action='.' class="habit-form" enctype="multipart/form-data"> 
 		<div>
+
 			{% csrf_token %}
 		    {{ form.media }}
 		    {{ form.as_p }}
@@ -20,10 +22,17 @@
 	</form>
 	<br>
 	<br>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+	<script>
+        $(function() {
+            $( "#id_start_date" ).datepicker();
+        });
+    </script>
 </div>
 <div class="container">
 	<p>
 		<button type='submit' form='new-track-form' id='create-track' class='btn submit-form-btn'>Create Track</button>
 	</p>
-</div>ß
+</div>
 {% endblock %}

@@ -15,4 +15,10 @@ class RegisterForm(UserCreationForm):
 		fields = ["email", "first_name", "last_name", "username", "password1", "password2"]
 		unique_together = ('email', 'username')# probably unnecessary
 		
-	
+	def save(self, commit=True):
+		user = super (RegisterForm , self ).save(commit=False)
+		user.is_staff = True
+
+		if commit :
+			user.save()
+		return user

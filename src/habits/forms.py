@@ -28,7 +28,7 @@ class HabitTrackModelForm(forms.ModelForm):
 		model = HabitTrack
 		fields = ['track_name', 'description', 'cover_image', 'timezone', 'start_date', 'recurrences']
 		widgets = {
-		    'start_date': AdminDateWidget(),
+		    'start_date': forms.DateInput(attrs={'class' : 'datepicker'}),
 			}
 
 
