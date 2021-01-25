@@ -468,11 +468,6 @@ def post_list(request):
 class AutoCompleteView(FormView):
 	print("AutoCompleteView")
 	print("AutoCompleteView")
-	print("AutoCompleteView")
-
-	print("AutoCompleteView")
-	print("AutoCompleteView")
-	print("AutoCompleteView")
 
 	def get(self,request,*args,**kwargs):
 		print("flag 0")

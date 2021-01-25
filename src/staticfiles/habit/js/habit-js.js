@@ -7,20 +7,10 @@
 function addChild(id) {
 	//
 	if(document.getElementById(id).style.display == 'none'){
-		alert( 'show reply box' + id );
 		document.getElementById(id).style.display = 'block';
 	}else{
-		alert( 'hide reply box' + id );
 		document.getElementById(id).style.display = 'none';
 	}
-	//alert( 'Javascript click is doing stuff!!!!' );
-}
-
-
-function greet() {
-    document.getElementById('result').innerHTML = 'Hello World';
-    alert("Heres the greeting!");
-    return false;
 }
 
 
@@ -30,17 +20,8 @@ $(function() {
 
 
 $(function() {
-		$("#about-btn").click( function(event) {
-    		alert("You clicked the button using JQuery!");
-	});
-
-
-
-
-
 	//doing it this way allows for it to work on newly loaded elements of infinite scroll too
 	$('.container').on('click', '.post-like-btn', function () {
-		alert($(this).attr('id'));
             $.ajax({
                 type: 'POST',
 
@@ -57,18 +38,14 @@ $(function() {
             function LikePost(data, jqXHR) {
                 var data = $.parseJSON(data)
                 if (data['liked']) {
-                	alert(data['post_like_button_text_id'])
-                	alert(data['total_post_likes_id'])
                 	document.getElementById(data['post_like_button_text_id']).innerHTML = 'unlike';
                 	document.getElementById(data['total_post_likes_id']).style.display = 'inline-block';
                 	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
                 } else {
                 	document.getElementById(data['post_like_button_text_id']).innerHTML = 'like';
-                	if(data['new_total_post_likes'] > 0){
-	                	alert("hi");
-	            		alert(document.getElementById(data['total_post_likes_id']).style.display);
+                	if(data['new_total_post_likes']){
+                        document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
 	            	} else {
-	            		alert(data['total_comment_likes_id']);
 	            		document.getElementById(data['total_post_likes_id']).style.display = 'none';
 	                	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
                 	}
@@ -105,7 +82,6 @@ $(function() {
     });
 
 	$('.comment-like-btn').click(function () {
-		alert($(this).attr('id'));
         $.ajax({
             type: 'POST',
 
@@ -121,7 +97,6 @@ $(function() {
         function LikeComment(data, jqXHR) {
             var data = $.parseJSON(data)
             if (data['liked']) {
-            	alert("it has been liked")
             	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'unlike';
             	document.getElementById(data['total_comment_likes_id']).style.display = 'inline-block';
 
@@ -129,11 +104,8 @@ $(function() {
             } else {
             	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'like';
             	if(data['new_total_comment_likes'] > 0){
-            		alert("hi");
-            		alert(document.getElementById(data['total_comment_likes_id']).style.display);
             		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];	
             	} else {
-            		alert(data['total_comment_likes_id']);
             		document.getElementById(data['total_comment_likes_id']).style.display = 'none';
             		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
             	}
