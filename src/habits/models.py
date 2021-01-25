@@ -219,6 +219,7 @@ def get_age_from_timestamp(timestamp, shorten):
 class HabitPost(HabitModel):
 
 	slug = models.SlugField(unique=True)
+	title = models.CharField(max_length=100, null=True)
 	description = models.CharField(max_length=2200)
 	image = models.ImageField(upload_to=photo_path, blank=False, null=True)
 	timestamp = models.DateTimeField(auto_now_add=True)

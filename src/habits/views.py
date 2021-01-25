@@ -464,36 +464,6 @@ def post_list(request):
 
 
 
-def autocompleteModel(request):
-	
-	print("This is ajax in autocomplete")
-	print(request)
-	q = request.GET.get('term', '').capitalize()
-	print(q)
-	print(get_user_model().objects.all())
-	for user in get_user_model().objects.all():
-		print(user.username)
-		print(user.username == q)
-	search_qs = get_user_model().objects.filter(username__icontains=q)
-	results = []
-	print(q)
-	print(q)
-	print(q)
-
-
-	#the json stuff here is django 1.6 or older so this can be updated
-	for r in search_qs:
-		results.append(r.username)
-	data = json.dumps(results)
-	print(results)
-	print(data)
-	#else:
-		#data = 'fail'
-	mimetype = 'application/json'
-	return HttpResponse(data, mimetype)
-
-
-
 
 class AutoCompleteView(FormView):
 	print("AutoCompleteView")
@@ -507,11 +477,11 @@ class AutoCompleteView(FormView):
 	def get(self,request,*args,**kwargs):
 		print("flag 0")
 		data = request.GET
-		username = data.get("term")
+		term= data.get("term")
 		User=get_user_model()
-		if username:
+		if term:
 			print("flag 1")
-			users = User.objects.filter(username__icontains = username)
+			users = User.objects.filter(last_name__icontains = term) | User.objects.filter(first_name__icontains = term) | User.objects.filter(username__icontains = term)
 		else:
 			print("flag 2")
 			users = User.objects.all()
@@ -521,7 +491,7 @@ class AutoCompleteView(FormView):
 			print("user for loop user is: " + user.__str__())
 			user_json = {}
 			user_json['id'] = user.id
-			user_json['label'] = user.username
+			user_json['label'] = user.username + " (" + user.first_name + " " + user.last_name + ")"
 			user_json['value'] = user.username
 			user_json['url'] = user.get_profile_url()
 			results.append(user_json)

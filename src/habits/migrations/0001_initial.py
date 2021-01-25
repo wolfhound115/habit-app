@@ -39,6 +39,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('habitmodel_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='habits.HabitModel')),
                 ('slug', models.SlugField(unique=True)),
+                ('title', models.CharField(max_length=100)),
                 ('description', models.CharField(max_length=2200)),
                 ('image', models.ImageField(blank=True, null=True, upload_to='image/')),
                 ('publish_date', models.DateTimeField(blank=True, null=True)),
