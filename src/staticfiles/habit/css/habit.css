@@ -106,13 +106,6 @@ ul li{
 
 
 
-/* Fixing recurrence widget messing up form alignment */
-.recurrence-widget{
-    margin-right: 75%;
-}
-
-
-
 /* Tooltip container */
 .tooltip {
   position: relative;
@@ -170,7 +163,13 @@ ul li{
     justify-content: center;
 }
 
- .login-container{
+.login-container{
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: auto 2rem;
+    justify-content: center;
+}
+.edit-container {
     max-width: 40rem;
     margin: 0 auto;
     padding: auto 2rem;
