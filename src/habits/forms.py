@@ -26,10 +26,12 @@ class HabitTrackModelForm(forms.ModelForm):
 
 	class Meta:
 		model = HabitTrack
-		fields = ['track_name', 'description', 'cover_image', 'timezone', 'start_date', 'recurrences']
+		fields = ['track_name', 'description', 'cover_image', 'timezone', 'start_date', 'end_date', 'recurrences']
 		widgets = {
 		    'start_date': forms.DateInput(attrs={'class' : 'datepicker'}),
-			}
+		    'end_date': forms.DateInput(attrs={'class' : 'datepicker'}),
+		    'description':  forms.Textarea()
+		}
 
 
 

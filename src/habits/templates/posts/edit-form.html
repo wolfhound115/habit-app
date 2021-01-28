@@ -24,8 +24,8 @@
 </p>
 
 <form method='POST' id='editform' action='.' class="habit-form" enctype="multipart/form-data"> 
-		{% csrf_token %}
-		{{ form.as_p }}
+	{% csrf_token %}
+	{{ form.as_p }}
 		
 </form>
 <button class="btn submit-form-btn edit-form-btn" onclick="javascript:history.back();">Cancel</button>

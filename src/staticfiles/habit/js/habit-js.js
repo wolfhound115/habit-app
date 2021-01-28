@@ -33,11 +33,11 @@ $(function() {
             function LikePost(data, jqXHR) {
                 var data = $.parseJSON(data)
                 if (data['liked']) {
-                	document.getElementById(data['post_like_button_text_id']).innerHTML = 'unlike';
+                	document.getElementById(data['post_like_button_text_id']).innerHTML = 'Unlike';
                 	document.getElementById(data['total_post_likes_id']).style.display = 'inline-block';
                 	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
                 } else {
-                	document.getElementById(data['post_like_button_text_id']).innerHTML = 'like';
+                	document.getElementById(data['post_like_button_text_id']).innerHTML = 'Like';
                 	if(data['new_total_post_likes']){
                         document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
 	            	} else {
@@ -96,12 +96,12 @@ $(function() {
         function LikeComment(data, jqXHR) {
             var data = $.parseJSON(data)
             if (data['liked']) {
-            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'unlike';
+            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'Unlike';
             	document.getElementById(data['total_comment_likes_id']).style.display = 'inline-block';
 
             	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
             } else {
-            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'like';
+            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'Like';
             	if(data['new_total_comment_likes'] > 0){
             		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];	
             	} else {

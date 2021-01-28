@@ -369,12 +369,12 @@ button, input[type="button"], input[type="file"] {
     font-weight: 600;
 }
 .profile-track-detail-description {
-    margin-top: 2.3rem;
+    margin-top: 1rem;
 }
 
 .profile-track-detail-description li{
     display: inline-block;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 1.5;
     margin-right: 4rem;
     cursor: pointer;

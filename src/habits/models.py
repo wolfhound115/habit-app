@@ -11,7 +11,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 import os
 import random
@@ -78,8 +78,9 @@ class HabitTrack(HabitModel):
 	slug = models.SlugField(unique=True)
 	description = models.CharField(max_length=2200)
 	cover_image = models.ImageField(upload_to=photo_path, blank=False, null=True)
-	recurrences = RecurrenceField(null=False, blank=False)
+	recurrences = RecurrenceField(include_dtstart=False, null=False, blank=False)
 	start_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=False)
+	end_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=False)
 	creation_date = models.DateTimeField(auto_now=False, auto_now_add=True, blank=True, null=True) #just for sorting tracks made same day purposes
 	timezone = TimeZoneField(default='America/Los_Angeles', blank=False, null=False) # defaults supported
 
@@ -158,13 +159,17 @@ class HabitTrack(HabitModel):
 
 	def __str__(self):
 		#self.is_post_expected_today()
-		return self.id.__str__() + self.track_name + self.creation_date.__str__()
+		return self.id.__str__() + " " + self.track_name + " " + self.creation_date.__str__()
 
 	def get_dates(self):
 		print(self.recurrences)
-		datetimes = self.recurrences.occurrences(
-			# might also want to add dtend for efficiency later
-			dtstart=self.start_date
+		datetimes = self.recurrences.between(
+			# this is the only way to allow start and end dates to be included ONLY if the days also fit the recurrence pattern
+			# otherwise they are included by default or not included even if the days fit the pattern
+			self.start_date - timedelta(days=1),
+			self.end_date + timedelta(days=1),
+			dtstart=self.start_date - timedelta(days=1),
+			dtend=self.end_date + timedelta(days=1),
 		)
 		dates = [dt.date() for dt in datetimes]
 		return dates
@@ -301,7 +306,7 @@ class HabitEvent(HabitModel):
 	post = models.OneToOneField(HabitPost, on_delete=models.SET_NULL, null=True, blank=True, related_name="post_event")
 
 	def __str__(self):
-		return self.date_expected.strftime("%m/%d/%Y")
+		return self.date_expected.strftime("%m/%d/%Y") + self.track.__str__()
 
 	def count_check_ins_expected_today(user):
 		events_needing_post_today = HabitEvent.objects.filter(user=user, date_expected=timezone.now().date(), post__isnull=True)
