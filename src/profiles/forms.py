@@ -13,6 +13,10 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('birthdate', 'profile_bio', 'profile_image') #Note that we didn't mention user field here.
+        widgets = {
+            'profile_bio':  forms.Textarea()
+        }
+
 
 
 

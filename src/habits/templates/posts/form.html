@@ -15,7 +15,7 @@
 
 {% load habit_tags %}
 {% block form-content %}
-<div class="container">
+<div class="edit-container">
     <form method='POST' action='.' class="habit-form" enctype="multipart/form-data"> 
     	{% csrf_token %}
     	{{ form.as_p }}
