@@ -44,9 +44,9 @@ The following usernames are accounts pre-populated with simulated data (the pass
 
 
 # Built With
--[Django](https://docs.djangoproject.com/en/3.1/) - The python web framework used
--[SQLite](https://www.sqlite.org/index.html) - The database used
--[Django-Recurrence](https://github.com/django-recurrence/django-recurrence) - Package used for creating patterns of recurring events  #Contributing  So far this is an individual project so please contact the author for any details regarding pull requests
+- [Django](https://docs.djangoproject.com/en/3.1/) - The python web framework used
+- [SQLite](https://www.sqlite.org/index.html) - The database used
+- [Django-Recurrence](https://github.com/django-recurrence/django-recurrence) - Package used for creating patterns of recurring events  #Contributing  So far this is an individual project so please contact the author for any details regarding pull requests
 
 # Authors
 Eshwar Manoharan 
