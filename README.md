@@ -6,14 +6,12 @@ Users create a schedule for when they plan to practice their new habits and post
 Let's make this year your year! Happy Habit Building!
 
 # Setup
-In your terminal navigate to the directory where you would like to clone the project
-Run the following:
+In your terminal navigate to the directory where you would like to clone the project and run the following:
 ```
 git clone https://github.com/wolfhound115/habit-app.git
 ```
 
-Navigate into the project folder and initiate a virtual environment to install dependencies
-Then run the following:
+Navigate into the project folder and initiate a virtual environment to install dependencies and then run the following:
 ```
 pip install -r requirements.txt
 ```
