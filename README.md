@@ -51,7 +51,7 @@ The following usernames are accounts pre-populated with simulated data (the pass
 - [Django-Recurrence](https://github.com/django-recurrence/django-recurrence) - Package used for creating patterns of recurring events
 
 # Contributing
-Currently this is an individual project so please contact the author for any details regarding pull requests
+Currently this is an independent project so please contact the author for any details regarding pull requests
 
 # Authors
 Eshwar Manoharan 
