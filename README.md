@@ -17,13 +17,13 @@ pip install -r requirements.txt
 ```
 
 # How To Use
-## Run Project
+### Run Project
 Navigate into the src folder and run the following:
 ```
 python manage.py runserver
 ```
 
-## Login
+### Login
 View the site at:
 ```
 http://127.0.0.1:8000/habit/
@@ -41,8 +41,8 @@ The following usernames are accounts pre-populated with simulated data (the pass
 - win_ngo1
 ```
 
-## Features
-### Starting a New Habit
+### Features
+##### Starting a New Habit
 
 
 # Built With
