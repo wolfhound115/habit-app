@@ -29,14 +29,14 @@ http://127.0.0.1:8000/habit/
 
 The following usernames are accounts pre-populated with simulated data (the password for each account is: dummypassword)
 ```
--eshwar (superuser admin account which can also access http://127.0.0.1:8000/admin to view the database)
--erik
--OctavioTheBest
--ellyphant
--jacorncob
--jojams
--thejustin
--win_ngo1
+- eshwar (superuser admin account which can also access http://127.0.0.1:8000/admin to view the database)
+- erik
+- OctavioTheBest
+- ellyphant
+- jacorncob
+- jojams
+- thejustin
+- win_ngo1
 ```
 
 ## Features
