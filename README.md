@@ -1,5 +1,5 @@
 # habit@
-**Habit@** is a web app drawing inspiration from popular apps such as Instagram and Snapchat to create a supportive community where users can build habits together. 
+**habit@** is a web app drawing inspiration from popular apps such as Instagram and Snapchat to create a supportive community where users can build habits together. 
 
 Users create a schedule for when they plan to practice their new habits and post photos on the scheduled check-in dates as proof for following through with their goals. Users can follow one another and interact with eachother's posts via liking and commenting as a social media app. Users are also incentivized to continuously work on their habits as consecutive successful check-ins allow users to build up streaks to show off their consistency in habit building! Occasionally in life things do come up, so in order to allow for some forgiveness a missed check-in won't break a user's streak as long as they never miss 2 check-ins in a row. As they say, sometimes you just need a little nudge to get your feet to the gym and then chances are you'll work out before you decide to head back home. 
 
