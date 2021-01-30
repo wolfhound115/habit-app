@@ -17,19 +17,19 @@ pip install -r requirements.txt
 ```
 
 # How To Use
-### Run Project
+## Run Project
 Navigate into the src folder and run the following:
 ```
 python manage.py runserver
 ```
 
-### Login
+## Login
 View the site at:
 ```
 http://127.0.0.1:8000/habit/
 ```
 
-The following usernames are accounts pre-populated with simulated data (the password for each account is: dummypassword)
+The following usernames are accounts pre-populated with simulated data (the password for each account is: "dummypassword")
 ```
 - eshwar (superuser admin account which can also access http://127.0.0.1:8000/admin to view the database)
 - erik
@@ -41,8 +41,44 @@ The following usernames are accounts pre-populated with simulated data (the pass
 - win_ngo1
 ```
 
-### Features
-##### Starting a New Habit
+![Newsfeed](README_IMAGES/Newsfeed.png?raw=true "Optional Title")
+
+## Features
+### Starting a New Habit
+##### Setting up a schedule for a new habit that the user would like to work on.
+
+![New Habit Track](README_IMAGES/Create_Track_1.png?raw=true "New Habit Track")
+![New Habit Track](README_IMAGES/Create_Track_2.png?raw=true "New Habit Track")
+ 
+
+### Posting Habit Check-In
+##### Creating posts on the scheduled days as proof of practicing the intended habits.
+
+![New Habit Post](README_IMAGES/Check_in_Post.png?raw=true "Making Check-In Post")
+
+### User Social Engagement
+##### Other users can be found via searching for their name or username.
+
+![Search Users](README_IMAGES/Search_Users.png?raw=true "Search Users")
+
+##### Users can comment on eachother's posts as well as like posts and comments.
+
+![Post Details](README_IMAGES/Post_Details.png?raw=true "Post_Details")
+
+
+### User Profile
+##### Visiting a user's profile can let you see all of the posts the user has made in their various habit tracks.
+
+![Profile Posts](README_IMAGES/Profile_Posts.png?raw=true "Profile Posts")
+
+##### You can also see all of the habit tracks a user is working on.
+
+![Profile Tracks](README_IMAGES/Profile_Tracks.png?raw=true "Profile Tracks")
+
+##### Details can also be viewed for specific tracks including current/best streaks and the number of posts made/missed/and to be expected for the habit.
+
+![Track Details](README_IMAGES/Track_Details.png?raw=true "Track Details")
+
 
 
 # Built With
