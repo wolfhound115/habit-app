@@ -2,41 +2,21 @@
 
 
 "use strict";
-//document.addEventListener('DOMContentLoaded', init, false);
+
 
 function addChild(id) {
 	//
 	if(document.getElementById(id).style.display == 'none'){
-		alert( 'show reply box' + id );
 		document.getElementById(id).style.display = 'block';
 	}else{
-		alert( 'hide reply box' + id );
 		document.getElementById(id).style.display = 'none';
 	}
-	//alert( 'Javascript click is doing stuff!!!!' );
-}
-
-
-function greet() {
-    document.getElementById('result').innerHTML = 'Hello World';
-    alert("Heres the greeting!");
-    return false;
 }
 
 
 $(function() {
-   $('#go').on('click', greet);
-});
-
-
-$(document).ready( 
-	function() {
-		$("#about-btn").click( function(event) {
-    		alert("You clicked the button using JQuery!");
-	});
-
-
-	$('#post-like-btn').click(function () {
+	//doing it this way allows for it to work on newly loaded elements of infinite scroll too
+	$('.container').on('click', '.post-like-btn', function () {
             $.ajax({
                 type: 'POST',
 
@@ -53,16 +33,25 @@ $(document).ready(
             function LikePost(data, jqXHR) {
                 var data = $.parseJSON(data)
                 if (data['liked']) {
-                	document.getElementById('like-btn-txt').innerHTML = 'unlike';
-                	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
+                	document.getElementById(data['post_like_button_text_id']).innerHTML = 'Unlike';
+                	document.getElementById(data['total_post_likes_id']).style.display = 'inline-block';
+                	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
                 } else {
-                	document.getElementById('like-btn-txt').innerHTML = 'like';
-                	document.getElementById("total-post-likes").innerHTML = data['new_total_post_likes'];
-                }
-            }
-        });
+                	document.getElementById(data['post_like_button_text_id']).innerHTML = 'Like';
+                	if(data['new_total_post_likes']){
+                        document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
+	            	} else {
+	            		document.getElementById(data['total_post_likes_id']).style.display = 'none';
+	                	document.getElementById(data['total_post_likes_id']).innerHTML = data['new_total_post_likes'];
+                	}
+            	}
+        }
+    });
 
-	$('#profile-follow-btn').click(function () {
+
+
+	//idk why but profile follow button started having CSRF token issues... Changing it from #profile-follow-btn to .profile-follow-btn for consistency in the meantime
+	$('.profile-follow-btn').click(function () {
         $.ajax({
 	        type: 'POST',
             url: $(this).attr("data-url"),
@@ -81,26 +70,17 @@ $(document).ready(
             	document.getElementById('profile-follow-btn').innerHTML = 'Followed';
             	document.getElementById("followers-count").innerHTML = data['new_total_followers'];
             } else {
-            	document.getElementById('profile-follow-btn').innerHTML = 'Follow';
+                if (data['follow_back']) {
+                    document.getElementById('profile-follow-btn').innerHTML = 'Follow Back';
+                } else {
+                    document.getElementById('profile-follow-btn').innerHTML = 'Follow';
+                }
             	document.getElementById("followers-count").innerHTML = data['new_total_followers'];
             }
         }
     });
-/*
-   	$(function(){
-	  	var prev;    
-
-	  	$('.profile-followed').hover(function(){
-	 		prev = $(this).text();
-	    	$(this).text("Unfollow");
-	  	}, function(){
-	      	$(this).text(prev)
-	  	});
-	})
-*/
 
 	$('.comment-like-btn').click(function () {
-		alert($(this).attr('id'));
         $.ajax({
             type: 'POST',
 
@@ -116,19 +96,15 @@ $(document).ready(
         function LikeComment(data, jqXHR) {
             var data = $.parseJSON(data)
             if (data['liked']) {
-            	alert("it has been liked")
-            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'unlike';
+            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'Unlike';
             	document.getElementById(data['total_comment_likes_id']).style.display = 'inline-block';
 
-            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'] + " likes";
+            	document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
             } else {
-            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'like';
+            	document.getElementById(data['comment_like_button_text_id']).innerHTML = 'Like';
             	if(data['new_total_comment_likes'] > 0){
-            		alert("hi");
-            		alert(document.getElementById(data['total_comment_likes_id']).style.display);
-            		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes']+ " likes";	
+            		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];	
             	} else {
-            		alert(data['total_comment_likes_id']);
             		document.getElementById(data['total_comment_likes_id']).style.display = 'none';
             		document.getElementById(data['total_comment_likes_id']).innerHTML = data['new_total_comment_likes'];
             	}
@@ -138,13 +114,3 @@ $(document).ready(
     });
 });
 
-
-/*
-function init(){
-  function message () {
-    alert("Hello!");
-  }
-  var button = document.getElementById('button');
-  button.addEventListener('click', message, true);
-}
-*/

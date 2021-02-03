@@ -1,4 +1,5 @@
 {% extends "base/base.html" %}
+{% load static %}
 {% load habit_tags %}
 {% block main_content %}
 
@@ -9,9 +10,9 @@
 
 			<div class="profile-image profile-image-circle">
 				{% if profile_user.user_profile.profile_image %}
-				<img src="{{ profile_user.user_profile.profile_image.url }}" alt="Image of post"/>
+					<img src="{{ profile_user.user_profile.profile_image.url }}" alt="Image of post"/>
 				{% else %}
-				<img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+					<img src="{% static '/habit/images/defaults/default_profile_picture.png' %}" alt="">
 				{% endif %}
 
 			</div>
