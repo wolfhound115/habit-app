@@ -75,7 +75,7 @@ The following usernames are accounts pre-populated with simulated data (the pass
 
 ![Profile Tracks](README_IMAGES/Profile_Tracks.png?raw=true "Profile Tracks")
 
-##### Details can also be viewed for specific tracks including current/best streaks and the number of posts made/missed/and to be expected for the habit.
+##### Details can also be viewed for specific tracks including current/best streaks and the number of posts made/missed/expected for the habit.
 
 ![Track Details](README_IMAGES/Track_Details.png?raw=true "Track Details")
 
